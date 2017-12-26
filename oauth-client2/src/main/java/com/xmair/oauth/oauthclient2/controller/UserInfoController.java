@@ -23,6 +23,8 @@ public class UserInfoController {
 
     @RequestMapping(value = "/index")
     public ModelAndView index(){
+
+
         ModelAndView modelAndView = new ModelAndView();
         User user =(User)   request.getSession().getAttribute("user");
         modelAndView.addObject("userid",user.getName());
