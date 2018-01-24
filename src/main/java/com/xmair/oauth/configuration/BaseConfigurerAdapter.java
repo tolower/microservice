@@ -2,10 +2,8 @@ package com.xmair.oauth.configuration;
 
 import com.xmair.oauth.interceptor.MyInterceptor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.core.Ordered;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 public class BaseConfigurerAdapter extends WebMvcConfigurerAdapter {
@@ -47,6 +45,14 @@ public class BaseConfigurerAdapter extends WebMvcConfigurerAdapter {
     {
 
         configurer.enable();
+    }
+
+    /*设置默认首页*/
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("forward:/learn/index");
+        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        super.addViewControllers(registry);
     }
 
 }

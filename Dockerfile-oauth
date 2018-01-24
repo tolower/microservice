@@ -2,5 +2,5 @@ FROM registry.cn-hangzhou.aliyuncs.com/chainone/centos7-jdk8
 MAINTAINER wuzuzuquan 
 
 ADD oauth-0.0.1-SNAPSHOT.jar server.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/server.jar"]
+ENTRYPOINT ["java","-jar","/server.jar"]
 EXPOSE 9999
