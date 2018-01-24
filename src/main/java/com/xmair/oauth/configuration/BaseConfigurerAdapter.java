@@ -14,7 +14,12 @@ public class BaseConfigurerAdapter extends WebMvcConfigurerAdapter {
 * */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new MyInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/**");
+        registry.addInterceptor(new MyInterceptor()).addPathPatterns("/**")
+                .excludePathPatterns("/login/**")
+                .excludePathPatterns("/error/**")
+                .excludePathPatterns("/manage/**")
+                .excludePathPatterns("/sba/**")
+                .excludePathPatterns("/v2/api-docs","/configuration/**","/swagger-resources/**");
         super.addInterceptors(registry);
     }
 
@@ -38,7 +43,9 @@ public class BaseConfigurerAdapter extends WebMvcConfigurerAdapter {
      * 配置servlet处理
      */
     @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer)
+    {
+
         configurer.enable();
     }
 

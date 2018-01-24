@@ -21,7 +21,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.xmair.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.xmair.oauth.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -29,9 +29,9 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Spring Boot中使用Swagger2构建RESTful APIs")
-                .description("更多Spring Boot相关文章请关注：http://blog.didispace.com/")
-                .termsOfServiceUrl("http://blog.didispace.com/")
-                .contact("程序猿DD")
+                .description("统一授权api文档")
+                .termsOfServiceUrl("http://www.xiamenair.com/")
+                .contact("12")
                 .version("1.0")
                 .build();
     }

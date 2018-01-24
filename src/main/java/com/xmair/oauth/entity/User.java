@@ -1,12 +1,14 @@
 package com.xmair.oauth.entity;
 
 
+import java.io.Serializable;
+
 /**
- * Created by Song on 2017/2/15.
+
  * Model 用户
  */
 
-public class User {
+public class User implements Serializable {
     private long id;
 
     private String name;
