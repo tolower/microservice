@@ -17,7 +17,7 @@ public class EmpInfoController {
     private EmpInfoMapper userMapper;
 
     @RequestMapping(value = "/getuser",method = RequestMethod.GET)
-    @ResponseBody
+
     public  EmpInfo mybatistest(String pcode){
 
 

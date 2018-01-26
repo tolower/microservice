@@ -51,8 +51,6 @@ public class UserController {
     @RequestMapping(value = "/mybatistest",method = RequestMethod.GET)
     @ResponseBody
     public  String mybatistest(){
-
-
         User user=  userMapper.findByName("111");
         if(null != user)
             return configBean.getName()+"//"+ user.getId()+"/"+user.getName()+"/"+user.getPassowrd()+"/"+user.getPassword()+"122222";
