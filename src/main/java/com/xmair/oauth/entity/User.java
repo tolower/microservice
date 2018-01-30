@@ -1,7 +1,10 @@
 package com.xmair.oauth.entity;
 
 
+import org.hibernate.validator.constraints.Length;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
 
@@ -9,10 +12,21 @@ import java.io.Serializable;
  */
 
 public class User implements Serializable {
+
     private long id;
 
+    @Length(min = 7,max = 30)
     private String name;
 
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    private Date birthday;
     private String password;
 
     public Integer getAge() {

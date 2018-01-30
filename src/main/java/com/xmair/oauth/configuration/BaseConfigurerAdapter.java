@@ -1,10 +1,17 @@
 package com.xmair.oauth.configuration;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.xmair.oauth.interceptor.MyInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.List;
 @Configuration
 public class BaseConfigurerAdapter extends WebMvcConfigurerAdapter {
 /*
@@ -12,6 +19,7 @@ public class BaseConfigurerAdapter extends WebMvcConfigurerAdapter {
 * */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
         registry.addInterceptor(new MyInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/login/**")
                 .excludePathPatterns("/error/**")
@@ -47,6 +55,12 @@ public class BaseConfigurerAdapter extends WebMvcConfigurerAdapter {
         configurer.enable();
     }
 
+    //添加protobuf支持，需要client指定accept-type：application/x-protobuf
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+
+        converters.add(new ProtobufHttpMessageConverter());
+    }
     /*设置默认首页*/
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -55,4 +69,5 @@ public class BaseConfigurerAdapter extends WebMvcConfigurerAdapter {
         super.addViewControllers(registry);
     }
 
+    
 }

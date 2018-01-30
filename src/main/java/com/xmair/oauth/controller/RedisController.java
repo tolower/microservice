@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -34,10 +35,10 @@ public class RedisController {
         User user=new User();
         user.setName("ssss");
         user.setAge(122);
-
-        ValueOperations<String, Object> operations=redisTemplate.opsForValue();
+        user.setBirthday(new Date());
+        ValueOperations<String, User> operations=redisTemplate.opsForValue();
         operations.set("wuzuquan", user);
-        User s=(User) operations.get("wuzuquan");
+        User s= operations.get("wuzuquan");
         return  s;
     }
 }
