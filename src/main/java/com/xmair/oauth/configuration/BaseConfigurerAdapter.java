@@ -23,7 +23,7 @@ public class BaseConfigurerAdapter extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new MyInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/login/**")
                 .excludePathPatterns("/error/**")
-                .excludePathPatterns("/manage/**")
+                .excludePathPatterns("/actuator/**")
                 .excludePathPatterns("/sba/**")
                 .excludePathPatterns("/v2/api-docs","/configuration/**","/swagger-resources/**");
         super.addInterceptors(registry);

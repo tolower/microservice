@@ -1,9 +1,9 @@
-package com.xmair.oauth.util;
+package com.xmair.oauth.exception;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class ApiResult implements Serializable{
+public class ExceptionResult implements Serializable{
 
     /**
      * 错误消息内容

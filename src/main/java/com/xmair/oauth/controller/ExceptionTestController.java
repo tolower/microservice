@@ -21,7 +21,7 @@ public class ExceptionTestController {
          * 抛出业务逻辑异常
          */
         if (true) {
-            throw new LogicException(ErrorCodeEnum.USER_STATUS_FAILD.toString());
+            throw new LogicException(ErrorCodeEnum.USER_STATUS_FAILD.toString(),"111");
         }
         return "ttttttttttttttt";
     }

@@ -35,7 +35,6 @@ public class RedisController {
         User user=new User();
         user.setName("ssss");
         user.setAge(122);
-        user.setBirthday(new Date());
         ValueOperations<String, User> operations=redisTemplate.opsForValue();
         operations.set("wuzuquan", user);
         User s= operations.get("wuzuquan");

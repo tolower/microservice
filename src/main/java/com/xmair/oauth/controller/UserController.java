@@ -2,7 +2,7 @@ package com.xmair.oauth.controller;
 
 import com.xmair.oauth.configuration.ConfigBean;
 import com.xmair.oauth.entity.User;
-import com.xmair.oauth.mapper.UserMapper;
+import com.xmair.oauth.mapper.test1.User1Mapper;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +29,7 @@ public class UserController {
     @Autowired
     private ConfigBean configBean;
     @Autowired
-    private UserMapper userMapper;
+    private User1Mapper userMapper;
 
     @RequestMapping(value = "/index")
     public String index(){
@@ -81,7 +81,7 @@ public class UserController {
     @RequestMapping(value = "/mybatistest",method = RequestMethod.GET)
     @ResponseBody
     public  String mybatistest(){
-        User user=  userMapper.findByName("111");
+        User user=  userMapper.getOne("111");
         if(null != user)
             return configBean.getName()+"//"+ user.getId()+"/"+user.getName()+"/"+user.getPassowrd()+"/"+user.getPassword()+"122222";
 
@@ -90,7 +90,7 @@ public class UserController {
 
     }
 
-    static Map<Long, User> users = Collections.synchronizedMap(new HashMap<Long, User>());
+    static Map<Integer, User> users = Collections.synchronizedMap(new HashMap<Integer, User>());
 
     @ApiOperation(value="获取用户列表", notes="")
     @RequestMapping(value={""}, method=RequestMethod.GET)
@@ -120,7 +120,7 @@ public class UserController {
             @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true, dataType = "User")
     })
     @RequestMapping(value="/{id}", method=RequestMethod.PUT)
-    public String putUser(@PathVariable Long id, @RequestBody User user) {
+    public String putUser(@PathVariable int id, @RequestBody User user) {
         User u = users.get(id);
         u.setName(user.getName());
         u.setAge(user.getAge());

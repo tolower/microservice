@@ -1,8 +1,7 @@
 package com.xmair.oauth.configuration;
 
 import com.xmair.oauth.exception.LogicException;
-import com.xmair.oauth.util.ApiResult;
-import com.xmair.oauth.util.ApiResultGenerator;
+import com.xmair.oauth.exception.ExceptionResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,9 +21,9 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler
     @ResponseStatus
-    public ApiResult runtimeExceptionHandler(Exception e) {
+    public ExceptionResult runtimeExceptionHandler(Exception e) {
         logger.error("运行时异常：【{}】", e.getMessage());
-        ApiResult result=new ApiResult();
+        ExceptionResult result=new ExceptionResult();
         result.setErrCode("SystemError");
         result.setErrMsg(e.getMessage());
         return result;
@@ -38,10 +37,10 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler(LogicException.class)
     @ResponseStatus(code = HttpStatus.OK)
-    public ApiResult logicException(LogicException e) {
+    public ExceptionResult logicException(LogicException e) {
         logger.error("遇到业务逻辑异常：【{}】", e.getErrCode());
         // 返回响应实体内容
-        ApiResult result=new ApiResult();
+        ExceptionResult result=new ExceptionResult();
         result.setErrCode(e.getErrCode());
         result.setErrMsg(e.getErrMsg());
         return result;

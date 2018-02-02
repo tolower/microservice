@@ -13,7 +13,7 @@ public interface User1Mapper {
     List<User> getAll();
 
     @Select("SELECT * FROM user WHERE id = #{id}")
-    User getOne(Long id);
+    User getOne(String id);
 
     @Insert("INSERT INTO users(userName,passWord,user_sex) VALUES(#{userName}, #{passWord}, #{userSex})")
     void insert(User user);

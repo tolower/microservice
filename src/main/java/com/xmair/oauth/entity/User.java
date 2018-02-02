@@ -1,49 +1,21 @@
 package com.xmair.oauth.entity;
 
+public class User {
+    private Integer id;
 
-import org.hibernate.validator.constraints.Length;
-
-import java.io.Serializable;
-import java.util.Date;
-
-/**
-
- * Model 用户
- */
-
-public class User implements Serializable {
-
-    private long id;
-
-    @Length(min = 7,max = 30)
     private String name;
 
-    public Date getBirthday() {
-        return birthday;
-    }
+    private String passowrd;
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    private Date birthday;
     private String password;
 
-    public Integer getAge() {
-        return age;
-    }
+    private Integer age;
 
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    private  Integer age;
-
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -52,15 +24,7 @@ public class User implements Serializable {
     }
 
     public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+        this.name = name == null ? null : name.trim();
     }
 
     public String getPassowrd() {
@@ -68,8 +32,22 @@ public class User implements Serializable {
     }
 
     public void setPassowrd(String passowrd) {
-        this.passowrd = passowrd;
+        this.passowrd = passowrd == null ? null : passowrd.trim();
     }
 
-    private  String passowrd;
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 }
