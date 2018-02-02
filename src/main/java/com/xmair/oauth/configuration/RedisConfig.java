@@ -32,8 +32,8 @@ public class RedisConfig
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jackson2JsonRedisSerializer.setObjectMapper(om);
       //  template.setEnableTransactionSupport(true);
-        //template.setValueSerializer(new ProtoSerializer());
-        template.setValueSerializer(jackson2JsonRedisSerializer);
+        template.setValueSerializer(new ProtoSerializer());
+        //template.setValueSerializer(jackson2JsonRedisSerializer);
         template.afterPropertiesSet();
         return template;
     }

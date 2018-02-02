@@ -44,16 +44,15 @@ public class LoginController {
             request.setAttribute("error", "登录失败:用户名或密码不能为空");
             return "redirect:/login/login";
         }
-        try {
+
             EmpInfo user = userMapper.getOne(username);
             // todo 初始化会话信息
             request.getSession().setAttribute("pcode",user.getMf_id());
             //跳转回初始请求地址
             return "redirect:"+ MemCacheUtil.get(request.getSession().getId());
-        } catch (Exception e) {
-            return "redirect:/login/login";
-        }
+
     }
+
     @RequestMapping("/login")
     public ModelAndView index2() {
         return  new ModelAndView();

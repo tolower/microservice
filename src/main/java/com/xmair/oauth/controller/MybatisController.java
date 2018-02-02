@@ -2,12 +2,15 @@ package com.xmair.oauth.controller;
 
 
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.xmair.oauth.entity.TBWeixinUser;
 import com.xmair.oauth.entity.User;
 import com.xmair.oauth.entity.framedb.EmpData;
 import com.xmair.oauth.mapper.framedb.EmpDataMapper;
 import com.xmair.oauth.mapper.test1.TBWeixinUserMapper;
 import com.xmair.oauth.mapper.test1.User1Mapper;
+import com.xmair.oauth.util.PageEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,9 +54,19 @@ public class MybatisController {
 
 
     @RequestMapping("/getOracleUser")
-    public EmpData getOUser() {
-        EmpData user = empDataMapper.selectByPrimaryKey("11112");
-        return user;
+    public PageEntity getOUser() {
+        PageEntity result=new PageEntity();
+        PageHelper.startPage(1, 20);
+        List<EmpData> list = empDataMapper.selectAll();
+
+        for (EmpData country : list) {
+            System.out.println("Country Name: " + country.getCnName());
+        }
+        result.setData(list);
+        result.setPageNum(1);
+        result.setPageSize(20);
+        result.setTotal(((Page)list).getTotal());
+        return result;
     }
 
     @RequestMapping("/add")

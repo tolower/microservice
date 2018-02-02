@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmair.oauth.mapper.test1.TBWeixinUserMapper">
+  <resultMap id="BaseResultMap" type="com.xmair.oauth.entity.TBWeixinUser">
+    <id column="OPENID" jdbcType="VARCHAR" property="openid" />
+    <result column="NICKNAME" jdbcType="VARCHAR" property="nickname" />
+    <result column="LANGUAGE" jdbcType="VARCHAR" property="language" />
+    <result column="SEX" jdbcType="VARCHAR" property="sex" />
+    <result column="CITY" jdbcType="VARCHAR" property="city" />
+    <result column="PROVINCE" jdbcType="VARCHAR" property="province" />
+    <result column="COUNTRY" jdbcType="VARCHAR" property="country" />
+    <result column="APPID" jdbcType="VARCHAR" property="appid" />
+    <result column="SUBSCRIBE" jdbcType="VARCHAR" property="subscribe" />
+    <result column="SUB_TIME" jdbcType="TIMESTAMP" property="subTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    OPENID, NICKNAME, LANGUAGE, SEX, CITY, PROVINCE, COUNTRY, APPID, SUBSCRIBE, SUB_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_weixin_user
+    where OPENID = #{openid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_weixin_user
+    where OPENID = #{openid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xmair.oauth.entity.TBWeixinUser">
+    insert into tb_weixin_user (OPENID, NICKNAME, LANGUAGE, 
+      SEX, CITY, PROVINCE, 
+      COUNTRY, APPID, SUBSCRIBE, 
+      SUB_TIME)
+    values (#{openid,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{appid,jdbcType=VARCHAR}, #{subscribe,jdbcType=VARCHAR}, 
+      #{subTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xmair.oauth.entity.TBWeixinUser">
+    insert into tb_weixin_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="openid != null">
+        OPENID,
+      </if>
+      <if test="nickname != null">
+        NICKNAME,
+      </if>
+      <if test="language != null">
+        LANGUAGE,
+      </if>
+      <if test="sex != null">
+        SEX,
+      </if>
+      <if test="city != null">
+        CITY,
+      </if>
+      <if test="province != null">
+        PROVINCE,
+      </if>
+      <if test="country != null">
+        COUNTRY,
+      </if>
+      <if test="appid != null">
+        APPID,
+      </if>
+      <if test="subscribe != null">
+        SUBSCRIBE,
+      </if>
+      <if test="subTime != null">
+        SUB_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null">
+        #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null">
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribe != null">
+        #{subscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="subTime != null">
+        #{subTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xmair.oauth.entity.TBWeixinUser">
+    update tb_weixin_user
+    <set>
+      <if test="nickname != null">
+        NICKNAME = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null">
+        LANGUAGE = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        SEX = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        COUNTRY = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null">
+        APPID = #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribe != null">
+        SUBSCRIBE = #{subscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="subTime != null">
+        SUB_TIME = #{subTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where OPENID = #{openid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xmair.oauth.entity.TBWeixinUser">
+    update tb_weixin_user
+    set NICKNAME = #{nickname,jdbcType=VARCHAR},
+      LANGUAGE = #{language,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=VARCHAR},
+      CITY = #{city,jdbcType=VARCHAR},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      COUNTRY = #{country,jdbcType=VARCHAR},
+      APPID = #{appid,jdbcType=VARCHAR},
+      SUBSCRIBE = #{subscribe,jdbcType=VARCHAR},
+      SUB_TIME = #{subTime,jdbcType=TIMESTAMP}
+    where OPENID = #{openid,jdbcType=VARCHAR}
+  </update>
+</mapper>
