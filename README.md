@@ -4,7 +4,7 @@ spring boot +oltu搭建oauth sso的方案原型
 
 #spring boot开发框架目标
 * 适应容器云环境
-* 标准规范：java开发规范、最佳实践、案例分析、
+* 标准规范：java开发规范、应用集成开发规范（API开发规范、页面集成开发规范）、服务接入、分布式组件最佳实践、应用场景分析
 * 高性能
 * 安全性
 * 简单易用
@@ -21,7 +21,7 @@ spring boot集成的组件包括但不限于：
 * 缓存：推荐redis
 * 消息队列：rabbitmq、kafaka、rocketmq（推荐）
 * 前端模板：推荐使用thymeleaf，这是官方推荐的模板（不推荐采用jsp），便于docker镜像打包部署，大家统一一下
-* restApi: spring MVC、 swagger
+* restApi: spring MVC、 swagger、版本规范
 * 二进制序列化：应用间通信推荐使用protobuf，压缩比高、性能卓越，可运用在restapi调用、redis缓存存取等场景
 * json序列化：推荐使用jackson，功能完善，现版本与fastjson差不多，fastjson很多特殊场景不支持
 * 日志： 推荐使用logback、日志存储es
