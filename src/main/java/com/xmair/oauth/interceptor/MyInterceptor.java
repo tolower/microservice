@@ -28,8 +28,10 @@ public class MyInterceptor implements HandlerInterceptor {
                     + ":"
                     + request.getServerPort()           //端口号
                     + request.getContextPath()      //项目名称
-                    + request.getServletPath()      //请求页面或其他地址
-                    + "?" + (request.getQueryString()); //参数
+                    + request.getServletPath();      //请求页面或其他地址
+        if(request.getQueryString()!=null) {
+           strBackUrl+="?" + (request.getQueryString()); //参数
+        }
             MemCacheUtil.set(request.getSession().getId(), strBackUrl);
             //登录未登陆跳转到登陆页
             response.sendRedirect("/login/login");

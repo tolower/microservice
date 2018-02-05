@@ -1,25 +1,17 @@
 package com.xmair.oauth.controller;
 
-import com.xmair.oauth.entity.EmpInfo;
-import com.xmair.oauth.entity.User;
-import com.xmair.oauth.mapper.framedb.EmpInfoMapper;
-import com.xmair.oauth.service.UserService;
+import com.xmair.oauth.entity.framedb.EmpData;
+import com.xmair.oauth.mapper.framedb.EmpDataMapper;
 import com.xmair.oauth.util.MemCacheUtil;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @RequestMapping(value = "/login")
 @Controller
@@ -32,7 +24,7 @@ public class LoginController {
     private HttpServletResponse response;
 
     @Autowired
-    private EmpInfoMapper userMapper;
+    private EmpDataMapper userMapper;
 
     @RequestMapping(value = "/do", method = RequestMethod.POST)
     public String login() {
@@ -45,9 +37,9 @@ public class LoginController {
             return "redirect:/login/login";
         }
 
-            EmpInfo user = userMapper.getOne(username);
+            EmpData user = userMapper.selectByPrimaryKey(username);
             // todo 初始化会话信息
-            request.getSession().setAttribute("pcode",user.getMf_id());
+            request.getSession().setAttribute("pcode",user.getMfId());
             //跳转回初始请求地址
             return "redirect:"+ MemCacheUtil.get(request.getSession().getId());
 

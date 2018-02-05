@@ -1,21 +1,23 @@
 # oauth2
 spring boot +oltu搭建oauth sso的方案原型
 主项目为spring boot整合案例，与oauth2无关。
+##我只是搬运工，站在巨人的肩膀上
+##如无必要，勿重复发明轮子
 
-#spring boot开发框架目标
+##spring boot开发框架目标
 * 适应容器云环境
 * 标准规范：java开发规范、应用集成开发规范（API开发规范、页面集成开发规范）、服务接入、分布式组件最佳实践、应用场景分析
 * 高性能
 * 安全性
 * 简单易用
 
-#开发框架包含的组件功能
+##开发框架包含的组件功能
 spring boot集成的组件包括但不限于：
 * 运行环境：tomcat 相关jar包，无需再单独安装tomcat，简化开发部署
-* 数据访问：推荐使用mybatis 、jpa、druid
+* 数据访问：推荐使用mybatis 、连接池druid
 * 后台代码生成工具：mybaits gen，自动生成model、xml、mapper
 * 数据库分页：pagehelper
-* 通用mapper：尚未完成
+* 通用mapper：完成
 * 容器组件：spring 
 * MVC： spring MVC
 * 缓存：推荐redis
@@ -31,5 +33,6 @@ spring boot集成的组件包括但不限于：
 * 后台校验：利用hibernate validator，常见web安全措施
 * 单元测试：junit
 * 二进制流处理：文件存取
-* 
+* 定时任务：quartz
+* 前端UI集成：开放，推荐vue，pcweb应用采用jquery+bootstrap也可
 * 安全认证：可利用oauth2.0的开源组件oltu实现单点登录SSO（针对人员）、api调用者token认证（针对应用）

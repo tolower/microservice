@@ -1,7 +1,7 @@
 package com.xmair.oauth.controller;
 
-import com.xmair.oauth.entity.EmpInfo;
-import com.xmair.oauth.mapper.framedb.EmpInfoMapper;
+import com.xmair.oauth.entity.framedb.EmpData;
+import com.xmair.oauth.mapper.framedb.EmpDataMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/empinfo")
 public class EmpInfoController {
     @Autowired
-    private EmpInfoMapper userMapper;
+    private EmpDataMapper userMapper;
 
     @RequestMapping(value = "/getuser",method = RequestMethod.GET)
 
-    public  EmpInfo mybatistest(String pcode){
+    public EmpData mybatistest(String pcode){
 
 
-        EmpInfo user=  userMapper.getOne(pcode);
+        EmpData user=  userMapper.selectByPrimaryKey(pcode);
         if(user==null){
-            return  new EmpInfo();
+            return  new EmpData();
         }
         return  user;
 

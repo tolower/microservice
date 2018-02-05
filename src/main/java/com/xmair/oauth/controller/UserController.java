@@ -2,7 +2,7 @@ package com.xmair.oauth.controller;
 
 import com.xmair.oauth.configuration.ConfigBean;
 import com.xmair.oauth.entity.User;
-import com.xmair.oauth.mapper.test1.User1Mapper;
+import com.xmair.oauth.mapper.test1.UserMapper;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.*;
 
-/**
- * Created by Song on 2017/2/15.
- * User控制层
- */
+
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
@@ -29,7 +26,7 @@ public class UserController {
     @Autowired
     private ConfigBean configBean;
     @Autowired
-    private User1Mapper userMapper;
+    private UserMapper userMapper;
 
     @RequestMapping(value = "/index")
     public String index(){
@@ -78,10 +75,9 @@ public class UserController {
         else return "null";
     }*/
 
-    @RequestMapping(value = "/mybatistest",method = RequestMethod.GET)
-    @ResponseBody
+    @RequestMapping(value = "/getuser",method = RequestMethod.GET)
     public  String mybatistest(){
-        User user=  userMapper.getOne("111");
+        User user=  userMapper.selectByPrimaryKey(111);
         if(null != user)
             return configBean.getName()+"//"+ user.getId()+"/"+user.getName()+"/"+user.getPassowrd()+"/"+user.getPassword()+"122222";
 
