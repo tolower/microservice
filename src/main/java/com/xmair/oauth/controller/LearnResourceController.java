@@ -19,7 +19,7 @@ public class LearnResourceController {
     public ModelAndView index(){
 
         List<LearnResource> learnList =new ArrayList<LearnResource>();
-        LearnResource bean =new LearnResource("官方参考文档","Spring Boot Reference Guide","http://docs.spring.io/spring-boot/docs/1.5.1.RELEASE/reference/htmlsingle/#getting-started-first-application");
+        LearnResource bean =new LearnResource("官方参考文档","Spring Boot Reference Guide","http://js.spring.io/spring-boot/js/1.5.1.RELEASE/reference/htmlsingle/#getting-started-first-application");
         learnList.add(bean);
         bean =new LearnResource("官方SpriongBoot例子","官方SpriongBoot例子","https://github.com/spring-projects/spring-boot/tree/master/spring-boot-samples");
         learnList.add(bean);
@@ -48,7 +48,7 @@ public class LearnResourceController {
     public ModelAndView index2(){
 
         List<LearnResource> learnList =new ArrayList<LearnResource>();
-        LearnResource bean =new LearnResource("官方参考文档","Spring Boot Reference Guide","http://docs.spring.io/spring-boot/docs/1.5.1.RELEASE/reference/htmlsingle/#getting-started-first-application");
+        LearnResource bean =new LearnResource("官方参考文档","Spring Boot Reference Guide","http://js.spring.io/spring-boot/js/1.5.1.RELEASE/reference/htmlsingle/#getting-started-first-application");
         learnList.add(bean);
         bean =new LearnResource("官方SpriongBoot例子","官方SpriongBoot例子","https://github.com/spring-projects/spring-boot/tree/master/spring-boot-samples");
         learnList.add(bean);

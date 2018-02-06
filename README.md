@@ -36,3 +36,6 @@ spring boot集成的组件包括但不限于：
 * 定时任务：quartz
 * 前端UI集成：开放，推荐vue，pcweb应用采用jquery+bootstrap也可
 * 安全认证：可利用oauth2.0的开源组件oltu实现单点登录SSO（针对人员）、api调用者token认证（针对应用）
+
+## 2018-2-6 更新日志
+重构webconfig配置组件，增加apiversion
