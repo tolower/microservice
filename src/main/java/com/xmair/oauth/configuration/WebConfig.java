@@ -46,7 +46,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
     @Override
     @Bean
     public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-        RequestMappingHandlerMapping handlerMapping = new VersionHandlerMapping();
+        RequestMappingHandlerMapping handlerMapping = new VersionHandlerMapping("v");
         handlerMapping.setOrder(0);
 
         handlerMapping.setInterceptors(getInterceptors());
