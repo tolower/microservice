@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @EnableAdminServer
+
 @ComponentScan(basePackages = "com.xmair.common")
 @MapperScan("com.xmair.common.mapper")
 @EnableConfigurationProperties({ConfigBean.class})
