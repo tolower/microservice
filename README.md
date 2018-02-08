@@ -1,4 +1,6 @@
 ## 2018-2-8 更新日志
+重构microservice项目结构，拆分出core webapp api job四个模块
+## 2018-2-8 更新日志
 重构oauth项目结构，完善apiversion注解，对swagger友好支持，增加job模板
 
 
