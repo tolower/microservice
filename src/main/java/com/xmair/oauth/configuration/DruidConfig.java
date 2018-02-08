@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class DruidConfiguration {
+public class DruidConfig {
 
     /**
      * 注册一个StatViewServlet

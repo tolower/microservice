@@ -23,6 +23,16 @@ import java.util.TimeZone;
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport {
 
+    /*增加ajax跨域访问支持*/
+    @Override
+    protected void addCorsMappings(CorsRegistry registry) {
+
+        registry.addMapping("/**")
+                .allowedMethods("get","post")
+                .allowedOrigins("*")
+                .allowedHeaders("*");
+       // super.addCorsMappings(registry);
+    }
 
     /*自定义jackson 消息序列化*/
 

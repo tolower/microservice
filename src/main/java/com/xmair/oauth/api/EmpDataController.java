@@ -1,4 +1,4 @@
-package com.xmair.oauth.controller;
+package com.xmair.oauth.api;
 
 import com.xmair.oauth.entity.framedb.EmpData;
 import com.xmair.oauth.mapper.framedb.EmpDataMapper;

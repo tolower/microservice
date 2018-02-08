@@ -1,4 +1,4 @@
-package com.xmair.oauth.controller;
+package com.xmair.oauth.api;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
