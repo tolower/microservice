@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 
-public class OauthApplicationTests {
+public class MicroServiceApplicationTests {
 
 	@Test
 	public void contextLoads() {

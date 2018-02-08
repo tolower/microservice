@@ -19,10 +19,10 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "com.xmair.common")
 @MapperScan("com.xmair.common.mapper")
 @EnableConfigurationProperties({ConfigBean.class})
-public class OauthApplication extends SpringBootServletInitializer {
+public class MicroServiceApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 
-		SpringApplication.run(OauthApplication.class, args);
+		SpringApplication.run(MicroServiceApplication.class, args);
 	}
 }
