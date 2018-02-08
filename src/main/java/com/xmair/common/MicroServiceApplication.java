@@ -23,6 +23,7 @@ public class MicroServiceApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 
+		System.out.println("server start");
 		SpringApplication.run(MicroServiceApplication.class, args);
 	}
 }
