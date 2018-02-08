@@ -1,3 +1,12 @@
+## 2018-2-8 更新日志
+重构oauth项目结构，完善apiversion注解，对swagger友好支持，增加job模板
+
+
+
+## 2018-2-6 更新日志
+重构webconfig配置组件，增加apiversion
+
+
 # oauth2
 spring boot +oltu搭建oauth sso的方案原型
 主项目为spring boot整合案例，与oauth2无关。
@@ -37,5 +46,4 @@ spring boot集成的组件包括但不限于：
 * 前端UI集成：开放，推荐vue，pcweb应用采用jquery+bootstrap也可
 * 安全认证：可利用oauth2.0的开源组件oltu实现单点登录SSO（针对人员）、api调用者token认证（针对应用）
 
-## 2018-2-6 更新日志
-重构webconfig配置组件，增加apiversion
+
