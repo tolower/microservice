@@ -7,11 +7,13 @@
 重构webconfig配置组件，增加apiversion
 
 
+##我只是搬运工，站在巨人的肩膀上
+##如无必要，勿重复发明轮子
+
 # oauth2
 spring boot +oltu搭建oauth sso的方案原型
 主项目为spring boot整合案例，与oauth2无关。
-##我只是搬运工，站在巨人的肩膀上
-##如无必要，勿重复发明轮子
+
 
 ##spring boot开发框架目标
 * 适应容器云环境
