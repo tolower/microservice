@@ -50,6 +50,16 @@ public class WebConfig extends WebMvcConfigurationSupport {
         return mappingJackson2HttpMessageConverter;
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new MyInterceptor()).addPathPatterns("/**")
+            .excludePathPatterns("/login/**")
+            .excludePathPatterns("/error/**")
+                .excludePathPatterns("/manage/**")
+                .excludePathPatterns("/sba/**")
+                .excludePathPatterns("/v2/api-docs","/configuration/**","/swagger-resources/**");
+        super.addInterceptors(registry);
+    }
 
     @Override
     @Bean

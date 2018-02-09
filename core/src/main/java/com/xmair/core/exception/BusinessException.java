@@ -7,12 +7,12 @@ import org.slf4j.LoggerFactory;
 
 *
  * 业务逻辑异常类 */
-public class LogicException extends RuntimeException {
+public class BusinessException extends RuntimeException {
 
     /**
      * 日志对象
      */
-    private Logger logger = LoggerFactory.getLogger(LogicException.class);
+    private Logger logger = LoggerFactory.getLogger(BusinessException.class);
 
     /**
      * 错误消息内容
@@ -52,7 +52,7 @@ public class LogicException extends RuntimeException {
      * @param errCode 错误码
      * @param params  错误参数列表
      */
-    public LogicException(String errCode, String... params) {
+    public BusinessException(String errCode, String... params) {
         String[] param= params;
         this.errCode = errCode;
         //获取格式化后的异常消息内容

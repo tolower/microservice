@@ -14,6 +14,8 @@ public class User {
 
     private Integer age;
 
+    private byte[] photo;
+
     /**
      * @return id
      */
@@ -82,5 +84,19 @@ public class User {
      */
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    /**
+     * @return photo
+     */
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    /**
+     * @param photo
+     */
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 }

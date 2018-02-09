@@ -11,5 +11,7 @@ public enum  ErrorCodeEnum {
     /**
      * 用户状态异常.
      */
-    USER_STATUS_FAILD
+    USER_STATUS_FAILD,
+    PAGE_404,
+    NOT_FOUND
 }

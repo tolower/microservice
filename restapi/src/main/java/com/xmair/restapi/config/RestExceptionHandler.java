@@ -1,6 +1,6 @@
-package com.xmair.core.configuration;
+package com.xmair.restapi.config;
 
-import com.xmair.core.exception.LogicException;
+import com.xmair.core.exception.BusinessException;
 import com.xmair.core.exception.ExceptionResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +35,9 @@ public class RestExceptionHandler {
      * @param e 业务逻辑异常对象实例
      * @return 逻辑异常消息内容
      */
-    @ExceptionHandler(LogicException.class)
+    @ExceptionHandler(BusinessException.class)
     @ResponseStatus(code = HttpStatus.OK)
-    public ExceptionResult logicException(LogicException e) {
+    public ExceptionResult logicException(BusinessException e) {
         logger.error("遇到业务逻辑异常：【{}】", e.getErrCode());
         // 返回响应实体内容
         ExceptionResult result=new ExceptionResult();

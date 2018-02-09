@@ -1,7 +1,7 @@
 package com.xmair.webapp.controller;
 
 import com.xmair.core.exception.ErrorCodeEnum;
-import com.xmair.core.exception.LogicException;
+import com.xmair.core.exception.BusinessException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,13 +15,13 @@ public class ExceptionTestController {
      * @return
      */
     @RequestMapping(value = "/test")
-    public String index() throws LogicException {
+    public String index() throws BusinessException {
         /**
          * 模拟用户不存在
          * 抛出业务逻辑异常
          */
         if (true) {
-            throw new LogicException(ErrorCodeEnum.USER_STATUS_FAILD.toString(),"111");
+            throw new BusinessException(ErrorCodeEnum.USER_STATUS_FAILD.toString(),"111");
         }
         return "ttttttttttttttt";
     }

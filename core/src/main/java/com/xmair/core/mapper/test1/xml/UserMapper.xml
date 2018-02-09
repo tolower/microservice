@@ -11,10 +11,22 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="age" jdbcType="INTEGER" property="age" />
   </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xmair.core.entity.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="photo" jdbcType="LONGVARBINARY" property="photo" />
+  </resultMap>
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbg.generated
     -->
     id, name, passowrd, password, age
+  </sql>
+  <sql id="Blob_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    photo
   </sql>
 </mapper>

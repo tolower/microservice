@@ -8,11 +8,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +98,9 @@ public class WebConfig extends WebMvcConfigurationSupport {
     //添加protobuf支持，需要client指定accept-type：application/x-protobuf
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
+        stringConverter.setDefaultCharset(Charset.forName("utf-8"));
+        converters.add(0,stringConverter);
         converters.add(0,getCustomJacksonConverter());
         converters.add(new ProtobufHttpMessageConverter());
     }
