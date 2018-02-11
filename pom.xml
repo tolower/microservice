@@ -13,6 +13,7 @@
 		<module>core</module>
 		<module>restapi</module>
 		<module>webapp</module>
+		<module>job</module>
 	</modules>
 
 	<name>microservice</name>

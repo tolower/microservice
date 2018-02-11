@@ -1,5 +1,8 @@
 package com.xmair.core;
 
+import com.xmair.core.entity.framedb.EmpData;
+import com.xmair.core.mapper.framedb.EmpDataMapper;
+import com.xmair.core.util.SpringBeanTools;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +18,13 @@ import java.util.List;
 public class CoreApplicationTests {
 
 
+	@Test
+    public 	void testBeanTool(){
+
+	   	EmpDataMapper mapper=SpringBeanTools.getBean(EmpDataMapper.class);
+		EmpData empData=mapper.selectByPrimaryKey("06645");
+		System.out.println(empData.getCnName());
+	}
 
 	@Test
 	public void contextLoads() {

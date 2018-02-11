@@ -1,5 +1,6 @@
 package com.xmair.core.exception;
 
+import com.xmair.core.util.SpringBeanTools;
 import org.springframework.util.ObjectUtils;
 
 public class ErrorMessageTools {
