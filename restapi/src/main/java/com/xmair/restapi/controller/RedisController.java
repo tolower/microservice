@@ -5,6 +5,7 @@ import com.xmair.core.entity.User;
 import com.xmair.core.entity.framedb.EmpData;
 import com.xmair.core.mapper.framedb.EmpDataMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -32,7 +33,9 @@ public class RedisController {
         stringRedisTemplate.opsForValue().set("aaa", "111");
         System.out.println(stringRedisTemplate.opsForValue().get("aaa"));
 
+
         ValueOperations<String, List<EmpData>> operations1=redisTemplate.opsForValue();
+
         PageHelper.startPage(1, 20);
         List<EmpData> list = empDataMapper.selectAll();
         operations1.set("protolist", list);
@@ -44,6 +47,7 @@ public class RedisController {
         ValueOperations<String, User> operations=redisTemplate.opsForValue();
         operations.set("wuzuquan", user);
         User s= operations.get("wuzuquan");
+        //HashOperations<String,String,User> hashOperations=redisTemplate.opsForHash();
         return  s;
     }
 }

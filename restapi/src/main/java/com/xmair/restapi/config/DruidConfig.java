@@ -1,4 +1,4 @@
-package com.xmair.core.configuration;
+package com.xmair.restapi.config;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;

@@ -1,10 +1,11 @@
 package com.xmair.core.entity.framedb;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "TB_EMP_DATA")
-public class EmpData {
+public class EmpData implements Serializable {
     @Id
     @Column(name = "MF_ID")
     private String mfId;

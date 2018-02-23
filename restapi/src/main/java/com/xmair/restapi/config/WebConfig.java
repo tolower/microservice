@@ -2,7 +2,9 @@ package com.xmair.restapi.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xmair.core.util.apiversion.VersionHandlerMapping;
+import com.xmair.restapi.apiversion.VersionHandlerMapping;
+import io.undertow.UndertowOptions;
+import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -11,11 +13,11 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.TimeZone;
 
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport {
+
 
     /*增加ajax跨域访问支持*/
     @Override
@@ -104,12 +107,22 @@ public class WebConfig extends WebMvcConfigurationSupport {
         converters.add(0,getCustomJacksonConverter());
         converters.add(new ProtobufHttpMessageConverter());
     }
+
+
     /*设置默认首页*/
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/learn/index");
+        registry.addViewController("/").setViewName("forward:/getWeixinUser");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
         super.addViewControllers(registry);
+    }
+
+    /*忽略大小写*/
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+        AntPathMatcher pathMatcher = new AntPathMatcher();
+        pathMatcher.setCaseSensitive(false);
+        configurer.setPathMatcher(pathMatcher);
     }
 
 }

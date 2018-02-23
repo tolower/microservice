@@ -2,17 +2,18 @@ package com.xmair.webapp.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xmair.core.util.apiversion.VersionHandlerMapping;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,15 +62,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
         super.addInterceptors(registry);
     }
 
-    @Override
-    @Bean
-    public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-        RequestMappingHandlerMapping handlerMapping = new VersionHandlerMapping("v");
-        handlerMapping.setOrder(0);
 
-        handlerMapping.setInterceptors(getInterceptors());
-        return handlerMapping;
-    }
 
 
     /**
@@ -100,14 +93,17 @@ public class WebConfig extends WebMvcConfigurationSupport {
     }
 
 
-
-
     //添加protobuf支持，需要client指定accept-type：application/x-protobuf
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
+        stringConverter.setDefaultCharset(Charset.forName("utf-8"));
+        converters.add(0,stringConverter);
         converters.add(0,getCustomJacksonConverter());
         converters.add(new ProtobufHttpMessageConverter());
     }
+
+
     /*设置默认首页*/
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {

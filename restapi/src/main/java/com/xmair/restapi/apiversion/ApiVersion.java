@@ -1,4 +1,4 @@
-package com.xmair.core.util.apiversion;
+package com.xmair.restapi.apiversion;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

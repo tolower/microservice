@@ -1,12 +1,11 @@
 package com.xmair.webapp;
 
 import com.xmair.core.configuration.ConfigBean;
-import org.apache.coyote.http11.AbstractHttp11Protocol;
+import io.undertow.UndertowOptions;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.embedded.tomcat.TomcatConnectorCustomizer;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,16 +21,16 @@ public class WebappApplication {
 		SpringApplication.run(WebappApplication.class, args);
 	}
 
-	//Tomcat large file upload connection reset
+	// 在@Configuration的类中添加@bean
 	@Bean
-	public TomcatEmbeddedServletContainerFactory tomcatEmbedded() {
-		TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
-		tomcat.addConnectorCustomizers((TomcatConnectorCustomizer) connector -> {
-			if ((connector.getProtocolHandler() instanceof AbstractHttp11Protocol<?>)) {
-				//-1 means unlimited
-				((AbstractHttp11Protocol<?>) connector.getProtocolHandler()).setMaxSwallowSize(-1);
-			}
-		});
-		return tomcat;
+	UndertowEmbeddedServletContainerFactory embeddedServletContainerFactory() {
+
+		UndertowEmbeddedServletContainerFactory factory = new UndertowEmbeddedServletContainerFactory();
+
+		// 这里也可以做其他配置
+		factory.addBuilderCustomizers(builder -> builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true));
+
+		return factory;
 	}
+
 }
