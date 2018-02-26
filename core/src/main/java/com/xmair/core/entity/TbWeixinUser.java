@@ -14,11 +14,11 @@ import java.util.Date;
  * </p>
  * 
  * @author wuzuquan
- * @date 2018-02-26 12:45:47
+ * @date 2018-02-26 13:45:57
  * @version
  */
 @Table(name = "tb_weixin_user")
-public class TBWeixinUser implements Serializable {
+public class TbWeixinUser implements Serializable {
 
 
 

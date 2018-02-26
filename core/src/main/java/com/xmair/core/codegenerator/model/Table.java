@@ -9,6 +9,10 @@ public class Table {
 	}
 
 
+	public void setLowerBeanName(String lowerBeanName) {
+		this.lowerBeanName = lowerBeanName;
+	}
+
 	private  String lowerBeanName;
 
 	private String tableName;

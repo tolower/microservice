@@ -7,16 +7,12 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import com.xmair.restapi.apiversion.ApiVersion;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -24,7 +20,7 @@ import java.util.List;
     * </p>
 *
 * @author wuzuquan
-* @date 2018-02-26 11:21:34
+* @date 2018-02-26 13:43:47
 * @version
 */
 @RestController
@@ -61,19 +57,14 @@ public class TbEmpDataController {
     }
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public ResultBean<Object> create(@Validated TbEmpData item, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            List<ObjectError>  list = bindingResult.getAllErrors();
-            return new ResultBean<Object>(ResultCodeEnum.FAILTURE.toString(),"参数校验失败",list);
-
-        }
+    public ResultBean<Integer> create(TbEmpData item){
         int  result= mapper.insert(item);
-        ResultBean<Object> resultBean=new ResultBean<Object>(result);
+        ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
         return  resultBean;
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public ResultBean<Integer> update(@Validated TbEmpData item){
+    public ResultBean<Integer> update(TbEmpData item){
         int  result=  mapper.updateByPrimaryKey(item);
         ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
         return  resultBean;

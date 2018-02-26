@@ -35,8 +35,8 @@ public class DataProcessor {
 					primaryKeys.add(primaryKey);
 				}
 				table.setPrimaryKeys(primaryKeys);
-			    table.setBeanName(StringUtils.underLineToCamel(StringUtils.toUpperCaseFirst(table.getTableName())));
-
+			    table.setBeanName(StringUtils.underLineToCamel(StringUtils.toUpperCaseFirst(table.getTableName().toLowerCase())));
+			    table.setLowerBeanName(table.getBeanName().toLowerCase());
 
 			    prepareProcessColumns(table.getColumns());
 			}
@@ -133,7 +133,7 @@ public class DataProcessor {
 
 			while (rs.next()) {
 
-				String tableName = rs.getString("TABLE_NAME").toLowerCase();
+				String tableName = rs.getString("TABLE_NAME");
 
 				String colName = rs.getString("COLUMN_NAME");
 				String jdbcType = rs.getString("TYPE_NAME");

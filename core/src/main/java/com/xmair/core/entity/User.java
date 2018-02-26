@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Length;
  * </p>
  * 
  * @author wuzuquan
- * @date 2018-02-26 12:45:47
+ * @date 2018-02-26 13:45:57
  * @version
  */
 @Table(name = "user")

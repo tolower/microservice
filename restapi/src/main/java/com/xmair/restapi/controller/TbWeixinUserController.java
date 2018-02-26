@@ -1,5 +1,5 @@
 package com.xmair.restapi.controller;
-import com.xmair.core.entity.TBWeixinUser;
+import com.xmair.core.entity.TbWeixinUser;
 import com.xmair.core.mapper.test1.TbWeixinUserMapper;
 import com.xmair.core.util.ResultBean;
 import com.xmair.core.util.ResultCodeEnum;
@@ -20,7 +20,7 @@ import java.util.List;
     * </p>
 *
 * @author wuzuquan
-* @date 2018-02-26 12:45:47
+* @date 2018-02-26 13:45:57
 * @version
 */
 @RestController
@@ -39,32 +39,32 @@ public class TbWeixinUserController {
     @ApiOperation(value="获取单条记录", notes="根据url的id来获取详细信息")
     @ApiImplicitParam(name = "id", value = "用户ID", required = true)
     @RequestMapping(value = "/get",method = RequestMethod.GET)
-    public ResultBean<TBWeixinUser> get(String id){
-        TBWeixinUser item=  mapper.selectByPrimaryKey(id);
+    public ResultBean<TbWeixinUser> get(String id){
+        TbWeixinUser item=  mapper.selectByPrimaryKey(id);
         if(item!=null){
-            return new ResultBean<TBWeixinUser>(item);
+            return new ResultBean<TbWeixinUser>(item);
         }else {
-            return new ResultBean<TBWeixinUser>(ResultCodeEnum.FAILTURE.toString(),"找不到该记录",null);
+            return new ResultBean<TbWeixinUser>(ResultCodeEnum.FAILTURE.toString(),"找不到该记录",null);
         }
     }
 
 
     @RequestMapping(value = "/getlist",method = RequestMethod.GET)
-    public ResultBean<List<TBWeixinUser>> getList(){
-        List<TBWeixinUser> list=  mapper.selectAll();
-        ResultBean<List<TBWeixinUser>> resultBean=new ResultBean<List<TBWeixinUser>>(list);
+    public ResultBean<List<TbWeixinUser>> getList(){
+        List<TbWeixinUser> list=  mapper.selectAll();
+        ResultBean<List<TbWeixinUser>> resultBean=new ResultBean<List<TbWeixinUser>>(list);
         return  resultBean;
     }
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public ResultBean<Integer> create(TBWeixinUser item){
+    public ResultBean<Integer> create(TbWeixinUser item){
         int  result= mapper.insert(item);
         ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
         return  resultBean;
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public ResultBean<Integer> update(TBWeixinUser item){
+    public ResultBean<Integer> update(TbWeixinUser item){
         int  result=  mapper.updateByPrimaryKey(item);
         ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
         return  resultBean;
@@ -78,7 +78,7 @@ public class TbWeixinUserController {
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public ResultBean<Integer> delete(TBWeixinUser item){
+    public ResultBean<Integer> delete(TbWeixinUser item){
         int  result=  mapper.updateByPrimaryKey(item);
         ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
         return  resultBean;

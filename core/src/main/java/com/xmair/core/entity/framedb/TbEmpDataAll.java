@@ -16,10 +16,10 @@ import java.math.BigDecimal;
  * </p>
  * 
  * @author wuzuquan
- * @date 2018-02-26 11:21:34
+ * @date 2018-02-26 13:43:47
  * @version
  */
-@Table(name = "tb_emp_data_all")
+@Table(name = "TB_EMP_DATA_ALL")
 public class TbEmpDataAll implements Serializable {
 
 

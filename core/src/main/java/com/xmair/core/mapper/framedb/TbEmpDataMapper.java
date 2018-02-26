@@ -9,7 +9,7 @@ import tk.mybatis.mapper.common.Mapper;
  * </p>
  * 
  * @author wuzuquan
- * @date 2018-02-26 11:21:34
+ * @date 2018-02-26 13:43:47
  * @version
  */
 public interface TbEmpDataMapper extends Mapper<TbEmpData> {
