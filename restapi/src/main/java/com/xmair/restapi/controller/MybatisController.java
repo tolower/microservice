@@ -3,7 +3,7 @@ package com.xmair.restapi.controller;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.xmair.core.entity.TbWeixinUser;
+import com.xmair.core.entity.TBWeixinUser;
 import com.xmair.core.entity.framedb.EmpData;
 import com.xmair.core.mapper.framedb.EmpDataMapper;
 import com.xmair.core.mapper.test1.TbWeixinUserMapper;
@@ -27,8 +27,8 @@ public class MybatisController {
 
     @ApiIgnore
     @RequestMapping("/getWeixinUser")
-    public TbWeixinUser getUser() {
-        TbWeixinUser user = weixinUserMapper.selectByPrimaryKey("11112");
+    public TBWeixinUser getUser() {
+        TBWeixinUser user = weixinUserMapper.selectByPrimaryKey("11112");
 
         return user;
     }

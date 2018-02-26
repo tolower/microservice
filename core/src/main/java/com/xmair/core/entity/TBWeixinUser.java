@@ -18,7 +18,7 @@ import java.util.Date;
  * @version
  */
 @Table(name = "tb_weixin_user")
-public class TbWeixinUser implements Serializable {
+public class TBWeixinUser implements Serializable {
 
 
 
