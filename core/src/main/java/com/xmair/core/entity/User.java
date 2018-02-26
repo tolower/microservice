@@ -1,103 +1,105 @@
 package com.xmair.core.entity;
-
 import javax.persistence.*;
 import java.io.Serializable;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 
-public class User implements Serializable{
+
+/**
+ * <p>
+ * 
+ *${remark}
+ *
+ * </p>
+ * 
+ * @author wuzuquan
+ * @date 2018-02-26 12:45:47
+ * @version
+ */
+@Table(name = "user")
+public class User implements Serializable {
+
+
+
+    @Length(max=255,message="password 长度不能超过255")
+    @Column(name = "password")
+	private String password;
+	
+
+
+    @Length(max=45,message="name 长度不能超过45")
+    @Column(name = "name")
+	private String name;
+	
+
+
+    @Column(name = "photo")
+	private byte[] photo;
+	
+
+
+    @NotNull(message = "id not allow null")
     @Id
-    private Integer id;
+    @Column(name = "id")
+	private Integer id;
+	
 
-    private String name;
 
-    private String passowrd;
+    @Length(max=45,message="passowrd 长度不能超过45")
+    @Column(name = "passowrd")
+	private String passowrd;
+	
 
-    private String password;
 
-    private Integer age;
-
-    private byte[] photo;
-
-    /**
-     * @return id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    /**
-     * @return passowrd
-     */
-    public String getPassowrd() {
-        return passowrd;
-    }
-
-    /**
-     * @param passowrd
-     */
-    public void setPassowrd(String passowrd) {
-        this.passowrd = passowrd == null ? null : passowrd.trim();
-    }
-
-    /**
-     * @return password
-     */
-    public String getPassword() {
+    @Column(name = "age")
+	private Integer age;
+	
+		
+	public String getPassword() {
         return password;
     }
 
-    /**
-     * @param password
-     */
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+	public void setPassword(String password) {
+    	 this.password = password;
+	}
+		
+	public String getName() {
+        return name;
     }
 
-    /**
-     * @return age
-     */
-    public Integer getAge() {
-        return age;
-    }
-
-    /**
-     * @param age
-     */
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    /**
-     * @return photo
-     */
-    public byte[] getPhoto() {
+	public void setName(String name) {
+    	 this.name = name;
+	}
+		
+	public byte[] getPhoto() {
         return photo;
     }
 
-    /**
-     * @param photo
-     */
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
+	public void setPhoto(byte[] photo) {
+    	 this.photo = photo;
+	}
+		
+	public Integer getId() {
+        return id;
     }
-}
+
+	public void setId(Integer id) {
+    	 this.id = id;
+	}
+		
+	public String getPassowrd() {
+        return passowrd;
+    }
+
+	public void setPassowrd(String passowrd) {
+    	 this.passowrd = passowrd;
+	}
+		
+	public Integer getAge() {
+        return age;
+    }
+
+	public void setAge(Integer age) {
+    	 this.age = age;
+	}
+	}

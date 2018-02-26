@@ -1,7 +1,7 @@
 package com.xmair.restapi.controller;
 
-import com.xmair.core.exception.ErrorCodeEnum;
-import com.xmair.core.exception.ExceptionResult;
+import com.xmair.core.util.ResultBean;
+import com.xmair.core.util.ResultCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
@@ -18,10 +18,10 @@ public class HttpErrorController implements ErrorController {
 
     @RequestMapping(value="/error")
     @ResponseBody
-    public ExceptionResult handleError(){
-        ExceptionResult result=new ExceptionResult();
-        result.setErrCode(ErrorCodeEnum.PAGE_404.toString());
-        result.setErrMsg("找不到该服务，请确认api地址");
+    public ResultBean<String> handleError(){
+        ResultBean<String> result=new ResultBean<String>();
+        result.setCode(ResultCodeEnum.PAGE_404.toString());
+        result.setMessage("找不到该服务，请确认api地址");
         return result;
     }
 

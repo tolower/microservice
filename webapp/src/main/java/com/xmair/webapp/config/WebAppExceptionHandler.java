@@ -1,10 +1,11 @@
 package com.xmair.webapp.config;
 
 import com.xmair.core.exception.BusinessException;
-import com.xmair.core.exception.ExceptionResult;
+import com.xmair.core.util.ResultBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @ControllerAdvice
@@ -21,11 +22,11 @@ public class WebAppExceptionHandler {
      */
     @ExceptionHandler
     @ResponseStatus
-    public ExceptionResult runtimeExceptionHandler(Exception e) {
+    public ResultBean<String> runtimeExceptionHandler(Exception e) {
         logger.error("运行时异常：【{}】", e.getMessage());
-        ExceptionResult result=new ExceptionResult();
-        result.setErrCode("SystemError");
-        result.setErrMsg(e.getMessage());
+        ResultBean<String> result=new ResultBean<String>();
+        result.setCode("SystemError");
+        result.setMessage(e.getMessage());
         return result;
     }
 
@@ -37,12 +38,12 @@ public class WebAppExceptionHandler {
      */
     @ExceptionHandler(BusinessException.class)
     @ResponseStatus(code = HttpStatus.OK)
-    public ExceptionResult logicException(BusinessException e) {
+    public ResultBean<String> logicException(BusinessException e) {
         logger.error("遇到业务逻辑异常：【{}】", e.getErrCode());
         // 返回响应实体内容
-        ExceptionResult result=new ExceptionResult();
-        result.setErrCode(e.getErrCode());
-        result.setErrMsg(e.getErrMsg());
+        ResultBean<String> result=new ResultBean<String>();
+        result.setCode(e.getErrCode());
+        result.setMessage(e.getErrMsg());
         return result;
     }
 

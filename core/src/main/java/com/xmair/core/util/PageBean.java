@@ -1,6 +1,8 @@
 package com.xmair.core.util;
 
-public class PageEntity {
+import java.io.Serializable;
+
+public class PageBean<T> implements Serializable {
     private  int pageNum;
     private  int pageSize;
 
@@ -13,7 +15,7 @@ public class PageEntity {
     }
 
     private long total;
-    private  Object data;
+    private  T data;
 
     public int getPageNum() {
         return pageNum;
@@ -31,11 +33,11 @@ public class PageEntity {
         this.pageSize = pageSize;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

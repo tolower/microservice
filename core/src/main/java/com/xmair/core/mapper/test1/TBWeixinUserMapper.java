@@ -1,7 +1,18 @@
 package com.xmair.core.mapper.test1;
 
-import com.xmair.core.entity.TBWeixinUser;
+import java.util.List;
+import com.xmair.core.entity.TbWeixinUser;
 import tk.mybatis.mapper.common.Mapper;
 
-public interface TBWeixinUserMapper extends Mapper<TBWeixinUser> {
+/**
+ * <p>
+ * </p>
+ * 
+ * @author wuzuquan
+ * @date 2018-02-26 12:45:47
+ * @version
+ */
+public interface TbWeixinUserMapper extends Mapper<TbWeixinUser> {
+
+
 }

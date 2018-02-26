@@ -1,9 +1,9 @@
 package com.xmair.webapp.controller;
 
 import com.xmair.core.entity.User;
-import com.xmair.core.exception.ErrorCodeEnum;
-import com.xmair.core.exception.BusinessException;
 import com.xmair.core.mapper.test1.UserMapper;
+import com.xmair.core.util.ResultCodeEnum;
+import com.xmair.core.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -69,7 +69,7 @@ public class FileController {
         User user=userMapper.selectByPrimaryKey(id);
 
         if(user==null){
-            throw new BusinessException(ErrorCodeEnum.NOT_FOUND.toString(),"找不到文件");
+            throw new BusinessException(ResultCodeEnum.NOT_FOUND.toString(),"找不到文件");
         }
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");

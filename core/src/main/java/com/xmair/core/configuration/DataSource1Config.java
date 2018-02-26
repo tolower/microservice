@@ -16,7 +16,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 /**
- * Created by summer on 2016/11/25.
+ *
  */
 @Configuration
 @MapperScan(basePackages = "com.xmair.core.mapper.test1", sqlSessionTemplateRef  = "test1SqlSessionTemplate")

@@ -1,6 +1,6 @@
 package com.xmair.restapi.controller;
-import com.xmair.core.entity.User;
-import com.xmair.core.mapper.test1.UserMapper;
+import com.xmair.core.entity.framedb.TbEmpDataAll;
+import com.xmair.core.mapper.framedb.TbEmpDataAllMapper;
 import com.xmair.core.util.ResultBean;
 import com.xmair.core.util.ResultCodeEnum;
 import io.swagger.annotations.ApiImplicitParam;
@@ -20,51 +20,51 @@ import java.util.List;
     * </p>
 *
 * @author wuzuquan
-* @date 2018-02-26 12:45:47
+* @date 2018-02-26 11:21:34
 * @version
 */
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/tbempdataall")
 @ApiVersion(1)
-public class UserController {
+public class TbEmpDataAllController {
 
     @Autowired
     private HttpServletRequest request;
     @Autowired
     private HttpServletResponse response;
     @Autowired
-    private UserMapper mapper;
+    private TbEmpDataAllMapper mapper;
 
 
     @ApiOperation(value="获取单条记录", notes="根据url的id来获取详细信息")
     @ApiImplicitParam(name = "id", value = "用户ID", required = true)
     @RequestMapping(value = "/get",method = RequestMethod.GET)
-    public ResultBean<User> get(String id){
-        User item=  mapper.selectByPrimaryKey(id);
+    public ResultBean<TbEmpDataAll> get(String id){
+        TbEmpDataAll item=  mapper.selectByPrimaryKey(id);
         if(item!=null){
-            return new ResultBean<User>(item);
+            return new ResultBean<TbEmpDataAll>(item);
         }else {
-            return new ResultBean<User>(ResultCodeEnum.FAILTURE.toString(),"找不到该记录",null);
+            return new ResultBean<TbEmpDataAll>(ResultCodeEnum.FAILTURE.toString(),"找不到该记录",null);
         }
     }
 
 
     @RequestMapping(value = "/getlist",method = RequestMethod.GET)
-    public ResultBean<List<User>> getList(){
-        List<User> list=  mapper.selectAll();
-        ResultBean<List<User>> resultBean=new ResultBean<List<User>>(list);
+    public ResultBean<List<TbEmpDataAll>> getList(){
+        List<TbEmpDataAll> list=  mapper.selectAll();
+        ResultBean<List<TbEmpDataAll>> resultBean=new ResultBean<List<TbEmpDataAll>>(list);
         return  resultBean;
     }
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public ResultBean<Integer> create(User item){
+    public ResultBean<Integer> create(TbEmpDataAll item){
         int  result= mapper.insert(item);
         ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
         return  resultBean;
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public ResultBean<Integer> update(User item){
+    public ResultBean<Integer> update(TbEmpDataAll item){
         int  result=  mapper.updateByPrimaryKey(item);
         ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
         return  resultBean;
@@ -78,7 +78,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public ResultBean<Integer> delete(User item){
+    public ResultBean<Integer> delete(TbEmpDataAll item){
         int  result=  mapper.updateByPrimaryKey(item);
         ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
         return  resultBean;

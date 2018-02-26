@@ -1,9 +1,12 @@
-package com.xmair.core.exception;
+package com.xmair.core.util;
 
 /*
 * 异常代码枚举
 * */
-public enum  ErrorCodeEnum {
+public enum ResultCodeEnum {
+
+    SUCCESS,
+    FAILTURE,
     /**
      * 用户不存在.
      */

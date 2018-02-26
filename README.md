@@ -8,7 +8,10 @@
 * 简单易用
 * 可运维监控
 
-## 2018-2-24 
+## 2018-2-26 更新日志
+1、整理数据校验、restapi最佳开发实践
+2、velocity代码生成替换mybatis gen，可自定义。支持model、xml、mapper、restapi。
+支持swagger、数据校验等特性
 
 ## 2018-2-23 更新日志
 1、研究grpc，undertow、okhttp等。

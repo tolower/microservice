@@ -1,178 +1,165 @@
 package com.xmair.core.entity;
-
-import java.util.Date;
 import javax.persistence.*;
+import java.io.Serializable;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
+import java.util.Date;
 
+
+/**
+ * <p>
+ * 
+ *${remark}
+ *
+ * </p>
+ * 
+ * @author wuzuquan
+ * @date 2018-02-26 12:45:47
+ * @version
+ */
 @Table(name = "tb_weixin_user")
-public class TBWeixinUser {
+public class TbWeixinUser implements Serializable {
+
+
+
+    @Length(max=40,message="LANGUAGE 长度不能超过40")
+    @Column(name = "LANGUAGE")
+	private String language;
+	
+
+
+    @Length(max=100,message="NICKNAME 长度不能超过100")
+    @Column(name = "NICKNAME")
+	private String nickname;
+	
+
+
+    @Length(max=50,message="OPENID 长度不能超过50")
+    @NotNull(message = "OPENID not allow null")
     @Id
     @Column(name = "OPENID")
-    private String openid;
+	private String openid;
+	
 
-    @Column(name = "NICKNAME")
-    private String nickname;
 
-    @Column(name = "LANGUAGE")
-    private String language;
-
-    @Column(name = "SEX")
-    private String sex;
-
+    @Length(max=50,message="CITY 长度不能超过50")
     @Column(name = "CITY")
-    private String city;
+	private String city;
+	
 
-    @Column(name = "PROVINCE")
-    private String province;
 
+    @Length(max=50,message="COUNTRY 长度不能超过50")
     @Column(name = "COUNTRY")
-    private String country;
+	private String country;
+	
 
+
+    @Length(max=50,message="APPID 长度不能超过50")
     @Column(name = "APPID")
-    private String appid;
+	private String appid;
+	
 
-    @Column(name = "SUBSCRIBE")
-    private String subscribe;
 
+    @Length(max=5,message="SEX 长度不能超过5")
+    @Column(name = "SEX")
+	private String sex;
+	
+
+
+    @NotNull(message = "SUB_TIME not allow null")
     @Column(name = "SUB_TIME")
-    private Date subTime;
+	private Date subTime;
+	
 
-    /**
-     * @return OPENID
-     */
-    public String getOpenid() {
-        return openid;
-    }
 
-    /**
-     * @param openid
-     */
-    public void setOpenid(String openid) {
-        this.openid = openid == null ? null : openid.trim();
-    }
+    @Length(max=50,message="PROVINCE 长度不能超过50")
+    @Column(name = "PROVINCE")
+	private String province;
+	
 
-    /**
-     * @return NICKNAME
-     */
-    public String getNickname() {
-        return nickname;
-    }
 
-    /**
-     * @param nickname
-     */
-    public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
-    }
-
-    /**
-     * @return LANGUAGE
-     */
-    public String getLanguage() {
+    @Length(max=5,message="SUBSCRIBE 长度不能超过5")
+    @Column(name = "SUBSCRIBE")
+	private String subscribe;
+	
+		
+	public String getLanguage() {
         return language;
     }
 
-    /**
-     * @param language
-     */
-    public void setLanguage(String language) {
-        this.language = language == null ? null : language.trim();
+	public void setLanguage(String language) {
+    	 this.language = language;
+	}
+		
+	public String getNickname() {
+        return nickname;
     }
 
-    /**
-     * @return SEX
-     */
-    public String getSex() {
-        return sex;
+	public void setNickname(String nickname) {
+    	 this.nickname = nickname;
+	}
+		
+	public String getOpenid() {
+        return openid;
     }
 
-    /**
-     * @param sex
-     */
-    public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
-    }
-
-    /**
-     * @return CITY
-     */
-    public String getCity() {
+	public void setOpenid(String openid) {
+    	 this.openid = openid;
+	}
+		
+	public String getCity() {
         return city;
     }
 
-    /**
-     * @param city
-     */
-    public void setCity(String city) {
-        this.city = city == null ? null : city.trim();
-    }
-
-    /**
-     * @return PROVINCE
-     */
-    public String getProvince() {
-        return province;
-    }
-
-    /**
-     * @param province
-     */
-    public void setProvince(String province) {
-        this.province = province == null ? null : province.trim();
-    }
-
-    /**
-     * @return COUNTRY
-     */
-    public String getCountry() {
+	public void setCity(String city) {
+    	 this.city = city;
+	}
+		
+	public String getCountry() {
         return country;
     }
 
-    /**
-     * @param country
-     */
-    public void setCountry(String country) {
-        this.country = country == null ? null : country.trim();
-    }
-
-    /**
-     * @return APPID
-     */
-    public String getAppid() {
+	public void setCountry(String country) {
+    	 this.country = country;
+	}
+		
+	public String getAppid() {
         return appid;
     }
 
-    /**
-     * @param appid
-     */
-    public void setAppid(String appid) {
-        this.appid = appid == null ? null : appid.trim();
+	public void setAppid(String appid) {
+    	 this.appid = appid;
+	}
+		
+	public String getSex() {
+        return sex;
     }
 
-    /**
-     * @return SUBSCRIBE
-     */
-    public String getSubscribe() {
-        return subscribe;
-    }
-
-    /**
-     * @param subscribe
-     */
-    public void setSubscribe(String subscribe) {
-        this.subscribe = subscribe == null ? null : subscribe.trim();
-    }
-
-    /**
-     * @return SUB_TIME
-     */
-    public Date getSubTime() {
+	public void setSex(String sex) {
+    	 this.sex = sex;
+	}
+		
+	public Date getSubTime() {
         return subTime;
     }
 
-    /**
-     * @param subTime
-     */
-    public void setSubTime(Date subTime) {
-        this.subTime = subTime;
+	public void setSubTime(Date subTime) {
+    	 this.subTime = subTime;
+	}
+		
+	public String getProvince() {
+        return province;
     }
-}
+
+	public void setProvince(String province) {
+    	 this.province = province;
+	}
+		
+	public String getSubscribe() {
+        return subscribe;
+    }
+
+	public void setSubscribe(String subscribe) {
+    	 this.subscribe = subscribe;
+	}
+	}

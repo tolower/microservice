@@ -3,11 +3,11 @@ package com.xmair.restapi.controller;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.xmair.core.entity.TBWeixinUser;
+import com.xmair.core.entity.TbWeixinUser;
 import com.xmair.core.entity.framedb.EmpData;
 import com.xmair.core.mapper.framedb.EmpDataMapper;
-import com.xmair.core.mapper.test1.TBWeixinUserMapper;
-import com.xmair.core.util.PageEntity;
+import com.xmair.core.mapper.test1.TbWeixinUserMapper;
+import com.xmair.core.util.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,23 +20,23 @@ public class MybatisController {
 
 
     @Autowired
-    private TBWeixinUserMapper weixinUserMapper;
+    private TbWeixinUserMapper weixinUserMapper;
 
     @Autowired
     private EmpDataMapper empDataMapper;
 
     @ApiIgnore
     @RequestMapping("/getWeixinUser")
-    public TBWeixinUser getUser() {
-        TBWeixinUser user = weixinUserMapper.selectByPrimaryKey("11112");
+    public TbWeixinUser getUser() {
+        TbWeixinUser user = weixinUserMapper.selectByPrimaryKey("11112");
 
         return user;
     }
 
 
     @RequestMapping("/getOracleUser")
-    public PageEntity getOUser() {
-        PageEntity result=new PageEntity();
+    public PageBean getOUser() {
+        PageBean result=new PageBean();
         PageHelper.startPage(1, 20);
         List<EmpData> list = empDataMapper.selectAll();
 

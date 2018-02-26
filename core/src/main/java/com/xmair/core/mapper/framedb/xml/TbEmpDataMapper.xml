@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmair.core.mapper.framedb.xml.TbEmpDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xmair.core.entity.framedb.TbEmpData" >	
+    <id column="MF_ID" property="mfId" jdbcType="VARCHAR" />
+
+    <result column="PLAN_RPT_FLT_NO" property="planRptFltNo" jdbcType="VARCHAR"  />
+    <result column="CONTACT" property="contact" jdbcType="VARCHAR"  />
+    <result column="DUTY_EXPR_DATE" property="dutyExprDate" jdbcType="DATE"  />
+    <result column="PRFTNL_TYPE" property="prftnlType" jdbcType="VARCHAR"  />
+    <result column="PLAN_RPT_DATE" property="planRptDate" jdbcType="VARCHAR"  />
+    <result column="IN_DUTY_DOCNO" property="inDutyDocno" jdbcType="VARCHAR"  />
+    <result column="JOB_TIME" property="jobTime" jdbcType="VARCHAR"  />
+    <result column="PARTY_ENTR_DATE" property="partyEntrDate" jdbcType="DATE"  />
+    <result column="SPCL_MEMO" property="spclMemo" jdbcType="VARCHAR"  />
+    <result column="ENTR_MF_DATE" property="entrMfDate" jdbcType="DATE"  />
+    <result column="HOUSE_BOOK" property="houseBook" jdbcType="VARCHAR"  />
+    <result column="RE_WORK_DATE" property="reWorkDate" jdbcType="DATE"  />
+    <result column="ARCH_ID" property="archId" jdbcType="VARCHAR"  />
+    <result column="EMP_SID" property="empSid" jdbcType="DECIMAL"  />
+    <result column="NATIVE_PLACE" property="nativePlace" jdbcType="VARCHAR"  />
+    <result column="CERT_NO" property="certNo" jdbcType="VARCHAR"  />
+    <result column="CTRCT_PLACE" property="ctrctPlace" jdbcType="VARCHAR"  />
+    <result column="DEP_NAME" property="depName" jdbcType="VARCHAR"  />
+    <result column="BIRTHDAY" property="birthday" jdbcType="DATE"  />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR"  />
+    <result column="DIPLOMA_TYPE" property="diplomaType" jdbcType="VARCHAR"  />
+    <result column="E0122" property="e0122" jdbcType="VARCHAR"  />
+    <result column="MGMT_LEVEL" property="mgmtLevel" jdbcType="VARCHAR"  />
+    <result column="EMP_TYPE" property="empType" jdbcType="VARCHAR"  />
+    <result column="WHEN_IN_DUTY" property="whenInDuty" jdbcType="VARCHAR"  />
+    <result column="PLAN_ID" property="planId" jdbcType="VARCHAR"  />
+    <result column="DORM_ADDR" property="dormAddr" jdbcType="VARCHAR"  />
+    <result column="MGMT_LEVEL_NO" property="mgmtLevelNo" jdbcType="VARCHAR"  />
+    <result column="TYPEID" property="typeid" jdbcType="VARCHAR"  />
+    <result column="SPCL_ORIENTATION" property="spclOrientation" jdbcType="VARCHAR"  />
+    <result column="SMPL_NAME" property="smplName" jdbcType="VARCHAR"  />
+    <result column="CATALOG_TYPE" property="catalogType" jdbcType="VARCHAR"  />
+    <result column="JOB_TYPE" property="jobType" jdbcType="VARCHAR"  />
+    <result column="POST_ALL" property="postAll" jdbcType="VARCHAR"  />
+    <result column="DEGREE" property="degree" jdbcType="VARCHAR"  />
+    <result column="RPT_PROGRESS_MEMO" property="rptProgressMemo" jdbcType="VARCHAR"  />
+    <result column="ID_CARD" property="idCard" jdbcType="VARCHAR"  />
+    <result column="NATIONALITY" property="nationality" jdbcType="VARCHAR"  />
+    <result column="QA_JOB_LEVEL" property="qaJobLevel" jdbcType="VARCHAR"  />
+    <result column="PLAN_RPT_CITY" property="planRptCity" jdbcType="VARCHAR"  />
+    <result column="CTRCT_FROM_DATE" property="ctrctFromDate" jdbcType="DATE"  />
+    <result column="DUTY_DATE" property="dutyDate" jdbcType="DATE"  />
+    <result column="ABORNAL_MEMO" property="abornalMemo" jdbcType="VARCHAR"  />
+    <result column="TRAINING_STATUS" property="trainingStatus" jdbcType="VARCHAR"  />
+    <result column="POST_TYPE" property="postType" jdbcType="VARCHAR"  />
+    <result column="QA_IN_DUTY" property="qaInDuty" jdbcType="VARCHAR"  />
+    <result column="JOB_WAIT_ID" property="jobWaitId" jdbcType="VARCHAR"  />
+    <result column="RECRUIT_TYPE_MEMO" property="recruitTypeMemo" jdbcType="VARCHAR"  />
+    <result column="WORK_DATE" property="workDate" jdbcType="DATE"  />
+    <result column="PRFTNL_NAME" property="prftnlName" jdbcType="VARCHAR"  />
+    <result column="PARTY_TYPE" property="partyType" jdbcType="VARCHAR"  />
+    <result column="UNIT_NAME" property="unitName" jdbcType="VARCHAR"  />
+    <result column="WORK_POST" property="workPost" jdbcType="VARCHAR"  />
+    <result column="FULL_NAME" property="fullName" jdbcType="VARCHAR"  />
+    <result column="PLAN_RPT_FLT_DATE" property="planRptFltDate" jdbcType="DATE"  />
+    <result column="GENDER" property="gender" jdbcType="VARCHAR"  />
+    <result column="GRADUTE_SCHOOL" property="graduteSchool" jdbcType="VARCHAR"  />
+    <result column="BONUS_CARD_PLACE" property="bonusCardPlace" jdbcType="VARCHAR"  />
+    <result column="RETIRE_DATE" property="retireDate" jdbcType="DATE"  />
+    <result column="OFFICE_NAME" property="officeName" jdbcType="VARCHAR"  />
+    <result column="STU_ORIGIN" property="stuOrigin" jdbcType="VARCHAR"  />
+    <result column="QUIT_DATE" property="quitDate" jdbcType="DATE"  />
+    <result column="AGE" property="age" jdbcType="DECIMAL"  />
+    <result column="POST_ID" property="postId" jdbcType="VARCHAR"  />
+    <result column="STUDY_TYPE" property="studyType" jdbcType="VARCHAR"  />
+    <result column="CTRCT_EXPR_DATE" property="ctrctExprDate" jdbcType="DATE"  />
+    <result column="QA_DATE" property="qaDate" jdbcType="DATE"  />
+    <result column="CN_NAME" property="cnName" jdbcType="VARCHAR"  />
+    <result column="QA_JOB_TYPE" property="qaJobType" jdbcType="VARCHAR"  />
+    <result column="EKP_MAIN" property="ekpMain" jdbcType="VARCHAR"  />
+    <result column="ARMS_SPCL" property="armsSpcl" jdbcType="VARCHAR"  />
+    <result column="CTRCT_TYPE" property="ctrctType" jdbcType="VARCHAR"  />
+    <result column="DUTY_NAME" property="dutyName" jdbcType="VARCHAR"  />
+    <result column="RECRUIT_POST" property="recruitPost" jdbcType="VARCHAR"  />
+    <result column="ENROLL_FROM" property="enrollFrom" jdbcType="VARCHAR"  />
+    <result column="HOUSE_BOOOK_TYPE" property="houseBoookType" jdbcType="VARCHAR"  />
+    <result column="PRFTNL_SERIAL" property="prftnlSerial" jdbcType="VARCHAR"  />
+    <result column="PRFTNL_DATE" property="prftnlDate" jdbcType="DATE"  />
+    <result column="GRADUATE_DATE" property="graduateDate" jdbcType="DATE"  />
+
+  </resultMap>
+ </mapper>

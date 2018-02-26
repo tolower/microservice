@@ -2,21 +2,27 @@ package com.xmair.restapi.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xmair.core.util.DateConverter;
 import com.xmair.restapi.apiversion.VersionHandlerMapping;
 import io.undertow.UndertowOptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import javax.annotation.PostConstruct;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +32,22 @@ import java.util.TimeZone;
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport {
 
+    @Autowired
+    private RequestMappingHandlerAdapter handlerAdapter;
+
+    /**
+     * 增加字符串转日期的功能
+     */
+    @PostConstruct
+    public void initEditableValidation() {
+        ConfigurableWebBindingInitializer initializer = (ConfigurableWebBindingInitializer) handlerAdapter
+                .getWebBindingInitializer();
+        if (initializer.getConversionService() != null) {
+            GenericConversionService genericConversionService = (GenericConversionService) initializer
+                    .getConversionService();
+            genericConversionService.addConverter(new DateConverter());
+        }
+    }
 
     /*增加ajax跨域访问支持*/
     @Override

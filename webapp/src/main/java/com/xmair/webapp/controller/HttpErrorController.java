@@ -1,9 +1,10 @@
 package com.xmair.webapp.controller;
 
-import com.xmair.core.exception.ErrorCodeEnum;
-import com.xmair.core.exception.ExceptionResult;
+import com.xmair.core.util.ResultBean;
+import com.xmair.core.util.ResultCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,10 +19,10 @@ public class HttpErrorController implements ErrorController {
 
     @RequestMapping(value="/error")
     @ResponseBody
-    public ExceptionResult handleError(){
-        ExceptionResult result=new ExceptionResult();
-        result.setErrCode(ErrorCodeEnum.PAGE_404.toString());
-        result.setErrMsg("找不到该wangye");
+    public ResultBean<String> handleError(){
+        ResultBean<String> result=new ResultBean<String>();
+        result.setCode(ResultCodeEnum.PAGE_404.toString());
+        result.setMessage("找不到该网页");
         return result;
     }
 
