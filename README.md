@@ -7,6 +7,17 @@
 * 安全性
 * 简单易用
 * 可运维监控
+## 2018-2-27 更新日志
+1、返回统一的数据格式ResultBean，考虑异常返回
+2、参数中不能出现 jsonstring  map之类的复杂参数
+3、create应该返回新对象的id标识
+4、Controller做参数格式的转换，不允许把json，map这类对象传到services去，也不允许services返回json、map
+5、参数中一般情况不允许出现Request，Response这些对象
+6、controller不允许catch 异常，抛出BIZexception，统一交给aop进行最后的处理
+7、后台异常一定要有通知机制
+8、修改新增操作必须打印日志
+9、在controlleradvice中统一处理参数校验异常
+
 
 ## 2018-2-26 更新日志
 1、整理数据校验、restapi最佳开发实践
