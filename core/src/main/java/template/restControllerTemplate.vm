@@ -3,6 +3,7 @@ import ${modelPackage}.${beanName};
 import ${mapperPackage}.${beanName}Mapper;
 import com.xmair.core.util.ResultBean;
 import com.xmair.core.util.ResultCodeEnum;
+import org.springframework.validation.annotation.Validated;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import com.xmair.restapi.apiversion.ApiVersion;
@@ -10,11 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.xmair.core.util.JsonUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
 * <p>
     * </p>
@@ -28,6 +30,7 @@ import java.util.List;
 @ApiVersion(1)
 public class ${beanName}Controller {
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private HttpServletRequest request;
     @Autowired
@@ -57,22 +60,25 @@ public class ${beanName}Controller {
     }
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public ResultBean<Integer> create(${beanName} item){
+    public ResultBean<String> create(@Validated ${beanName} item){
         int  result= mapper.insert(item);
-        ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
+        logger.info("create ${beanName} success,record,{}"+ JsonUtil.bean2Json(item));
+        ResultBean<String> resultBean=new ResultBean<String>("");
         return  resultBean;
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public ResultBean<Integer> update(${beanName} item){
+    public ResultBean<String> update(@Validated ${beanName} item){
         int  result=  mapper.updateByPrimaryKey(item);
-        ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
+        logger.info("update ${beanName} success,record,{}"+ JsonUtil.bean2Json(item));
+        ResultBean<String> resultBean=new ResultBean<String>("");
         return  resultBean;
     }
 
     @RequestMapping(value = "/deleteByID",method = RequestMethod.POST)
     public ResultBean<Integer> delete(String id){
         int  result=  mapper.deleteByPrimaryKey(id);
+        logger.info("delete ${beanName} success,record id,{}"+ id);
         ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
         return  resultBean;
     }

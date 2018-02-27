@@ -9,7 +9,7 @@ import tk.mybatis.mapper.common.Mapper;
  * </p>
  * 
  * @author wuzuquan
- * @date 2018-02-26 13:45:57
+ * @date 2018-02-27 16:54:34
  * @version
  */
 public interface TbWeixinUserMapper extends Mapper<TbWeixinUser> {

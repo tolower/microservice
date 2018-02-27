@@ -14,7 +14,7 @@ import java.util.Date;
  * </p>
  * 
  * @author wuzuquan
- * @date 2018-02-26 13:45:57
+ * @date 2018-02-27 16:54:34
  * @version
  */
 @Table(name = "tb_weixin_user")
