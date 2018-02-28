@@ -40,12 +40,13 @@ public class TbEmpDataController {
     @ApiImplicitParam(name = "id", value = "用户ID", required = true)
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     public ResultBean<TbEmpData> get(String id){
-        TbEmpData item=  mapper.selectByPrimaryKey(id);
+        return new ResultBean<TbEmpData>(ResultCodeEnum.RESOURCE_NOT_FOUND,"找不到该记录",null);
+        /*TbEmpData item=  mapper.selectByPrimaryKey(id);
         if(item!=null){
             return new ResultBean<TbEmpData>(item);
         }else {
-            return new ResultBean<TbEmpData>(ResultCodeEnum.FAILTURE.toString(),"找不到该记录",null);
-        }
+            return new ResultBean<TbEmpData>(ResultCodeEnum.RESOURCE_NOT_FOUND,"找不到该记录",null);
+        }*/
     }
 
 

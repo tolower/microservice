@@ -33,7 +33,7 @@ public class RestExceptionHandler {
 
     /**
      * 统一处理bean验证抛出的参数校验异常
-     *
+     * 参数校验失败，统一采用warn记录日志
      * @see javax.validation.Valid
      * @see org.springframework.validation.Validator
      * @see org.springframework.validation.DataBinder
@@ -41,10 +41,10 @@ public class RestExceptionHandler {
     @ExceptionHandler(BindException.class)
     public ResultBean<List<FieldError>> validExceptionHandler(BindException e, WebRequest request, HttpServletResponse response) {
 
-        logger.error("参数校验失败,{}", JsonUtil.bean2Json(e.getTarget()));
+        logger.warn("参数校验失败,{}", JsonUtil.bean2Json(e.getTarget()));
         List<FieldError> fieldErrors=e.getBindingResult().getFieldErrors();
 
-        return  new ResultBean<List<FieldError>>(ResultCodeEnum.FAILTURE.toString(),"argument invalid",fieldErrors);
+        return  new ResultBean<>(ResultCodeEnum.ARGUMENTS_INVALID,"arguments invalid",fieldErrors);
 
     }
 
@@ -59,7 +59,7 @@ public class RestExceptionHandler {
     public ResultBean<String> runtimeExceptionHandler(Exception e) {
         logger.error("运行时异常：【{}】", e.getMessage());
         ResultBean<String> result=new ResultBean<String>();
-        result.setCode("SystemError");
+        result.setCode(ResultCodeEnum.SERVER_ERROR);
         result.setMessage(e.getMessage());
         return result;
     }
@@ -73,11 +73,9 @@ public class RestExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     @ResponseStatus(code = HttpStatus.OK)
     public ResultBean<String> logicException(BusinessException e) {
-        logger.error("遇到业务逻辑异常：【{}】", e.getErrCode());
+        logger.error("遇到业务逻辑异常：【{}】", e.getErrCode(),e);
         // 返回响应实体内容
-        ResultBean<String> result=new ResultBean<String>();
-        result.setCode(e.getErrCode());
-        result.setMessage(e.getErrMsg());
+        ResultBean<String> result=new ResultBean<String>(ResultCodeEnum.BUSINESS_ERROR,e.getErrMsg(),"业务异常");
         return result;
     }
 

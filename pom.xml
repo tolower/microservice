@@ -14,8 +14,6 @@
 		<module>restapi</module>
 		<module>webapp</module>
 		<module>job</module>
-		<module>grpc</module>
-		<module>grpc-client</module>
 	</modules>
 
 	<name>microservice</name>

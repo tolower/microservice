@@ -75,7 +75,7 @@ oauthserver 、client为spring boot +oltu搭建oauth sso的方案原型
 
 ##开发框架包含的组件功能
 spring boot集成的组件包括但不限于：
-* 运行环境：tomcat 相关jar包，无需再单独安装tomcat，简化开发部署
+* 运行环境：默认集成tomcat jar包，此外还包括jetty  undertow，undertow最为轻量高性能，选择undertow
 * 数据访问：推荐使用mybatis 、连接池druid
 * 后台代码生成工具：mybaits gen，自动生成model、xml、mapper
 * 数据库分页：pagehelper

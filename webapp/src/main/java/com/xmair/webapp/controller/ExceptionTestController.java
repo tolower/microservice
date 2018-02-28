@@ -21,7 +21,7 @@ public class ExceptionTestController {
          * 抛出业务逻辑异常
          */
         if (true) {
-            throw new BusinessException(ResultCodeEnum.USER_STATUS_FAILD.toString(),"111");
+            throw new BusinessException(ResultCodeEnum.BUSINESS_ERROR.toString(),"111","");
         }
         return "ttttttttttttttt";
     }

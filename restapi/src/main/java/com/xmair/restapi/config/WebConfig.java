@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xmair.core.util.DateConverter;
 import com.xmair.restapi.apiversion.VersionHandlerMapping;
 import io.undertow.UndertowOptions;
+import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
@@ -28,12 +29,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport {
 
     @Autowired
     private RequestMappingHandlerAdapter handlerAdapter;
+
+
 
     /**
      * 增加字符串转日期的功能

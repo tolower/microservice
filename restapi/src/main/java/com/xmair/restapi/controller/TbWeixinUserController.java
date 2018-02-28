@@ -47,7 +47,7 @@ public class TbWeixinUserController {
         if(item!=null){
             return new ResultBean<TbWeixinUser>(item);
         }else {
-            return new ResultBean<TbWeixinUser>(ResultCodeEnum.FAILTURE.toString(),"找不到该记录",null);
+            return new ResultBean<TbWeixinUser>(ResultCodeEnum.RESOURCE_NOT_FOUND,"找不到该记录",null);
         }
     }
 

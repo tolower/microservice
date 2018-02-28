@@ -47,7 +47,7 @@ public class UserController {
         if(item!=null){
             return new ResultBean<User>(item);
         }else {
-            return new ResultBean<User>(ResultCodeEnum.FAILTURE.toString(),"找不到该记录",null);
+            return new ResultBean<User>(ResultCodeEnum.RESOURCE_NOT_FOUND,"找不到该记录",null);
         }
     }
 
@@ -59,6 +59,8 @@ public class UserController {
         return  resultBean;
     }
 
+    /**
+     * 是的发顺丰*/
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public ResultBean<String> create(@Validated User item){
         int  result= mapper.insert(item);
