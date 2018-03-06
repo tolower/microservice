@@ -100,7 +100,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
         stringConverter.setDefaultCharset(Charset.forName("utf-8"));
         converters.add(0,stringConverter);
         converters.add(0,getCustomJacksonConverter());
-        converters.add(new ProtobufHttpMessageConverter());
+
     }
 
 

@@ -40,14 +40,13 @@ public class ${beanName}Controller {
 
 
     @ApiOperation(value="获取单条记录", notes="根据url的id来获取详细信息")
-    @ApiImplicitParam(name = "id", value = "用户ID", required = true)
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     public ResultBean<${beanName}> get(String id){
         ${beanName} item=  mapper.selectByPrimaryKey(id);
         if(item!=null){
             return new ResultBean<${beanName}>(item);
         }else {
-            return new ResultBean<${beanName}>(ResultCodeEnum.FAILTURE.toString(),"找不到该记录",null);
+            return new ResultBean<${beanName}>(ResultCodeEnum.RESOURCE_NOT_FOUND,"找不到该记录",null);
         }
     }
 

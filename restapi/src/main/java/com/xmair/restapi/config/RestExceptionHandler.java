@@ -57,7 +57,7 @@ public class RestExceptionHandler {
     @ExceptionHandler
     @ResponseStatus
     public ResultBean<String> runtimeExceptionHandler(Exception e) {
-        logger.error("运行时异常：【{}】", e.getMessage());
+        logger.error("运行时异常：【{}】", e.getMessage(),e);
         ResultBean<String> result=new ResultBean<String>();
         result.setCode(ResultCodeEnum.SERVER_ERROR);
         result.setMessage(e.getMessage());

@@ -28,17 +28,20 @@ public class RestClientConfig {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
                 .connectionPool(pool)
+                .addNetworkInterceptor(new OkHttpInterceptor())
                 .retryOnConnectionFailure(true);
         return builder.build();
     }
 
     @Bean
     public ClientHttpRequestFactory OkHttp3Factory() {
+
         return new OkHttp3ClientHttpRequestFactory(okHttpClient());
     }
 
     @Bean
     public RestTemplate restTemplate() {
+
         return new RestTemplate(OkHttp3Factory());
     }
 

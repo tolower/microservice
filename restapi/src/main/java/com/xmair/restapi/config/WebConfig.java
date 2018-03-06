@@ -78,10 +78,21 @@ public class WebConfig extends WebMvcConfigurationSupport {
         //设置中文编码格式
         List<MediaType> list = new ArrayList<MediaType>();
         list.add(MediaType.APPLICATION_JSON_UTF8);
+        list.add(MediaType.APPLICATION_JSON);
         mappingJackson2HttpMessageConverter.setSupportedMediaTypes(list);
         return mappingJackson2HttpMessageConverter;
     }
 
+    //添加protobuf支持，需要client指定accept-type：application/x-protobuf
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
+        stringConverter.setDefaultCharset(Charset.forName("utf-8"));
+        converters.add(0,stringConverter);
+        converters.add(0,getCustomJacksonConverter());
+
+       // converters.add(1,new ProtobufHttpMessageConverter());
+    }
 
     @Override
     @Bean
@@ -124,15 +135,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
 
 
-    //添加protobuf支持，需要client指定accept-type：application/x-protobuf
-    @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
-        stringConverter.setDefaultCharset(Charset.forName("utf-8"));
-        converters.add(0,stringConverter);
-        converters.add(0,getCustomJacksonConverter());
-        converters.add(new ProtobufHttpMessageConverter());
-    }
+
 
 
     /*设置默认首页*/

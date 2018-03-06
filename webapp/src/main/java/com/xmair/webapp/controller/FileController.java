@@ -68,6 +68,7 @@ public class FileController {
     {
         User user=userMapper.selectByPrimaryKey(id);
 
+
         if(user==null){
             throw new BusinessException(ResultCodeEnum.RESOURCE_NOT_FOUND.toString(),"找不到文件");
         }
@@ -78,6 +79,8 @@ public class FileController {
                         URLEncoder.encode(user.getName(),"UTF-8")));
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");
+
+
 
         return ResponseEntity
                 .ok()
