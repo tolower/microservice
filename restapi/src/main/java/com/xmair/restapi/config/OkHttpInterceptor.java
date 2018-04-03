@@ -24,6 +24,7 @@ public class OkHttpInterceptor implements Interceptor {
                 .header("token", "test")
                 //.header("Accept","application/x-protobuf")
                 .build();
+        System.out.println();
         return chain.proceed(updateRequest);
     }
 }

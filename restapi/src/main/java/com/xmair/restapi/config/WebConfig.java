@@ -152,6 +152,9 @@ public class WebConfig extends WebMvcConfigurationSupport {
         AntPathMatcher pathMatcher = new AntPathMatcher();
         pathMatcher.setCaseSensitive(false);
         configurer.setPathMatcher(pathMatcher);
+        configurer.setUseSuffixPatternMatch(false).
+                setUseTrailingSlashMatch(true);
     }
+
 
 }

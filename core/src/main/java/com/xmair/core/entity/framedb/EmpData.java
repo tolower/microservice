@@ -247,6 +247,7 @@ public class EmpData {
     @Column(name = "POST_ALL")
     private String postAll;
 
+    
     /**
      * @return MF_ID
      */

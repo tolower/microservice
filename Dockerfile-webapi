@@ -1,0 +1,6 @@
+FROM docker.io/openjdk:8-jre-alpine
+MAINTAINER wuzuzuquan 
+
+ADD webapi-1.0.0.jar server.jar
+ENTRYPOINT ["java","-jar","/server.jar"]
+EXPOSE 8080

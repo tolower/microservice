@@ -1,12 +1,14 @@
 package com.xmair.core.entity.framedb;
 
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 public class A1001 {
     @Column(name = "ORGAN_ID")
     private String organId;
 
+    @Id
     @Column(name = "ORGAN_CODE")
     private String organCode;
 
@@ -40,6 +42,16 @@ public class A1001 {
     @Column(name = "FULL_PATH")
     private String fullPath;
 
+
+    public List<TbEmpData> getEmpDataList() {
+        return empDataList;
+    }
+
+    public void setEmpDataList(List<TbEmpData> empDataList) {
+        this.empDataList = empDataList;
+    }
+
+    private List<TbEmpData> empDataList;
     /**
      * @return ORGAN_ID
      */
