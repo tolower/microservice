@@ -109,12 +109,22 @@
 		</dependency>
 
 
-
+<!-- spring boot redis 集成的是jedis，jedis对redis cluster集群支持不够，没有实现slave节点的读，
+替换为redisson
+-->
+		<!--
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
+		-->
 
+		<!-- https://mvnrepository.com/artifact/org.redisson/redisson -->
+		<dependency>
+			<groupId>org.redisson</groupId>
+			<artifactId>redisson</artifactId>
+			<version>3.6.4</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.dyuproject.protostuff/protostuff-core -->
 		<!-- https://mvnrepository.com/artifact/io.protostuff/protostuff-core -->

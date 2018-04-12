@@ -1,7 +1,5 @@
 package com.xmair.restapi;
 
-import com.xmair.core.configuration.ConfigBean;
-import io.undertow.UndertowOptions;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.MDC;
 import org.springframework.boot.SpringApplication;
@@ -15,10 +13,8 @@ import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapAutoConf
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.MultipartAutoConfiguration;
 import org.springframework.boot.autoconfigure.websocket.WebSocketAutoConfiguration;
-import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.net.InetAddress;
@@ -36,7 +32,6 @@ import java.net.UnknownHostException;
 		HibernateJpaAutoConfiguration.class
 })
 @ComponentScan(basePackages = "com.xmair.restapi")
-@EnableConfigurationProperties({ConfigBean.class})
 @MapperScan("com.xmair.core.mapper")
 @EnableDiscoveryClient
 public class RestapiApplication {

@@ -5,10 +5,13 @@ import io.protostuff.LinkedBuffer;
 import io.protostuff.ProtostuffIOUtil;
 import io.protostuff.Schema;
 import io.protostuff.runtime.RuntimeSchema;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.SerializationException;
 
-public class ProtoSerializer implements RedisSerializer<Object> {
+public class ProtoSerializer{
+
+}
+/*
+
+        implements RedisSerializer<Object> {
     static final byte[] EMPTY_ARRAY = new byte[0];
 
     static final boolean isEmpty(byte[] data) {
@@ -50,4 +53,4 @@ public class ProtoSerializer implements RedisSerializer<Object> {
         return newMessage.data;
     }
 
-}
+}*/

@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +27,7 @@ public class RedisController {
     @Autowired
     private RedisTemplate redisTemplate;
 
+
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     @ResponseBody
     public User test(){
@@ -33,9 +35,9 @@ public class RedisController {
         stringRedisTemplate.opsForValue().set("aaa", "111");
         System.out.println(stringRedisTemplate.opsForValue().get("aaa"));
 
-
         ValueOperations<String, List<EmpData>> operations1=redisTemplate.opsForValue();
 
+        
         PageHelper.startPage(1, 20);
         List<EmpData> list = empDataMapper.selectAll();
         operations1.set("protolist", list);

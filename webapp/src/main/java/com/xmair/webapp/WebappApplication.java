@@ -1,7 +1,5 @@
 package com.xmair.webapp;
 
-import com.xmair.core.configuration.ConfigBean;
-import com.xmair.core.entity.framedb.TbEmpData;
 import io.undertow.UndertowOptions;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.xmair.webapp")
-@EnableConfigurationProperties({ConfigBean.class})
 @MapperScan("com.xmair.core.mapper")
 public class WebappApplication {
 

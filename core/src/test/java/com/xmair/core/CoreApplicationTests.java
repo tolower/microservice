@@ -1,10 +1,18 @@
 package com.xmair.core;
 
 import com.xmair.core.entity.framedb.EmpData;
+import com.xmair.core.entity.framedb.TbEmpData;
 import com.xmair.core.mapper.framedb.EmpDataMapper;
 import com.xmair.core.util.SpringBeanTools;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.redisson.Redisson;
+import org.redisson.api.RBucket;
+import org.redisson.api.RKeys;
+import org.redisson.api.RMap;
+import org.redisson.api.RedissonClient;
+import org.redisson.client.codec.Codec;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -25,6 +33,10 @@ public class CoreApplicationTests {
 		EmpData empData=mapper.selectByPrimaryKey("06645");
 		System.out.println(empData.getCnName());
 	}
+
+
+
+
 
 	@Test
 	public void contextLoads() {

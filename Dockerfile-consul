@@ -7,7 +7,7 @@ RUN mkdir -p /consul/data && \
 VOLUME /consul/data
 ADD consul /bin
 
-EXPOSE 8300
+EXPOSE 8300 53
 
 # Serf LAN and WAN (WAN is used only by Consul servers) are used for gossip between
 # Consul agents. LAN is within the datacenter and WAN is between just the Consul

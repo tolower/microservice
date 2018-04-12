@@ -7,6 +7,11 @@
 * 安全性
 * 简单易用
 * 可运维监控
+
+## 2018-4-12 更新日志
+1、在rancher中搭建redis cluster，配置文件详见core模块下的dev配置文件
+2、redisson对分布式支持良好，弃用jedis、spring-data-redis
+
 ## 2018-2-27 更新日志
 1、返回统一的数据格式ResultBean，考虑异常返回
 2、参数中不能出现 jsonstring  map之类的复杂参数
