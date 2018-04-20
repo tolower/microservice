@@ -8,6 +8,12 @@
 * 简单易用
 * 可运维监控
 
+
+
+## 2018-4-20 更新日志
+1、prometheus客户端替代actuator，暴露prometheus性能监控接口，添加prometheus拦截器收集性能数据
+2、测试redis分布式集群密码模式
+
 ## 2018-4-12 更新日志
 1、在rancher中搭建redis cluster，配置文件详见core模块下的dev配置文件
 2、redisson对分布式支持良好，弃用jedis、spring-data-redis

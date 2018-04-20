@@ -1,5 +1,7 @@
 package com.xmair.restapi;
 
+import io.prometheus.client.spring.boot.EnablePrometheusEndpoint;
+import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.MDC;
 import org.springframework.boot.SpringApplication;
@@ -34,6 +36,8 @@ import java.net.UnknownHostException;
 @ComponentScan(basePackages = "com.xmair.restapi")
 @MapperScan("com.xmair.core.mapper")
 @EnableDiscoveryClient
+@EnablePrometheusEndpoint
+@EnableSpringBootMetricsCollector
 public class RestapiApplication {
 
 
@@ -45,7 +49,10 @@ public class RestapiApplication {
 			e.printStackTrace();
 		}
 		SpringApplication.run(RestapiApplication.class, args);
+
+
 	}
+
 
 
 

@@ -5,13 +5,17 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xmair.core.exception.BusinessException;
 import com.xmair.core.util.ProtoSerializer;
 import org.apache.velocity.runtime.directive.Foreach;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
+import org.redisson.client.RedisConnectionException;
 import org.redisson.config.ClusterServersConfig;
 import org.redisson.config.Config;
 import org.redisson.config.ReadMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -25,13 +29,18 @@ import java.util.List;
 @ConfigurationProperties(prefix = "spring.redisson")
 public class RedisConfig
 {
-
+    /**
+     * 日志对象
+     */
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Bean
     public RedissonClient initRedissonClient () {
         Config config = new Config();
 
         ClusterServersConfig serversConfig=config.useClusterServers();
-
+        if(!password.equals("")) {
+            serversConfig.setPassword(password);
+        }
         serversConfig.setReadMode(ReadMode.MASTER_SLAVE);
         serversConfig.setMasterConnectionMinimumIdleSize(masterConnectionMinimumIdleSize);
         serversConfig.setSlaveConnectionMinimumIdleSize(slaveConnectionMinimumIdleSize);
@@ -39,12 +48,28 @@ public class RedisConfig
 
         // 使用 lambda 表达式以及函数操作(functional operation)
         nodeAddresses.forEach((node) -> serversConfig.addNodeAddress(node));
+        try {
+            RedissonClient redisson = Redisson.create(config);
+            return  redisson;
+        }catch (RedisConnectionException e)
+        {
+            logger.error("redis connect error",e);
+            return  null;
+        }
 
-        RedissonClient redisson = Redisson.create(config);
-        return  redisson;
     }
 
     private  String readMode;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private  String password;
 
     private  String retryAttempts;
 

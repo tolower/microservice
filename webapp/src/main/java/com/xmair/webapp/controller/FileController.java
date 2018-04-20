@@ -1,7 +1,6 @@
 package com.xmair.webapp.controller;
 
 import com.xmair.core.entity.User;
-import com.xmair.core.mapper.test1.UserMapper;
 import com.xmair.core.util.ResultCodeEnum;
 import com.xmair.core.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import java.util.Random;
 @Controller
 @RequestMapping(value= "/file")
 public class FileController {
-
+/*
     @Autowired
     private UserMapper userMapper;
 
@@ -94,5 +93,5 @@ public class FileController {
     @GetMapping("/uploadStatus")
     public String uploadStatus() {
         return "/file/uploadStatus";
-    }
+    }*/
 }

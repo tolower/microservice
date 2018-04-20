@@ -157,4 +157,9 @@ public class WebConfig extends WebMvcConfigurationSupport {
     }
 
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new PrometheusMetricsInterceptor()).addPathPatterns("/**");
+    }
+
 }
