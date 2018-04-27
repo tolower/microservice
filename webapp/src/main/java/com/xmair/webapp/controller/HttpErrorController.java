@@ -1,10 +1,9 @@
 package com.xmair.webapp.controller;
 
 import com.xmair.core.util.ResultBean;
-import com.xmair.core.util.ResultCodeEnum;
+import com.xmair.core.exception.ResultCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

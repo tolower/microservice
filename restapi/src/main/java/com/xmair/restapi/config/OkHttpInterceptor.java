@@ -1,6 +1,7 @@
 package com.xmair.restapi.config;
 
 import okhttp3.Interceptor;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.slf4j.Logger;
@@ -19,6 +20,9 @@ public class OkHttpInterceptor implements Interceptor {
         i+=1;
 
         logger.info(String.format("sending request %s ,%d",originalRequest.url(),i));
+
+
+
         // get new request, add request header
         Request updateRequest = originalRequest.newBuilder()
                 .header("token", "test")

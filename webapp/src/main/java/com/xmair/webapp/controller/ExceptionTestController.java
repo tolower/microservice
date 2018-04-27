@@ -1,6 +1,6 @@
 package com.xmair.webapp.controller;
 
-import com.xmair.core.util.ResultCodeEnum;
+import com.xmair.core.exception.ResultCodeEnum;
 import com.xmair.core.exception.BusinessException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

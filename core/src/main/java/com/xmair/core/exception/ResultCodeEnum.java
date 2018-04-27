@@ -1,4 +1,4 @@
-package com.xmair.core.util;
+package com.xmair.core.exception;
 
 /*
 * 异常代码枚举

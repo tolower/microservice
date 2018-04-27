@@ -1,5 +1,7 @@
 package com.xmair.core.util;
 
+import com.xmair.core.exception.ResultCodeEnum;
+
 import java.io.Serializable;
 
 /*

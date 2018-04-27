@@ -4,7 +4,7 @@ package ${controllerPackage};
 import ${modelPackage}.${beanName};
 import ${mapperPackage}.${beanName}Mapper;
 
-import com.xmair.core.util.ResultCodeEnum;
+import com.xmair.core.exception.ResultCodeEnum;
 import com.xmair.core.exception.ResponseEntity;
 import com.xmair.restapi.apiversion.ApiVersion;
 import org.springframework.beans.factory.annotation.Autowired;
