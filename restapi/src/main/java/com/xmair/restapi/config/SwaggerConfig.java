@@ -33,7 +33,8 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Spring Boot中使用Swagger2构建RESTful APIs")
-                .description("统一授权api文档")
+                .description("api文档")
+
                 .termsOfServiceUrl("http://www.xiamenair.com/")
                 .contact("12")
                 .version("1.0")

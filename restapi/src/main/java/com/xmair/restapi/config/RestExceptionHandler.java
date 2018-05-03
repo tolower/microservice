@@ -66,7 +66,7 @@ public class RestExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     @ResponseStatus(code = HttpStatus.OK)
     public ResultBean<String> logicException(BusinessException e) {
-        logger.error("遇到业务逻辑异常：【{}】", e.getErrCode(),e);
+        logger.error("业务逻辑异常：【{}】", e.getMessage(),e);
         // 返回响应实体内容
         ResultBean<String> result=new ResultBean<String>(ResultCodeEnum.BUSINESS_ERROR,e.getErrMsg(),"业务异常");
         return result;

@@ -33,6 +33,12 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-consul-discovery</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-security-rsa</artifactId>
+					<groupId>org.springframework.security</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
 		<dependency>

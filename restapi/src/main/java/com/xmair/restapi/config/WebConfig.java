@@ -120,7 +120,14 @@ public class WebConfig extends WebMvcConfigurationSupport {
         super.addResourceHandlers(registry);
     }
 
+    /*设置默认首页*/
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
 
+        registry.addRedirectViewController("/","/swagger-ui.html");
+        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        super.addViewControllers(registry);
+    }
 
     /**
      * 配置servlet处理
@@ -138,15 +145,9 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
 
 
-    /*设置默认首页*/
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/getWeixinUser");
-        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        super.addViewControllers(registry);
-    }
 
-    /*忽略大小写*/
+
+    /*忽略url大小写*/
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
         AntPathMatcher pathMatcher = new AntPathMatcher();
