@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.xmair.core.entity.User;
 import com.xmair.core.entity.framedb.EmpData;
 import com.xmair.core.mapper.framedb.EmpDataMapper;
+import com.xmair.restapi.apiversion.ApiVersion;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class RedisController {
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     @ResponseBody
     public String test(){
+
 
         RMap<String ,String> map=redissonClient.getMap("hash2");
         map.put("name","wuzuquan");

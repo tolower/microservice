@@ -2,8 +2,6 @@ package com.xmair.core.entity.framedb;
 import javax.persistence.*;
 import java.io.Serializable;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 
@@ -18,7 +16,7 @@ import java.math.BigDecimal;
  * </p>
  * 
  * @author wuzuquan
- * @date 2018-03-06 10:39:43
+ * @date 2018-05-04 14:22:09
  * @version
  */
 @Table(name = "TB_EMP_DATA")
@@ -30,7 +28,6 @@ public class TbEmpData implements Serializable {
     @Column(name = "PLAN_RPT_FLT_NO")
 	private String planRptFltNo;
 	
-
 
 
     @Length(max=50,message="CONTACT 长度不能超过50")
@@ -111,7 +108,6 @@ public class TbEmpData implements Serializable {
     @Column(name = "NATIVE_PLACE")
 	private String nativePlace;
 	
-
 
 
     @Length(max=20,message="CERT_NO 长度不能超过20")

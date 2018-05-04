@@ -12,6 +12,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -28,8 +29,13 @@ public class RestAPIController {
     @Autowired
     private OkHttpClient okHttpClient;
 
+
     @Autowired
     private RestTemplate restTemplate;
+    @RequestMapping(value = "/ribbon")
+    public  String testRibbon(){
+        return restTemplate.getForObject("http://api-test/redis/test",String.class);
+    }
 
     @RequestMapping(value = "/index")
     public String index(int number){

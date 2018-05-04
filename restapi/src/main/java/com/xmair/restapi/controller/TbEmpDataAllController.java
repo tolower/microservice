@@ -4,6 +4,7 @@ import com.xmair.core.mapper.framedb.TbEmpDataAllMapper;
 import com.xmair.core.util.ResultBean;
 import com.xmair.core.exception.ResultCodeEnum;
 import org.springframework.validation.annotation.Validated;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import com.xmair.restapi.apiversion.ApiVersion;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import org.slf4j.LoggerFactory;
     * </p>
 *
 * @author wuzuquan
-* @date 2018-03-06 10:39:43
+* @date 2018-05-04 14:22:09
 * @version
 */
 @RestController
@@ -38,6 +39,7 @@ public class TbEmpDataAllController {
     private TbEmpDataAllMapper mapper;
 
 
+    @ApiVersion(2)
     @ApiOperation(value="获取单条记录", notes="根据url的id来获取详细信息")
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     public ResultBean<TbEmpDataAll> get(String id){
@@ -57,6 +59,7 @@ public class TbEmpDataAllController {
         return  resultBean;
     }
 
+    
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public ResultBean<String> create(@Validated TbEmpDataAll item){
         int  result= mapper.insert(item);

@@ -2,6 +2,7 @@ package com.xmair.restapi.config;
 
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -24,9 +25,9 @@ public class RestClientConfig {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         ConnectionPool pool = new ConnectionPool(5, 30, TimeUnit.MINUTES);
 
-        builder.connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
+        builder.connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
                 .connectionPool(pool)
                 .addNetworkInterceptor(new OkHttpInterceptor())
                 .retryOnConnectionFailure(true);
@@ -39,9 +40,9 @@ public class RestClientConfig {
         return new OkHttp3ClientHttpRequestFactory(okHttpClient());
     }
 
+    @LoadBalanced
     @Bean
     public RestTemplate restTemplate() {
-
         return new RestTemplate(OkHttp3Factory());
     }
 
