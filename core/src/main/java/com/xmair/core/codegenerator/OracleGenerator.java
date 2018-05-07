@@ -44,7 +44,7 @@ public class OracleGenerator {
 		config.setModelPackage("com.xmair.core.entity.framedb");
 		//config.setExamplePackage("com.xmair.core.domain.example");
 		config.setMapperPackage("com.xmair.core.mapper.framedb");
-		config.setXmlPackage("com.xmair.core.mapper.framedb.xml");
+		config.setXmlPackage("framedb");
 		config.setRestControllerPackage("com.xmair.restapi.controller");
 		config.setControllerPackage("com.xmair.webapp.controller");
 
@@ -61,10 +61,12 @@ public class OracleGenerator {
 				generator.generateModel(config.getTargetDir(), table);
 				//generateExample(table);
 				generator.generateMapper(config.getTargetDir(),table);
-				generator.generateXml(config.getTargetDir(),table);
+				//generator.generateXml(config.getTargetDir(),table);
 				//restcontroller生成到restapi模块的controller目录
 				String restControllerDir=config.getTargetDir().replace("/core/src","/restapi/src");
 				generator.generateRestAPI(restControllerDir,table);
+				String xmlDir=config.getTargetDir().replace("java/","resources/");
+				generator.generateXml(xmlDir,table);
 			}
 			
 		} catch (Exception e) {

@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
     * </p>
 *
 * @author wuzuquan
-* @date 2018-05-04 14:22:09
+* @date 2018-05-07 08:20:55
 * @version
 */
 @RestController
@@ -39,7 +39,6 @@ public class TbEmpDataAllController {
     private TbEmpDataAllMapper mapper;
 
 
-    @ApiVersion(2)
     @ApiOperation(value="获取单条记录", notes="根据url的id来获取详细信息")
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     public ResultBean<TbEmpDataAll> get(String id){
@@ -59,7 +58,6 @@ public class TbEmpDataAllController {
         return  resultBean;
     }
 
-    
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public ResultBean<String> create(@Validated TbEmpDataAll item){
         int  result= mapper.insert(item);

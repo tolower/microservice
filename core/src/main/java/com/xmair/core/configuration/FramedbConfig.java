@@ -37,7 +37,7 @@ public class FramedbConfig {
         bean.setDataSource(dataSource);
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
-        bean.setMapperLocations(resolver.getResources("classpath:com/xmair/core/mapper/framedb/xml/*.xml"));
+        bean.setMapperLocations(resolver.getResources("classpath:framedb/*.xml"));
         return bean.getObject();
     }
 
