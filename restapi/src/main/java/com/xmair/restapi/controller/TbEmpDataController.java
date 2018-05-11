@@ -1,8 +1,14 @@
 package com.xmair.restapi.controller;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xmair.core.entity.framedb.TbEmpData;
 import com.xmair.core.mapper.framedb.TbEmpDataMapper;
 import com.xmair.core.util.ResultBean;
 import com.xmair.core.exception.ResultCodeEnum;
+import com.xmair.restapi.config.ErrorMessage;
+import com.xmair.restapi.config.UserNotFountException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -14,7 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xmair.core.util.JsonUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.rmi.ServerException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
@@ -51,10 +62,30 @@ public class TbEmpDataController {
     }
 
 
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public TbEmpData getUser(String id){
+        TbEmpData item=null;
+        try {
+
+             item=   mapper.selectByPrimaryKey(id);
+
+        }catch (Exception e){
+            throw new UserNotFountException(id);
+        }
+        if(item!=null){
+            return item;
+        }else {
+            throw new UserNotFountException(id);
+        }
+    }
+
     @RequestMapping(value = "/getlist",method = RequestMethod.GET)
-    public ResultBean<List<TbEmpData>> getList(){
+    public ResultBean<List<TbEmpData>> getList() throws IOException{
         List<TbEmpData> list=  mapper.selectAll();
         ResultBean<List<TbEmpData>> resultBean=new ResultBean<List<TbEmpData>>(list);
+        //ObjectMapper mapper = new ObjectMapper();
+      //  ResultBean<List<TbEmpData>> response = mapper.readValue("", new TypeReference<ResultBean<List<TbEmpData>>>(){});
+
         return  resultBean;
     }
 
@@ -90,4 +121,3 @@ public class TbEmpDataController {
     }
 
 }
-

@@ -26,8 +26,10 @@ import org.springframework.boot.autoconfigure.websocket.WebSocketAutoConfigurati
 import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.retry.annotation.EnableRetry;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -55,9 +57,14 @@ import java.net.UnknownHostException;
 @EnableDiscoveryClient
 @EnablePrometheusEndpoint
 @EnableSpringBootMetricsCollector
+@EnableRetry
+
 public class RestapiApplication {
 
-
+	@Bean
+	public AlwaysSampler defaultSampler(){
+		return new AlwaysSampler();
+	}
 	public static void main(String[] args) {
 
 		try {

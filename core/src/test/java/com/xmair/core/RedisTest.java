@@ -36,6 +36,7 @@ public class RedisTest {
         //注意事项：get set 操作时，需要人工保证分配到同一个slot上，否则异常，用{}标签来指定要参与hash计算的字符串
         client.getBuckets().get("key1{1}test1","key{1}:test2");  
 
+
         //设置了key：11 ，value：value11,20分钟有效期
         client.getBucket("11").set("value11",20, TimeUnit.MINUTES);
         TbEmpData item=new TbEmpData();

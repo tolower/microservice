@@ -55,15 +55,14 @@ public class TestDNSController {
 
         long startTime = System.currentTimeMillis();//记录开始时间
 
-        String url = "http://dnstest.microservice-test:8080/test/getip";
+        String url = "http://booking-service/test/getip";
         StringBuffer stringBuffer = new StringBuffer();
         try {
 
             for (int i = 0; i < 100; i++) {
-                Request request = new Request.Builder().url(url).build();
-                Response response = okHttpClient.newCall(request).execute();
-                stringBuffer.append(response.body().string());
-                response.close();
+                String result= restTemplate.getForObject(url,String.class);
+                stringBuffer.append(result);
+
 /*
               String result=  restTemplate.getForObject(url,String.class);
                // System.out.println(result);*/

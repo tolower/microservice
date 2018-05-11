@@ -2,8 +2,12 @@ package com.xmair.core.util;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 
@@ -11,12 +15,15 @@ public class JsonUtil {
 
         private static ObjectMapper mapper = new ObjectMapper();
 
+        static {
+            SimpleDateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            mapper.setDateFormat(myDateFormat);
+        }
         public static String bean2Json(Object obj) {
             try {
                 StringWriter sw = new StringWriter();
                 JsonGenerator gen = new JsonFactory().createJsonGenerator(sw);
-                SimpleDateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                mapper.setDateFormat(myDateFormat);
+
 
                 mapper.writeValue(gen, obj);
                 gen.close();
@@ -36,5 +43,14 @@ public class JsonUtil {
                 return  null;
             }
         }
+
+    public static  <T> T json2GenericBean(String jsonStr, TypeReference valueTypeRef){
+        try {
+            return mapper.readValue(jsonStr, valueTypeRef);
+        }
+        catch (Exception e){
+            return  null;
+        }
+    }
 
 }

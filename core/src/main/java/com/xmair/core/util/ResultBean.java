@@ -7,7 +7,7 @@ import java.io.Serializable;
 /*
 * 定义统一标准的接口规范
 * */
-public class ResultBean<T> implements Serializable{
+public class  ResultBean<T> implements Serializable{
     /**
      * 编号
      */

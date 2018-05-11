@@ -38,14 +38,14 @@ public class RedisConfig
         Config config = new Config();
 
         ClusterServersConfig serversConfig=config.useClusterServers();
-        if(!password.equals("")) {
+        if(!(getPassword()==null || getPassword().equals(""))) {
             serversConfig.setPassword(password);
         }
         serversConfig.setReadMode(ReadMode.MASTER_SLAVE);
         serversConfig.setMasterConnectionMinimumIdleSize(masterConnectionMinimumIdleSize);
         serversConfig.setSlaveConnectionMinimumIdleSize(slaveConnectionMinimumIdleSize);
         serversConfig.setSubscriptionConnectionMinimumIdleSize(0);
-
+        serversConfig.setScanInterval(3000);
         // 使用 lambda 表达式以及函数操作(functional operation)
         nodeAddresses.forEach((node) -> serversConfig.addNodeAddress(node));
         try {
