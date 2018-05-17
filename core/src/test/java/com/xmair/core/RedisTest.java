@@ -66,9 +66,8 @@ public class RedisTest {
     @Test
     public  void testHashRedis(){
 
-        RMap<String ,String> map=client.getMap("hash2");
-        map.put("name","wuzuquan");
-        map.put("pcode","06645");
-        System.out.println( map.get("pcode"));
+        RMap<String ,String> map=client.getMap("au_testapp");
+
+        System.out.println( map.get("/usertest/v1/tbempdata/userGET"));
     }
 }

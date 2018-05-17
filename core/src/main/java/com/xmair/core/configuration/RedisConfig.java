@@ -53,7 +53,7 @@ public class RedisConfig
             return  redisson;
         }catch (RedisConnectionException e)
         {
-            logger.error("redis connect error",e);
+            logger.error("redis初始化异常",e);
             return  null;
         }
 

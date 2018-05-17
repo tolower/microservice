@@ -2,6 +2,7 @@ package com.xmair.restapi.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.xmair.core.configuration.FramedbConfig;
+import com.xmair.core.configuration.RocketMQConfig;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
