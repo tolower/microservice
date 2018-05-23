@@ -37,6 +37,7 @@ public class RedisConfig
     public RedissonClient initRedissonClient () {
         Config config = new Config();
 
+        
         ClusterServersConfig serversConfig=config.useClusterServers();
         if(!(getPassword()==null || getPassword().equals(""))) {
             serversConfig.setPassword(password);

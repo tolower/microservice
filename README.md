@@ -9,6 +9,14 @@
 * 可运维监控
 
 
+## 2018-5-23 更新日志
+1、增加rocketmq测试用例
+2、zipkin 日志写入kafka；业务日志写入kafka，通过traceid进行关联
+2、修复consul  discovery的坑：当3个server节点组成的consul集群，挂掉一个时，其上注册的service实例，状态就无法刷新了。
+这个没什么问题，要结合ribbon 重试机制即可。
+有问题的是spring cloud consul discovery的实现，官方实现的serverlistfilter首先会判断consul server的状态，如果状态critical，则直接返回false。就不再考虑service实例本身的状态了。
+这种机制容错性太差了。解决办法：自定义filter替换掉官方的，只判断service 的状态。
+
 
 ## 2018-4-20 更新日志
 1、prometheus客户端替代actuator，暴露prometheus性能监控接口，添加prometheus拦截器收集性能数据

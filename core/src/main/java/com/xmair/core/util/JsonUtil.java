@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 
-public class JsonUtil {
+public  class JsonUtil {
 
         private static ObjectMapper mapper = new ObjectMapper();
 

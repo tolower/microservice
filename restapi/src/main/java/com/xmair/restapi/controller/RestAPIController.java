@@ -5,6 +5,7 @@ import com.ecwid.consul.v1.health.model.Check;
 import com.ecwid.consul.v1.health.model.HealthService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.netflix.loadbalancer.DynamicServerListLoadBalancer;
 import com.xmair.core.entity.framedb.EmpData;
 import com.xmair.core.entity.framedb.TbEmpData;
 import com.xmair.core.mapper.framedb.EmpDataMapper;
@@ -58,7 +59,7 @@ public class RestAPIController {
     }
     @Autowired
     private ConsulClient consulClient;
-
+   // DynamicServerListLoadBalancer
     @RequestMapping(value = "/consulregisterrefresh")
     public String consulrefresh(String  id){
       /*  List<HealthService> response = consulClient.getHealthServices(id, false, null).getValue();

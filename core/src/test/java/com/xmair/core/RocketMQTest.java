@@ -13,6 +13,7 @@ import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
+import org.apache.rocketmq.remoting.common.RemotingHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.redisson.api.RBucket;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.print.DocFlavor;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -40,7 +42,33 @@ public class RocketMQTest {
     DefaultMQProducer producer;
 
     @Test
+    public  void  testOneway() throws  Exception{
+        for (int i = 0; i < 100; i++) {
+            //Create a message instance, specifying topic, tag and message body.
+            Message msg = new Message("TopicTest" /* Topic */,
+                    "TagA" /* Tag */,
+                    ("Hello RocketMQ " +
+                            i).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
+            );
+            //Call send message to deliver message to one of brokers.
+            producer.sendOneway(msg);
+
+        }
+    }
+    @Test
     public void testProduct() throws  Exception{
+
+     /*   List<Message> messageList=new ArrayList<Message>();
+        for(int i=0;i<1000;i++){
+            Message msg = new Message("testtopic1",// topic
+                    "TagA",// tag
+                    "OrderID001",// key
+                    ("Hello MetaQ").getBytes());// body
+            messageList.add(msg);
+        }
+
+
+        SendResult  sendResult=   producer.send(messageList);*/
         Message msg = new Message("testtopic1",// topic
                 "TagA",// tag
                 "OrderID001",// key
@@ -72,6 +100,7 @@ public class RocketMQTest {
         consumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+
 
 
                 for(MessageExt ext : list){

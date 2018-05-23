@@ -14,6 +14,13 @@
 
 <dependencies>
 
+	<!-- https://mvnrepository.com/artifact/org.apache.rocketmq/rocketmq-logappender -->
+	<dependency>
+		<groupId>org.apache.rocketmq</groupId>
+		<artifactId>rocketmq-logappender</artifactId>
+		<version>4.2.0</version>
+	</dependency>
+
 
 	<!-- https://mvnrepository.com/artifact/org.apache.rocketmq/rocketmq-client -->
 	<dependency>
@@ -29,6 +36,22 @@
 
 	</dependency>
 
+
+	<dependency>
+		<groupId>org.apache.kafka</groupId>
+		<artifactId>kafka_2.11</artifactId>
+		<version>0.10.1.1</version>
+		<exclusions>
+		<exclusion>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</exclusion>
+            <exclusion>
+                <artifactId>log4j</artifactId>
+                <groupId>log4j</groupId>
+            </exclusion>
+        </exclusions>
+	</dependency>
 
 	<dependency>
 		<groupId>org.apache.velocity</groupId>
