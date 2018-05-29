@@ -1,6 +1,6 @@
 package com.xmair.core.util;
 
-import com.xmair.core.exception.ResultCodeEnum;
+import com.xmair.core.exception.ExceptionEnum;
 
 import java.io.Serializable;
 
@@ -11,7 +11,7 @@ public class  ResultBean<T> implements Serializable{
     /**
      * 编号
      */
-    private ResultCodeEnum code=ResultCodeEnum.SUCCESS;
+    private ExceptionEnum code= ExceptionEnum.SUCCESS;
     /**
      * 消息内容
      */
@@ -29,11 +29,11 @@ public class  ResultBean<T> implements Serializable{
         this.message = message;
     }
 
-    public ResultCodeEnum getCode() {
+    public ExceptionEnum getCode() {
         return code;
     }
 
-    public void setCode(ResultCodeEnum code) {
+    public void setCode(ExceptionEnum code) {
         this.code = code;
     }
 
@@ -47,7 +47,7 @@ public class  ResultBean<T> implements Serializable{
 
 
 
-    public ResultBean(ResultCodeEnum code, String message,T data) {
+    public ResultBean(ExceptionEnum code, String message, T data) {
 
         this.code=code;
         this.message=message;
@@ -60,7 +60,7 @@ public class  ResultBean<T> implements Serializable{
         this.data=data;
     }
     public ResultBean(Throwable e){
-        this.code= ResultCodeEnum.SERVER_ERROR;
+        this.code= ExceptionEnum.SERVER_ERROR;
         this.message=e.getMessage();
     }
 }

@@ -2,7 +2,7 @@ package ${restControllerPackage};
 import ${modelPackage}.${beanName};
 import ${mapperPackage}.${beanName}Mapper;
 import com.xmair.core.util.ResultBean;
-import com.xmair.core.exception.ResultCodeEnum;
+import com.xmair.core.exception.ExceptionEnum;
 import org.springframework.validation.annotation.Validated;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

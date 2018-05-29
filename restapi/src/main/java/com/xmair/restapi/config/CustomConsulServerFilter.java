@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class CustomConsulServerFilter implements ServerListFilter<Server> {
-    private static final Log log = LogFactory.getLog(HealthServiceServerListFilter.class);
 
     public CustomConsulServerFilter() {
     }
@@ -30,8 +29,7 @@ public class CustomConsulServerFilter implements ServerListFilter<Server> {
                     filtered.add(server);
                 }
             } else {
-                log.debug("Unable to determine aliveness of server type " + server.getClass() + ", " + server);
-                filtered.add(server);
+                  filtered.add(server);
             }
         }
 

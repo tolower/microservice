@@ -1,7 +1,7 @@
 package com.xmair.webapp.controller;
 
 import com.xmair.core.util.ResultBean;
-import com.xmair.core.exception.ResultCodeEnum;
+import com.xmair.core.exception.ExceptionEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ public class HttpErrorController implements ErrorController {
     @ResponseBody
     public ResultBean<String> handleError(){
         ResultBean<String> result=new ResultBean<String>();
-        result.setCode(ResultCodeEnum.RESOURCE_NOT_FOUND);
+        result.setCode(ExceptionEnum.RESOURCE_NOT_FOUND);
         result.setMessage("找不到该网页");
         return result;
     }

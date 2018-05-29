@@ -1,10 +1,9 @@
 package com.xmair.restapi.controller;
 import com.xmair.core.entity.framedb.TbEmpDataAll;
+import com.xmair.core.exception.ExceptionEnum;
 import com.xmair.core.mapper.framedb.TbEmpDataAllMapper;
 import com.xmair.core.util.ResultBean;
-import com.xmair.core.exception.ResultCodeEnum;
 import org.springframework.validation.annotation.Validated;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import com.xmair.restapi.apiversion.ApiVersion;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,7 @@ public class TbEmpDataAllController {
         if(item!=null){
             return new ResultBean<TbEmpDataAll>(item);
         }else {
-            return new ResultBean<TbEmpDataAll>(ResultCodeEnum.RESOURCE_NOT_FOUND,"找不到该记录",null);
+            return new ResultBean<TbEmpDataAll>(ExceptionEnum.RESOURCE_NOT_FOUND,"找不到该记录",null);
         }
     }
 

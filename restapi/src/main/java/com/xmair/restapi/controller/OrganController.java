@@ -3,7 +3,7 @@ package com.xmair.restapi.controller;
 import com.xmair.core.entity.framedb.A1001;
 import com.xmair.core.mapper.framedb.A1001Mapper;
 import com.xmair.core.util.ResultBean;
-import com.xmair.core.exception.ResultCodeEnum;
+import com.xmair.core.exception.ExceptionEnum;
 import com.xmair.restapi.apiversion.ApiVersion;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public class OrganController {
         if(item!=null){
             return new ResultBean<A1001>(item);
         }else {
-            return new ResultBean<A1001>(ResultCodeEnum.RESOURCE_NOT_FOUND,"找不到该记录",null);
+            return new ResultBean<A1001>(ExceptionEnum.RESOURCE_NOT_FOUND,"找不到该记录",null);
         }
     }
 

@@ -1,11 +1,8 @@
 package com.xmair.restapi.controller;
 
-import com.xmair.core.exception.BusinessException;
-import com.xmair.core.exception.ResultCodeEnum;
-import com.xmair.restapi.apiversion.ApiVersion;
+import com.xmair.core.exception.Business500Exception;
+import com.xmair.core.exception.BusinessExceptionEnum;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,13 +36,13 @@ public class TestDNSController {
     }
 
     @RequestMapping(value = "/testException",method = RequestMethod.GET)
-    public String index() throws BusinessException {
+    public String index() throws Business500Exception {
         /**
          * 模拟用户不存在
          * 抛出业务逻辑异常
          */
         if (true) {
-            throw new BusinessException(ResultCodeEnum.BUSINESS_ERROR.toString(),"异常处理测试");
+            throw new Business500Exception(BusinessExceptionEnum.DBerror);
         }
         return "ttttttttttttttt";
     }

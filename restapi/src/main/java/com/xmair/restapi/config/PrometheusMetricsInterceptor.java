@@ -13,17 +13,17 @@ import javax.servlet.http.HttpServletResponse;
 public class PrometheusMetricsInterceptor extends HandlerInterceptorAdapter {
 
     //http总请求数
-    static final Counter requestCounter = Counter.build()
+    static  Counter requestCounter = Counter.build()
             .name("http_requests_total").labelNames("path", "method", "code")
             .help("Total requests.").register();
 
     //当前特定http请求量
-    static final Gauge inprogressRequests = Gauge.build()
+    static  Gauge inprogressRequests = Gauge.build()
             .name("http_inprogress_requests").labelNames("path", "method", "code")
             .help("Inprogress requests.").register();
 
     //客户端定义的数据分布统计
-    static final Summary requestLatency = Summary.build()
+    static  Summary requestLatency = Summary.build()
             .name("http_requests_latency_seconds_summary")
             .quantile(0.5, 0.05)
             .quantile(0.9, 0.01)

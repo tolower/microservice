@@ -1,12 +1,14 @@
 package com.xmair.webapp.config;
 
-import com.xmair.core.exception.BusinessException;
+import com.xmair.core.exception.Business500Exception;
+import com.xmair.core.exception.ErrorMessage;
+import com.xmair.core.exception.ExceptionEnum;
 import com.xmair.core.util.JsonUtil;
 import com.xmair.core.util.ResultBean;
-import com.xmair.core.exception.ResultCodeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +38,7 @@ public class WebAppExceptionHandler {
         logger.warn("参数校验失败,{}", JsonUtil.bean2Json(e.getTarget()));
         List<FieldError> fieldErrors=e.getBindingResult().getFieldErrors();
 
-        return  new ResultBean<>(ResultCodeEnum.ARGUMENTS_INVALID,"arguments invalid",fieldErrors);
+        return  new ResultBean<>(ExceptionEnum.ARGUMENTS_INVALID,"arguments invalid",fieldErrors);
 
     }
 
@@ -51,7 +53,7 @@ public class WebAppExceptionHandler {
     public ResultBean<String> runtimeExceptionHandler(Exception e) {
         logger.error("运行时异常：【{}】", e.getMessage());
         ResultBean<String> result=new ResultBean<String>();
-        result.setCode(ResultCodeEnum.SERVER_ERROR);
+        result.setCode(ExceptionEnum.SERVER_ERROR);
         result.setMessage(e.getMessage());
         return result;
     }
@@ -62,13 +64,12 @@ public class WebAppExceptionHandler {
      * @param e 业务逻辑异常对象实例
      * @return 逻辑异常消息内容
      */
-    @ExceptionHandler(BusinessException.class)
-    @ResponseStatus(code = HttpStatus.OK)
-    public ResultBean<String> logicException(BusinessException e) {
-        logger.error("遇到业务逻辑异常：【{}】", e.getErrCode(),e);
-        // 返回响应实体内容
-        ResultBean<String> result=new ResultBean<String>(ResultCodeEnum.BUSINESS_ERROR,e.getErrMsg(),"业务异常");
-        return result;
+      /*业务处理异常或者服务器异常*/
+    @ExceptionHandler(Business500Exception.class)
+    public ResponseEntity<ErrorMessage> BusinessException(Business500Exception e){
+
+        logger.error(e.getMessage(),e);
+        return new ResponseEntity<ErrorMessage>(e.getErrorMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

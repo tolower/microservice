@@ -10,6 +10,20 @@ public class LogEntity {
 
     private  String IP;
 
+    private  String logger;
+    private  long timestamp;
+
+    public String getStackInfo() {
+        return stackInfo;
+    }
+
+    public void setStackInfo(String stackInfo) {
+        this.stackInfo = stackInfo;
+    }
+
+    private  String message;
+    private String appName;
+    private  String stackInfo;
     public String getIP() {
         return IP;
     }
@@ -26,7 +40,7 @@ public class LogEntity {
         this.appName = appName;
     }
 
-    private String appName;
+
 
     public String getTraceId() {
         return traceId;
@@ -76,8 +90,6 @@ public class LogEntity {
         this.message = message;
     }
 
-    private  String logger;
-    private  long timestamp;
-    private  String message;
+
 
 }

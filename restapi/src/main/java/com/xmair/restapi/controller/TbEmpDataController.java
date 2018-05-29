@@ -1,16 +1,12 @@
 package com.xmair.restapi.controller;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xmair.core.entity.framedb.TbEmpData;
+import com.xmair.core.exception.Business500Exception;
+import com.xmair.core.exception.BusinessExceptionEnum;
+import com.xmair.core.exception.ExceptionEnum;
+import com.xmair.core.exception.Resource404Exception;
 import com.xmair.core.mapper.framedb.TbEmpDataMapper;
 import com.xmair.core.util.ResultBean;
-import com.xmair.core.exception.ResultCodeEnum;
-import com.xmair.restapi.config.ErrorMessage;
-import com.xmair.restapi.config.UserNotFountException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import com.xmair.restapi.apiversion.ApiVersion;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +17,7 @@ import com.xmair.core.util.JsonUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.rmi.ServerException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,25 +50,27 @@ public class TbEmpDataController {
         if(item!=null){
             return new ResultBean<TbEmpData>(item);
         }else {
-            return new ResultBean<TbEmpData>(ResultCodeEnum.RESOURCE_NOT_FOUND,"找不到该记录",null);
+            return new ResultBean<TbEmpData>(ExceptionEnum.RESOURCE_NOT_FOUND,"找不到该记录",null);
         }
     }
 
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public TbEmpData getUser(String id){
+       // throw  new Business500Exception(BusinessExceptionEnum.DBerror);
         TbEmpData item=null;
         try {
 
+            logger.info("success");
              item=   mapper.selectByPrimaryKey(id);
 
         }catch (Exception e){
-            throw new UserNotFountException(id);
+            throw  new Business500Exception(BusinessExceptionEnum.DBerror);
         }
         if(item!=null){
             return item;
         }else {
-            throw new UserNotFountException(id);
+            throw new Resource404Exception(String.format("找不到id为：%s的信息",132123));
         }
     }
 

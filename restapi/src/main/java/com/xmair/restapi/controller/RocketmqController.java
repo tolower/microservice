@@ -1,7 +1,5 @@
 package com.xmair.restapi.controller;
 
-import com.xmair.core.entity.framedb.TbEmpData;
-import com.xmair.restapi.config.UserNotFountException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;

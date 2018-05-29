@@ -1,13 +1,6 @@
 package com.xmair.core.configuration;
 
 
-import com.alibaba.druid.pool.DruidDataSource;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xmair.core.exception.BusinessException;
-import com.xmair.core.util.ProtoSerializer;
-import org.apache.velocity.runtime.directive.Foreach;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.client.RedisConnectionException;
@@ -16,12 +9,10 @@ import org.redisson.config.Config;
 import org.redisson.config.ReadMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 

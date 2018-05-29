@@ -55,7 +55,7 @@ public class FileController {
 
 
         if(user==null){
-            throw new BusinessException(ResultCodeEnum.RESOURCE_NOT_FOUND.toString(),"找不到文件");
+            throw new Business500Exception(ExceptionEnum.RESOURCE_NOT_FOUND.toString(),"找不到文件");
         }
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");

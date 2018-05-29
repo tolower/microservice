@@ -1,9 +1,10 @@
 package com.xmair.restapi.config;
 
-import com.xmair.core.exception.BusinessException;
+import com.xmair.core.exception.Business500Exception;
+import com.xmair.core.exception.ErrorMessage;
+import com.xmair.core.exception.ExceptionEnum;
+import com.xmair.core.exception.Resource404Exception;
 import com.xmair.core.util.JsonUtil;
-import com.xmair.core.util.ResultBean;
-import com.xmair.core.exception.ResultCodeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -33,21 +34,32 @@ public class RestExceptionHandler {
      * @see org.springframework.validation.DataBinder
      */
     @ExceptionHandler(BindException.class)
-    public ResultBean<List<FieldError>> validExceptionHandler(BindException e, WebRequest request, HttpServletResponse response) {
+    public ResponseEntity<ErrorMessage> validExceptionHandler(BindException e, WebRequest request, HttpServletResponse response) {
 
         logger.warn("参数校验失败,{}", JsonUtil.bean2Json(e.getTarget()));
         List<FieldError> fieldErrors=e.getBindingResult().getFieldErrors();
-
-        return  new ResultBean<>(ResultCodeEnum.ARGUMENTS_INVALID,"arguments invalid",fieldErrors);
+        ErrorMessage errorMessage=new ErrorMessage();
+        errorMessage.setErrorCode(ExceptionEnum.ARGUMENTS_INVALID.toString());
+        errorMessage.setMessage(JsonUtil.bean2Json(fieldErrors));
+        return new ResponseEntity<ErrorMessage>(errorMessage,HttpStatus.BAD_REQUEST);
 
     }
 
 
-    @ExceptionHandler(UserNotFountException.class)
-    public ResponseEntity<ErrorMessage> UserNotFound(UserNotFountException e){
-        String userId = e.getUserId();
-        ErrorMessage error = new ErrorMessage(4 , "User （"+userId+") not found");
-        return new ResponseEntity<ErrorMessage>(error,HttpStatus.NOT_FOUND);
+    /*找不到资源*/
+    @ExceptionHandler(Resource404Exception.class)
+    public ResponseEntity<ErrorMessage> ResourceNotFound(Resource404Exception e){
+
+        logger.error(e.getMessage(),e);
+        return new ResponseEntity<ErrorMessage>(e.getErrorMessage(),HttpStatus.NOT_FOUND);
+    }
+
+    /*业务处理异常或者服务器异常*/
+    @ExceptionHandler(Business500Exception.class)
+    public ResponseEntity<ErrorMessage> BusinessException(Business500Exception e){
+        logger.error(e.getMessage(),e);
+        logger.error(e.getMessage(),e);
+        return new ResponseEntity<ErrorMessage>(e.getErrorMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -57,27 +69,14 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler
     @ResponseStatus
-    public ResultBean<String> runtimeExceptionHandler(Exception e) {
+    public ResponseEntity<ErrorMessage> runtimeExceptionHandler(Exception e) {
         logger.error("运行时异常：【{}】", e.getMessage(),e);
-        ResultBean<String> result=new ResultBean<String>();
-        result.setCode(ResultCodeEnum.SERVER_ERROR);
-        result.setMessage(e.getMessage());
-        return result;
+        ErrorMessage errorMessage=new ErrorMessage();
+        errorMessage.setErrorCode(ExceptionEnum.SERVER_ERROR.toString());
+        errorMessage.setMessage("未捕获的服务器异常："+e.getMessage());
+        return new ResponseEntity<ErrorMessage>(errorMessage,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    /**
-     * 处理业务逻辑异常
-     *
-     * @param e 业务逻辑异常对象实例
-     * @return 逻辑异常消息内容
-     */
-    @ExceptionHandler(BusinessException.class)
-    @ResponseStatus(code = HttpStatus.OK)
-    public ResultBean<String> logicException(BusinessException e) {
-        logger.error("业务逻辑异常：【{}】", e.getMessage(),e);
-        // 返回响应实体内容
-        ResultBean<String> result=new ResultBean<String>(ResultCodeEnum.BUSINESS_ERROR,e.getErrMsg(),"业务异常");
-        return result;
-    }
+
 
 }
