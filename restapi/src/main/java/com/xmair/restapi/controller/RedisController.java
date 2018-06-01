@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.xmair.core.entity.User;
 import com.xmair.core.entity.framedb.EmpData;
 import com.xmair.core.mapper.framedb.EmpDataMapper;
+import com.xmair.core.redlock.RedisRedLock;
 import com.xmair.restapi.apiversion.ApiVersion;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
@@ -35,5 +36,13 @@ public class RedisController {
         map.put("name","wuzuquan");
         map.put("pcode","06645");
         return map.get("pcode");
+    }
+    //模拟互斥的库存资源
+    private  static int productLockCount=10000;
+    @RedisRedLock
+    @RequestMapping(value = "/testlock",method = RequestMethod.GET)
+    public  void  AnnotationLock(){
+        productLockCount-=1;
+        System.out.println(productLockCount);
     }
 }

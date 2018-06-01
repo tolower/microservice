@@ -20,6 +20,7 @@ public class RibbonConfig  {
 
     @Bean
     public CustomConsulServerFilter serverListFilter() {
+        
         CustomConsulServerFilter filter = new CustomConsulServerFilter();
         return filter;
     }

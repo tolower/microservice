@@ -3,14 +3,14 @@ package com.xmair.core;
 import com.xmair.core.entity.framedb.TbEmpData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.redisson.api.RBucket;
-import org.redisson.api.RKeys;
-import org.redisson.api.RMap;
-import org.redisson.api.RedissonClient;
+import org.redisson.RedissonMap;
+import org.redisson.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
@@ -61,10 +61,34 @@ public class RedisTest {
 
     }
     /*
-   测试 hash 类型的get set
+   推荐的做法：模拟批量set,先把kv扔到一个hashmap里，利用hmset批量保存。
+   原因：分布式环境里对mset要求比较苛刻
+
    * */
     @Test
-    public  void testHashRedis(){
+    public  void testBatch(){
+
+
+
+        RMap<String ,String> map=client.getMap("pnr_test");
+        map.expire(20,TimeUnit.MINUTES);
+        map.put("test1","1111sssss");
+        map.put("test12","1112");
+        map.put("test11","1113");
+        map.putAll(map);
+
+        for(Map.Entry<String,String> entry: map.entrySet()){
+            System.out.println(entry.getValue());
+            System.out.println(entry.getKey());
+        }
+    }
+
+    /*
+测试 hash 类型的get set
+* */
+    @Test
+    public  void testHash(){
+
 
         RMap<String ,String> map=client.getMap("au_testapp");
 

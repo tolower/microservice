@@ -27,6 +27,7 @@ import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.retry.annotation.EnableRetry;
 
 import java.net.InetAddress;
@@ -55,6 +56,7 @@ import java.net.UnknownHostException;
 @EnablePrometheusEndpoint
 @EnableSpringBootMetricsCollector
 @EnableRetry
+@EnableAspectJAutoProxy
 public class RestapiApplication {
 
 	@Bean

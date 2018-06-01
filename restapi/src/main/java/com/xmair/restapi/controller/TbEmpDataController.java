@@ -6,6 +6,7 @@ import com.xmair.core.exception.ExceptionEnum;
 import com.xmair.core.exception.Resource404Exception;
 import com.xmair.core.mapper.framedb.TbEmpDataMapper;
 import com.xmair.core.util.ResultBean;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.annotation.Validated;
 import io.swagger.annotations.ApiOperation;
 import com.xmair.restapi.apiversion.ApiVersion;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.xmair.core.util.JsonUtil;
+
+import javax.cache.annotation.CacheRemove;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -55,6 +58,8 @@ public class TbEmpDataController {
     }
 
 
+   // @CacheRemove
+    @Cacheable(cacheNames = "testMap")
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public TbEmpData getUser(String id){
        // throw  new Business500Exception(BusinessExceptionEnum.DBerror);
