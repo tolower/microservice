@@ -1,5 +1,6 @@
 package com.xmair.restapi.config;
 
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.cloud.sleuth.Span;
 import org.springframework.cloud.sleuth.Tracer;
@@ -14,6 +15,7 @@ public class ZipkinFilter  {
 
     @Bean
    public TraceFilter myTraceFilter(BeanFactory beanFactory, final Tracer tracer) {
+
 
         return new TraceFilter(beanFactory) {
             @Override

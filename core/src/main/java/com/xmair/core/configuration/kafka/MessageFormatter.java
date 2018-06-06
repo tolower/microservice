@@ -1,22 +1,25 @@
 package com.xmair.core.configuration.kafka;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.classic.spi.*;
+import ch.qos.logback.core.CoreConstants;
 import com.xmair.core.util.JsonUtil;
 import org.slf4j.MDC;
 
 import java.net.InetAddress;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class MessageFormatter implements Formatter {
 
-    private static   String getIp(){
+     static  {
         try{
-            String ip= InetAddress.getLocalHost().getHostAddress();
-            return  ip;
+             ip= InetAddress.getLocalHost().getHostAddress();
+
         }catch (Exception e){//不处理，取不到
-            return  "0:0:0:0";
+            ip="0:0:0:0";
         }
     }
-    public  static String ip=getIp();
+    public  static String ip;
 
     @Override
     public String format(ILoggingEvent event) {
@@ -29,11 +32,32 @@ public class MessageFormatter implements Formatter {
         logEntity.setLogger(event.getLoggerName());
         logEntity.setTimestamp(event.getTimeStamp());
         logEntity.setMessage(event.getFormattedMessage());
-        if(event.getThrowableProxy()!=null){//error日志要记录堆栈信息的第一行
-            logEntity.setStackInfo(event.getThrowableProxy().getStackTraceElementProxyArray()[0].toString());
-        }
+        if(event.getThrowableProxy()!=null){//error日志要记录堆栈信息
+            StringBuilder stringBuilder=new StringBuilder();
+            appendStackTrace(stringBuilder,event.getThrowableProxy());
 
+            logEntity.setStackInfo(stringBuilder.toString());
+        }
         return JsonUtil.bean2Json(logEntity);
     }
+
+    private void appendStackTrace(StringBuilder log, IThrowableProxy proxy) {
+
+            Stream<StackTraceElementProxy> trace = Arrays.stream(proxy.getStackTraceElementProxyArray());
+
+            trace.forEach(step -> {
+                String string = step.toString();
+
+                log.append(CoreConstants.TAB).append(string);
+
+                ThrowableProxyUtil.subjoinPackagingData(log, step);
+
+                log.append(CoreConstants.LINE_SEPARATOR);
+            });
+
+            trace.close();
+
+    }
+
 
 }

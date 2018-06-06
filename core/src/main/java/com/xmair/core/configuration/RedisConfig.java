@@ -76,7 +76,9 @@ public class RedisConfig extends CachingConfigurerSupport
         Map<String, CacheConfig> config = new HashMap<String, CacheConfig>();
         //RLock
         config.put("testMap", new CacheConfig(24 * 60 * 1000, 12 * 60 * 1000));
-        return new RedissonSpringCacheManager(redissonClient, config);
+
+        RedissonSpringCacheManager cacheManager= new RedissonSpringCacheManager(redissonClient, config);
+        return  cacheManager;
     }
 
 
@@ -84,16 +86,19 @@ public class RedisConfig extends CachingConfigurerSupport
     public RedissonClient initRedissonClient () {
         Config config = new Config();
         config.setLockWatchdogTimeout(20000);
-        
+
         ClusterServersConfig serversConfig=config.useClusterServers();
         if(!(getPassword()==null || getPassword().equals(""))) {
             serversConfig.setPassword(password);
         }
         serversConfig.setReadMode(ReadMode.MASTER_SLAVE);
+
         serversConfig.setMasterConnectionMinimumIdleSize(masterConnectionMinimumIdleSize);
         serversConfig.setSlaveConnectionMinimumIdleSize(slaveConnectionMinimumIdleSize);
         serversConfig.setSubscriptionConnectionMinimumIdleSize(5);
         serversConfig.setScanInterval(3000);
+        serversConfig.setSlaveConnectionPoolSize(maxConnectionSize);
+        serversConfig.setMasterConnectionPoolSize(maxConnectionSize);
 
         // 使用 lambda 表达式以及函数操作(functional operation)
         nodeAddresses.forEach((node) -> serversConfig.addNodeAddress(node));
@@ -124,6 +129,15 @@ public class RedisConfig extends CachingConfigurerSupport
 
     private  String idleConnectionTimeout;
 
+    public int getMaxConnectionSize() {
+        return maxConnectionSize;
+    }
+
+    public void setMaxConnectionSize(int maxConnectionSize) {
+        this.maxConnectionSize = maxConnectionSize;
+    }
+
+    private  int maxConnectionSize;
 
 
     private  int masterConnectionMinimumIdleSize;

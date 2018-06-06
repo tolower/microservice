@@ -3,11 +3,14 @@ package com.xmair.restapi.controller;
 import com.xmair.core.exception.Business500Exception;
 import com.xmair.core.exception.BusinessExceptionEnum;
 import okhttp3.OkHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import zipkin2.reporter.kafka11.KafkaSender;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -15,7 +18,7 @@ import java.net.UnknownHostException;
 @RestController
 @RequestMapping(value = "/test")
 public class TestDNSController {
-
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private OkHttpClient okHttpClient;
@@ -47,9 +50,17 @@ public class TestDNSController {
         return "ttttttttttttttt";
     }
 
+
+    @RequestMapping(value = "/testQPS",method = RequestMethod.GET)
+    public String index1() throws Business500Exception {
+
+
+        logger.info("test");
+        return "ttttttttttttttt";
+    }
     @RequestMapping(value = "/okhttp",method = RequestMethod.GET)
     public String TestOKhttp() {
-
+       // KafkaSender
         long startTime = System.currentTimeMillis();//记录开始时间
 
         String url = "http://booking-service/test/getip";

@@ -19,11 +19,14 @@ public class Business500Exception extends BaseException {
         setErrorCode(ExceptionEnum.BUSINESS_ERROR);
     }
 
+    public Business500Exception(BusinessExceptionEnum bizEceptionEnum,Throwable cause){
+        super(ExceptionEnum.BUSINESS_ERROR,cause);
+        setBusinessExceptionEnum(bizEceptionEnum);
+    }
     public Business500Exception(BusinessExceptionEnum bizEceptionEnum){
         super(ExceptionEnum.BUSINESS_ERROR.toString());
         setBusinessExceptionEnum(bizEceptionEnum);
     }
-
     @Override
     public ErrorMessage getErrorMessage() {
         ErrorMessage errorMessage= super.getErrorMessage();

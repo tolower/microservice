@@ -6,6 +6,7 @@ import com.xmair.core.exception.ExceptionEnum;
 import com.xmair.core.exception.Resource404Exception;
 import com.xmair.core.mapper.framedb.TbEmpDataMapper;
 import com.xmair.core.util.ResultBean;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.annotation.Validated;
 import io.swagger.annotations.ApiOperation;
@@ -59,15 +60,38 @@ public class TbEmpDataController {
 
 
    // @CacheRemove
-    @Cacheable(cacheNames = "testMap")
+    /*
+    慎用cacheable，本质上是用hashmap  key为user，只会打到一台master，无法打散到多个master上，无法提升大并发能力
+    * */
+    @Cacheable( cacheNames = "user")
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public TbEmpData getUser(String id){
-       // throw  new Business500Exception(BusinessExceptionEnum.DBerror);
+
+        TbEmpData item=null;
+        try {
+             item=   mapper.selectByPrimaryKey(id);
+
+        }catch (Exception e){
+            logger.error("DBerror",e);
+            throw  new Business500Exception(BusinessExceptionEnum.DBerror,e);
+        }
+        if(item!=null){
+            return item;
+        }else {
+            throw new Resource404Exception(String.format("找不到id为：%s的信息",id));
+        }
+    }
+
+    //删除 type为hashmap，key为user下的所有值
+    @CacheEvict( cacheNames = "user",allEntries = true)
+    @RequestMapping(value = "/updateuser", method = RequestMethod.GET)
+    public TbEmpData updateUser(String id){
+        // throw  new Business500Exception(BusinessExceptionEnum.DBerror);
         TbEmpData item=null;
         try {
 
             logger.info("success");
-             item=   mapper.selectByPrimaryKey(id);
+            item=   mapper.selectByPrimaryKey(id);
 
         }catch (Exception e){
             throw  new Business500Exception(BusinessExceptionEnum.DBerror);

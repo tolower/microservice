@@ -59,8 +59,15 @@ public class KafkaAppender extends AppenderBase<ILoggingEvent> {
         Properties props = new Properties();
         props.put("serializer.class", "kafka.serializer.StringEncoder");
         props.put("metadata.broker.list", this.brokerList);
+        props.setProperty("producer.type","async");
+        props.setProperty("linger.ms","50");
+        //props.setProperty()
         ProducerConfig config = new ProducerConfig(props);
+
+
         this.producer = new Producer<String, String>(config);
+
+
     }
 
     @Override

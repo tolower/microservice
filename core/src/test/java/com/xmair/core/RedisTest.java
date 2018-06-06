@@ -27,10 +27,7 @@ public class RedisTest {
     @Test
     public  void testStringRedis(){
 
-        RKeys keys= client.getKeys();
-        Iterable<String> allKeys=keys.getKeys();
-        keys.getKeysByPattern("keys*");
-        System.out.println(keys.count());
+
 
         System.out.println(client.getConfig().isClusterConfig());
         //注意事项：get set 操作时，需要人工保证分配到同一个slot上，否则异常，用{}标签来指定要参与hash计算的字符串
@@ -68,14 +65,17 @@ public class RedisTest {
     @Test
     public  void testBatch(){
 
-
+        Map<String,String> hashmap=new HashMap<>();
+        hashmap.put("test1","1111sssss");
+        hashmap.put("test12","1112");
+        hashmap.put("test11","1113");
 
         RMap<String ,String> map=client.getMap("pnr_test");
+
+
         map.expire(20,TimeUnit.MINUTES);
-        map.put("test1","1111sssss");
-        map.put("test12","1112");
-        map.put("test11","1113");
-        map.putAll(map);
+
+        map.putAll(hashmap);
 
         for(Map.Entry<String,String> entry: map.entrySet()){
             System.out.println(entry.getValue());

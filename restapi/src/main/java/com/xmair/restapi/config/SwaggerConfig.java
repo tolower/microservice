@@ -1,6 +1,5 @@
 package com.xmair.restapi.config;
 
-import io.undertow.UndertowOptions;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;

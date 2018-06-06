@@ -64,9 +64,9 @@
 
     <!-- 日志输出级别 -->
     <root level="INFO">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
-        <appender-ref ref="mqAsyncAppender1"></appender-ref>
+         <appender-ref ref="STDOUT" />
+        <!--   <appender-ref ref="FILE" />
+          <appender-ref ref="mqAsyncAppender1"></appender-ref>-->
         <appender-ref ref="KAFKA"/>
     </root>
 
