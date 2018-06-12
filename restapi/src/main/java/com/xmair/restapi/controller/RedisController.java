@@ -27,15 +27,19 @@ public class RedisController {
     private RedissonClient redissonClient;
 
 
-    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    @RequestMapping(value = "/test1",method = RequestMethod.GET)
     @ResponseBody
-    public String test(){
+    public String test1(){
 
 
         RMap<String ,String> map=redissonClient.getMap("hash2");
         map.put("name","wuzuquan");
         map.put("pcode","06645");
         return map.get("pcode");
+    }
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    public String test(){
+        return "test str";
     }
     //模拟互斥的库存资源
     private  static int productLockCount=10000;

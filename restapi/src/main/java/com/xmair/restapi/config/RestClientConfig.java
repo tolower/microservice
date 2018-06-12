@@ -1,22 +1,31 @@
 package com.xmair.restapi.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netflix.ribbon.ClientOptions;
+import io.netty.handler.ssl.SslContextBuilder;
 import okhttp3.ConnectionPool;
+import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.ribbon.okhttp.RetryableOkHttpLoadBalancingClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.client.AsyncClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.Netty4ClientHttpRequestFactory;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
+import scala.util.Try;
 
+import javax.net.ssl.SSLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,21 +43,41 @@ public class RestClientConfig {
     @Bean
     public OkHttpClient okHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        ConnectionPool pool = new ConnectionPool(5, 20, TimeUnit.MINUTES);
+        Dispatcher dispatcher=new Dispatcher();
+        //设置连接池大小
+        dispatcher.setMaxRequests(500);
+        dispatcher.setMaxRequestsPerHost(100);
+        ConnectionPool pool = new ConnectionPool(10, 10, TimeUnit.MINUTES);
 
         builder.connectTimeout(150, TimeUnit.MILLISECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
-                .connectionPool(pool)
+                .connectionPool(pool).dispatcher(dispatcher)
+
                 .addNetworkInterceptor(new OkHttpInterceptor())
-                .retryOnConnectionFailure(true);
+                .retryOnConnectionFailure(false);
         return builder.build();
     }
 
+    @Primary
     @Bean
     public ClientHttpRequestFactory OkHttp3Factory() {
 
         return new OkHttp3ClientHttpRequestFactory(okHttpClient());
+    }
+
+
+    private AsyncClientHttpRequestFactory AsyncClientHttpRequestFactory() {
+
+        return new OkHttp3ClientHttpRequestFactory(okHttpClient());
+    }
+
+    @LoadBalanced
+    @Bean
+    public AsyncRestTemplate asyncRestTemplate(){
+        AsyncRestTemplate restTemplate=new AsyncRestTemplate(AsyncClientHttpRequestFactory());
+        return  restTemplate;
+
     }
     @Autowired
     private ObjectMapper objectMapper;
@@ -59,6 +88,7 @@ public class RestClientConfig {
     public RestTemplate restTemplateLB() {
 
         RestTemplate restTemplate= new RestTemplate(OkHttp3Factory());
+       // RestTemplate restTemplate= new RestTemplate(nettyFactory());
         SimpleDateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         objectMapper.setDateFormat(myDateFormat);
 

@@ -19,7 +19,7 @@ public class OkHttpInterceptor implements Interceptor {
         Request originalRequest = chain.request();
         i+=1;
 
-        logger.info(String.format("sending request %s ,%d",originalRequest.url(),i));
+      //  logger.info(String.format("sending request %s ,%d",originalRequest.url(),i));
 
 
 
@@ -28,7 +28,6 @@ public class OkHttpInterceptor implements Interceptor {
                 .header("token", "test")
                 //.header("Accept","application/x-protobuf")
                 .build();
-        System.out.println();
         return chain.proceed(updateRequest);
     }
 }

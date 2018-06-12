@@ -20,7 +20,7 @@
 
 
 
-    <appender name="mqAppender1" class="org.apache.rocketmq.logappender.logback.RocketmqLogbackAppender">
+<!--    <appender name="mqAppender1" class="org.apache.rocketmq.logappender.logback.RocketmqLogbackAppender">
         <tag>yourTag</tag>
         <topic>testtopic</topic>
         <producerGroup>yourLogGroup</producerGroup>
@@ -36,7 +36,7 @@
         <maxFlushTime>2000</maxFlushTime>
         <neverBlock>true</neverBlock>
         <appender-ref ref="mqAppender1"/>
-    </appender>
+    </appender>-->
     <!-- 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">

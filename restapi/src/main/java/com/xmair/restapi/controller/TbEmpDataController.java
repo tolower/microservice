@@ -67,6 +67,7 @@ public class TbEmpDataController {
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public TbEmpData getUser(String id){
 
+
         TbEmpData item=null;
         try {
              item=   mapper.selectByPrimaryKey(id);

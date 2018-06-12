@@ -1,6 +1,5 @@
 package com.xmair.restapi;
 
-import com.xmair.restapi.config.RibbonConfig;
 import io.prometheus.client.spring.boot.EnablePrometheusEndpoint;
 import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector;
 import org.mybatis.spring.annotation.MapperScan;
@@ -23,12 +22,12 @@ import org.springframework.boot.autoconfigure.web.MultipartAutoConfiguration;
 import org.springframework.boot.autoconfigure.webservices.WebServicesAutoConfiguration;
 import org.springframework.boot.autoconfigure.websocket.WebSocketAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -57,6 +56,7 @@ import java.net.UnknownHostException;
 @EnableSpringBootMetricsCollector
 @EnableRetry
 @EnableAspectJAutoProxy
+@EnableAsync
 public class RestapiApplication {
 
 	@Bean

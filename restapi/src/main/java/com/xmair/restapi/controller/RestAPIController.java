@@ -18,17 +18,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureTask;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping(value = "/restapi")
@@ -42,16 +48,56 @@ public class RestAPIController {
     @Autowired
     private RestTemplate restTemplate;
 
+
+    @Autowired
+    private AsyncRestTemplate asyncRestTemplate;
+
     @RequestMapping(value = "/zipkintest")
     public  String testRibbon(){
 
         return restTemplate.getForObject("http://booking-service/v1/tbempdata/get?id=06645",String.class);
     }
-    @RequestMapping(value = "/ordertest")
-    public  String testTrace(){
 
-        return restTemplate.getForObject("http://product-service/restapi/zipkintest",String.class);
+    @RequestMapping(value = "/testribbon",method = RequestMethod.GET)
+    public  String testribbon(){
+        StringBuilder sb=new StringBuilder();
+        for (int i = 0; i <100 ; i++) {
+            String ip= restTemplate.getForObject("http://ticket-service/test/getip",String.class);
+            sb.append(ip);
+            sb.append(";");
+        }
+
+        return  sb.toString();
     }
+
+    @RequestMapping(value = "/ordertest",method = RequestMethod.GET)
+    public  String testTrace(){
+        String s=    restTemplate.getForObject("http://insurance-service/test/testinsurance",String.class);
+        return restTemplate.getForObject("http://ticket-service/redis/test",String.class);
+    }
+
+    @RequestMapping(value = "/ListenableFuture",method = RequestMethod.GET)
+    public ListenableFuture<ResponseEntity<String>> testTrace2(){
+        restTemplate.getForObject("http://insurance-service/test/testinsurance",String.class);
+        String url="http://insurance-service/test/testinsurance";
+        //调用完后立即返回（没有阻塞）
+        ListenableFuture<ResponseEntity<String>> forEntity = asyncRestTemplate.exchange(url,HttpMethod.GET,null,String.class);
+
+
+        return  forEntity;
+    }
+
+    @RequestMapping(value = "/CompletableFuture",method = RequestMethod.GET)
+    public CompletableFuture<String> testTrace3(){
+        String url="http://insurance-service/test/testinsurance";
+
+        return CompletableFuture.supplyAsync(()->{
+            String s=    restTemplate.getForObject("http://insurance-service/test/testinsurance",String.class);
+            return restTemplate.getForObject("http://ticket-service/redis/test",String.class);
+        });
+
+    }
+
     @RequestMapping(value = "/order")
     public  String testTrace1(){
 
