@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,11 @@ public class RestAPIController {
     private RestTemplate restTemplate;
 
 
+
+    @Qualifier("signleTemplate")
+    @Autowired
+    private RestTemplate simgleRestTemplate;
+
     @Autowired
     private AsyncRestTemplate asyncRestTemplate;
 
@@ -69,7 +75,11 @@ public class RestAPIController {
 
         return  sb.toString();
     }
+    @RequestMapping(value = "/testhttp2",method = RequestMethod.GET)
+    public  String testhttp2(){
 
+        return simgleRestTemplate.getForObject("http://11.4.74.45:888/restapi/ordertest",String.class);
+    }
     @RequestMapping(value = "/ordertest",method = RequestMethod.GET)
     public  String testTrace(){
         String s=    restTemplate.getForObject("http://insurance-service/test/testinsurance",String.class);
@@ -136,7 +146,7 @@ public class RestAPIController {
 
     @RequestMapping(value = "/index")
     public String index(int number){
-        System.out.println(20 / number);
+      //  System.out.println(20 / number);
         return "get index page successfully.";
     }
     @RequestMapping(value = "/test")

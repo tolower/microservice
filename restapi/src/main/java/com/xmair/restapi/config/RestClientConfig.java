@@ -6,6 +6,9 @@ import io.netty.handler.ssl.SslContextBuilder;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
+import okhttp3.internal.connection.RealConnection;
+import okhttp3.internal.http2.Settings;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -28,6 +31,7 @@ import scala.util.Try;
 import javax.net.ssl.SSLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -42,17 +46,25 @@ public class RestClientConfig {
      */
     @Bean
     public OkHttpClient okHttpClient() {
+        //注意：只有明确知道服务端支持H2C协议的时候才能使用。添加H2C支持，
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+       // .protocols(Collections.singletonList(Protocol.H2_PRIOR_KNOWLEDGE));
+
+
         Dispatcher dispatcher=new Dispatcher();
         //设置连接池大小
-        dispatcher.setMaxRequests(500);
-        dispatcher.setMaxRequestsPerHost(100);
-        ConnectionPool pool = new ConnectionPool(10, 10, TimeUnit.MINUTES);
+        dispatcher.setMaxRequests(1000);
+        dispatcher.setMaxRequestsPerHost(200);
+       ConnectionPool pool = new ConnectionPool(40, 10, TimeUnit.MINUTES);
 
-        builder.connectTimeout(150, TimeUnit.MILLISECONDS)
+
+
+        builder.connectTimeout(550, TimeUnit.MILLISECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
-                .connectionPool(pool).dispatcher(dispatcher)
+                .connectionPool(pool)
+
+                .dispatcher(dispatcher)
 
                 .addNetworkInterceptor(new OkHttpInterceptor())
                 .retryOnConnectionFailure(false);

@@ -101,7 +101,17 @@ public class WebConfig extends WebMvcConfigurationSupport {
         handlerMapping.setOrder(0);
 
         handlerMapping.setInterceptors(getInterceptors());
+        AntPathMatcher pathMatcher = new AntPathMatcher();
+        pathMatcher.setCaseSensitive(false);
+        handlerMapping.setPathMatcher(pathMatcher);
         return handlerMapping;
+    }
+    /*忽略url大小写*/
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+
+
+        configurer.setUseSuffixPatternMatch(false).setUseTrailingSlashMatch(true);
     }
 
 
@@ -140,22 +150,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
     }
 
 
-
-
-
-
-
-
-
-    /*忽略url大小写*/
-    @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-        AntPathMatcher pathMatcher = new AntPathMatcher();
-        pathMatcher.setCaseSensitive(false);
-        configurer.setPathMatcher(pathMatcher);
-        configurer.setUseSuffixPatternMatch(false).
-                setUseTrailingSlashMatch(true);
-    }
 
 
     @Override
