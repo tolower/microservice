@@ -22,7 +22,6 @@ import org.springframework.boot.autoconfigure.web.MultipartAutoConfiguration;
 import org.springframework.boot.autoconfigure.webservices.WebServicesAutoConfiguration;
 import org.springframework.boot.autoconfigure.websocket.WebSocketAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -59,10 +58,7 @@ import java.net.UnknownHostException;
 @EnableAsync
 public class RestapiApplication {
 
-	@Bean
-	public AlwaysSampler defaultSampler(){
-		return new AlwaysSampler();
-	}
+
 	public static void main(String[] args) {
 
 		try {

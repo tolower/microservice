@@ -2,16 +2,21 @@ package com.xmair.core.configuration.kafka;
 
 import ch.qos.logback.classic.spi.*;
 import ch.qos.logback.core.CoreConstants;
+import com.xmair.core.configuration.zipkin.ZipkinProperties;
 import com.xmair.core.util.JsonUtil;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.stream.Stream;
-
 public class MessageFormatter implements Formatter {
 
-     static  {
+    static  {
         try{
              ip= InetAddress.getLocalHost().getHostAddress();
 
@@ -21,13 +26,15 @@ public class MessageFormatter implements Formatter {
     }
     public  static String ip;
 
+    private  static  String appname;
     @Override
     public String format(ILoggingEvent event) {
 
         LogEntity logEntity=new LogEntity();
-        logEntity.setTraceId(MDC.get("X-B3-TraceId"));
-        logEntity.setSpanId(MDC.get("X-B3-SpanId"));
+        logEntity.setTraceId(MDC.get("traceId"));
+        logEntity.setSpanId(MDC.get("spanId"));
         logEntity.setIP(ip);
+        //logEntity.setAppName(appname);
         logEntity.setLevel(event.getLevel().levelStr);
         logEntity.setLogger(event.getLoggerName());
         logEntity.setTimestamp(event.getTimeStamp());

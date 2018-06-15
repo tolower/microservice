@@ -9,13 +9,10 @@ import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.sleuth.Span;
-import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import zipkin2.reporter.kafka11.KafkaSender;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -74,8 +71,6 @@ public class TestDNSController {
         logger.info("调用了保险服务");
         return "ttttttttttttttt";
     }
-    @Autowired
-    Tracer tracer;
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public TbEmpData getUser(String id) {
@@ -88,7 +83,7 @@ public class TestDNSController {
 
         long excTime=endTime-startTime;
 
-        tracer.addTag("redis-time",String.valueOf(excTime));
+        //tracer.addTag("redis-time",String.valueOf(excTime));
 
         return item;
     }
