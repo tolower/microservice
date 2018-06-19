@@ -51,13 +51,16 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
 
     @Autowired
-    private TracingHandlerInterceptor serverInterceptor;
+    private TracingHandlerInterceptor serverZipkinInterceptor;
 
 
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(serverInterceptor);
+        registry.addInterceptor(serverZipkinInterceptor)
+                .excludePathPatterns("/metrics/**")
+                .excludePathPatterns("/v2/api-docs","/configuration/**","/swagger-resources/**");
+
         registry.addInterceptor(new PrometheusMetricsInterceptor()).addPathPatterns("/**");
 
     }

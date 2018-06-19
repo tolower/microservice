@@ -4,10 +4,12 @@ import ch.qos.logback.classic.spi.*;
 import ch.qos.logback.core.CoreConstants;
 import com.xmair.core.configuration.zipkin.ZipkinProperties;
 import com.xmair.core.util.JsonUtil;
+import com.xmair.core.util.SpringBeanTools;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
@@ -34,7 +36,7 @@ public class MessageFormatter implements Formatter {
         logEntity.setTraceId(MDC.get("traceId"));
         logEntity.setSpanId(MDC.get("spanId"));
         logEntity.setIP(ip);
-        //logEntity.setAppName(appname);
+        logEntity.setAppName(SpringBeanTools.getBean(ZipkinProperties.class).getServiceName());
         logEntity.setLevel(event.getLevel().levelStr);
         logEntity.setLogger(event.getLoggerName());
         logEntity.setTimestamp(event.getTimeStamp());

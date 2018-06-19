@@ -7,6 +7,8 @@ import com.xmair.core.exception.Resource404Exception;
 import com.xmair.core.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -26,6 +28,8 @@ public class RestExceptionHandler {
      */
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
+    private MessageSource messageSource;
     /**
      * 统一处理bean验证抛出的参数校验异常
      * 参数校验失败，统一采用warn记录日志
@@ -58,8 +62,11 @@ public class RestExceptionHandler {
     @ExceptionHandler(Business500Exception.class)
     public ResponseEntity<ErrorMessage> BusinessException(Business500Exception e){
         logger.error(e.getMessage(),e);
-        logger.error(e.getMessage(),e);
-        return new ResponseEntity<ErrorMessage>(e.getErrorMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        ErrorMessage errorMessage=e.getErrorMessage();
+
+      //  errorMessage.setBussinessErrorMessage(
+        //        messageSource.getMessage(e.getBusinessExceptionEnum().toString(),null,loca));
+        return new ResponseEntity<ErrorMessage>(errorMessage,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**

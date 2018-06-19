@@ -1,32 +1,18 @@
 package com.xmair.core.exception;
 
 /*
-* 异常代码枚举
+* 业务异常代码枚举，结合国际化资源文件一起使用
 * */
 public enum BusinessExceptionEnum {
 
-    DBerror("执行数据库异常"),
-    CreateOrderFail("创建订单失败。。。"),
-    RESOURCE_NOT_FOUND("resource_not_found"),
-    ARGUMENTS_INVALID("args invalid"),
-    AUTHORIZATION_INVALID("args invalid"),
-    BUSINESS_ERROR("business_error"),
-    SERVER_ERROR("server_error");
 
-    private BusinessExceptionEnum(String businessMessage){
-        this.businessMessage=businessMessage;
-    }
-
-    public String getBusinessMessage() {
-        return businessMessage;
-    }
-
-    public void setBusinessMessage(String businessMessage) {
-        this.businessMessage = businessMessage;
-    }
-
-    // 成员变量
-    private String businessMessage;
+    DBerror,
+    CreateOrderFail,
+    RESOURCE_NOT_FOUND,
+    ARGUMENTS_INVALID,
+    AUTHORIZATION_INVALID,
+    BUSINESS_ERROR,
+    SERVER_ERROR
 
 
 }

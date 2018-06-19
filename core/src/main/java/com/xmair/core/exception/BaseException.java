@@ -2,11 +2,13 @@ package com.xmair.core.exception;
 
 public abstract class BaseException extends  RuntimeException{
 
+
     /**
-     * 错误编码
+     * 通用错误编码
      */
     private ExceptionEnum errorCode;
 
+    //业务异常编码
     private  BusinessExceptionEnum businessExceptionEnum;
 
     public BusinessExceptionEnum getBusinessExceptionEnum() {
@@ -15,6 +17,7 @@ public abstract class BaseException extends  RuntimeException{
 
     public void setBusinessExceptionEnum(BusinessExceptionEnum businessExceptionEnum) {
         this.businessExceptionEnum = businessExceptionEnum;
+
     }
 
 
@@ -53,7 +56,9 @@ public abstract class BaseException extends  RuntimeException{
 
     public  ErrorMessage getErrorMessage(){
         ErrorMessage error = new ErrorMessage(getErrorCode().toString() ,this.getMessage());
-       // error.setBusinessErrorCode();
+        if(businessExceptionEnum!=null){
+            error.setBusinessErrorCode(businessExceptionEnum);
+        }
 
         return  error;
     }

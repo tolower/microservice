@@ -2,8 +2,12 @@ package com.xmair.restapi.config;
 
 import io.undertow.UndertowOptions;
 import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+
+import java.nio.charset.StandardCharsets;
 
 @Configuration
 public class Http2Config {

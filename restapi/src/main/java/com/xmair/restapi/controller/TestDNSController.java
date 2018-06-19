@@ -9,6 +9,7 @@ import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +47,7 @@ public class TestDNSController {
 
     @RequestMapping(value = "/testException",method = RequestMethod.GET)
     public String index() throws Business500Exception {
+     //   System.out.println(messageSource);
         /**
          * 模拟用户不存在
          * 抛出业务逻辑异常
@@ -55,6 +57,7 @@ public class TestDNSController {
         }
         return "ttttttttttttttt";
     }
+
 
 
     @RequestMapping(value = "/testQPS",method = RequestMethod.GET)
