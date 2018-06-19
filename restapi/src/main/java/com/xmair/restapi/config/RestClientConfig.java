@@ -63,11 +63,11 @@ public class RestClientConfig {
         //设置连接池大小
         dispatcher.setMaxRequests(1000);
         dispatcher.setMaxRequestsPerHost(200);
-       ConnectionPool pool = new ConnectionPool(20, 10, TimeUnit.MINUTES);
+       ConnectionPool pool = new ConnectionPool(20, 30, TimeUnit.MINUTES);
 
 
 
-        builder.connectTimeout(250, TimeUnit.MILLISECONDS)
+        builder.connectTimeout(550, TimeUnit.MILLISECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .connectionPool(pool)

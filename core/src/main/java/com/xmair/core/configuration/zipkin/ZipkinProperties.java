@@ -17,6 +17,25 @@ public class ZipkinProperties {
 
     private int flushInterval;
 
+    public  String kafkaHosts;
+    public  String topic;
+
+    public String getKafkaHosts() {
+        return kafkaHosts;
+    }
+
+    public void setKafkaHosts(String kafkaHosts) {
+        this.kafkaHosts = kafkaHosts;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
     private boolean compressionEnabled;
 
     public String getUrl() {
