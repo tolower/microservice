@@ -88,8 +88,13 @@ public class RestapiApplicationTests {
 	public  void testResponseEntity()  throws Exception {
 		String url = "http://localhost:8080/v1/tbempdata/user?id=06645";
 
-		ResponseEntity<String> responseEntity=restTemplate.getForEntity(url,String.class);
-
+		ResponseEntity<String> responseEntity=null;
+		try{
+			responseEntity=restTemplate.getForEntity(url,String.class);
+		}catch (Exception e){
+			System.out.println(e.getStackTrace());
+			return;
+		}
 		if(responseEntity.getStatusCode()==HttpStatus.OK){
 			TbEmpData emp=objectMapper.readValue(responseEntity.getBody(),TbEmpData.class);
 

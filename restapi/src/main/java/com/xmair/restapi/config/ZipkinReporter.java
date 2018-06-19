@@ -22,8 +22,8 @@ public class ZipkinReporter {
     ) {
         final AsyncReporter<Span> reporter = AsyncReporter.builder(sender)
                 .queuedMaxSpans(50)
-                .messageMaxBytes(5000)
-                .messageTimeout(1000, TimeUnit.MILLISECONDS)
+          //      .messageMaxBytes(5000)
+           //     .messageTimeout(1000, TimeUnit.MILLISECONDS)
 
                 .build(zipkin.getEncoder());
         return reporter;
