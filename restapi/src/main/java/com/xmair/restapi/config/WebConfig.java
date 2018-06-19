@@ -1,5 +1,10 @@
 package com.xmair.restapi.config;
 
+import brave.Tracing;
+import brave.http.HttpTracing;
+import brave.propagation.B3Propagation;
+import brave.propagation.ExtraFieldPropagation;
+import brave.spring.webmvc.TracingHandlerInterceptor;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xmair.core.util.DateConverter;
@@ -7,21 +12,28 @@ import com.xmair.restapi.apiversion.VersionHandlerMapping;
 
 import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import zipkin2.Span;
+import zipkin2.reporter.AsyncReporter;
+import zipkin2.reporter.kafka11.KafkaSender;
 
 import javax.annotation.PostConstruct;
 import java.nio.charset.Charset;
@@ -30,9 +42,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-
+@Import({TracingHandlerInterceptor.class})
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport {
+
+
+
+
+
+    @Autowired
+    private TracingHandlerInterceptor serverInterceptor;
+
+
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(serverInterceptor);
+        registry.addInterceptor(new PrometheusMetricsInterceptor()).addPathPatterns("/**");
+
+    }
+
 
     @Autowired
     private RequestMappingHandlerAdapter handlerAdapter;
@@ -152,10 +181,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
 
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new PrometheusMetricsInterceptor()).addPathPatterns("/**");
 
-    }
 
 }

@@ -1,5 +1,8 @@
 package com.xmair.restapi.config;
 
+import brave.http.HttpTracing;
+import brave.okhttp3.TracingInterceptor;
+import brave.servlet.TracingFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.ribbon.ClientOptions;
 import io.netty.handler.ssl.SslContextBuilder;
@@ -41,6 +44,8 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class RestClientConfig {
 
+    @Autowired
+    HttpTracing  httpTracing;
     /**
      * 注入okhttp客户端工具类，全局唯一，共享连接池，线程安全
      */
@@ -51,7 +56,10 @@ public class RestClientConfig {
        // .protocols(Collections.singletonList(Protocol.H2_PRIOR_KNOWLEDGE));
 
 
-        Dispatcher dispatcher=new Dispatcher();
+        Dispatcher dispatcher=new Dispatcher(
+                httpTracing.tracing().currentTraceContext()
+                        .executorService(new Dispatcher().executorService())
+        );
         //设置连接池大小
         dispatcher.setMaxRequests(1000);
         dispatcher.setMaxRequestsPerHost(200);
@@ -66,7 +74,7 @@ public class RestClientConfig {
 
                 .dispatcher(dispatcher)
 
-                .addNetworkInterceptor(new OkHttpInterceptor())
+                .addNetworkInterceptor(TracingInterceptor.create(httpTracing))
                 .retryOnConnectionFailure(false);
         return builder.build();
     }
