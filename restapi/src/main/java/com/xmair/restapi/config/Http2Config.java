@@ -20,8 +20,8 @@ public class Http2Config {
         // 这里也可以做其他配置
         factory.addBuilderCustomizers(builder -> builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true)
         .setServerOption(UndertowOptions.MAX_CONCURRENT_REQUESTS_PER_CONNECTION,1000)
-                .setServerOption(UndertowOptions.HTTP2_SETTINGS_MAX_CONCURRENT_STREAMS,500)
-        .setServerOption(UndertowOptions.HTTP2_SETTINGS_INITIAL_WINDOW_SIZE,6553500));
+                .setServerOption(UndertowOptions.HTTP2_SETTINGS_MAX_CONCURRENT_STREAMS,1000)
+        .setServerOption(UndertowOptions.HTTP2_SETTINGS_INITIAL_WINDOW_SIZE,65535));
 
         return factory;
     }

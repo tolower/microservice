@@ -14,6 +14,7 @@ import brave.spring.webmvc.TracingHandlerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import zipkin.TraceKeys;
 import zipkin2.Span;
 import zipkin2.codec.Encoding;
@@ -23,6 +24,7 @@ import zipkin2.reporter.kafka11.KafkaSender;
 import java.util.HashMap;
 import java.util.Map;
 
+@Configuration
 public class ZipkinConfig {
 
     @Autowired

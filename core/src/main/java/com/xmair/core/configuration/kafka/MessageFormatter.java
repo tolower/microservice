@@ -21,7 +21,7 @@ public class MessageFormatter implements Formatter {
     static  {
         try{
              ip= InetAddress.getLocalHost().getHostAddress();
-
+            appname=SpringBeanTools.getBean(ZipkinProperties.class).getServiceName();
         }catch (Exception e){//不处理，取不到
             ip="0:0:0:0";
         }
@@ -36,7 +36,7 @@ public class MessageFormatter implements Formatter {
         logEntity.setTraceId(MDC.get("traceId"));
         logEntity.setSpanId(MDC.get("spanId"));
         logEntity.setIP(ip);
-        logEntity.setAppName(SpringBeanTools.getBean(ZipkinProperties.class).getServiceName());
+        logEntity.setAppName(appname);
         logEntity.setLevel(event.getLevel().levelStr);
         logEntity.setLogger(event.getLoggerName());
         logEntity.setTimestamp(event.getTimeStamp());
