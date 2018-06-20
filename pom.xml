@@ -180,7 +180,7 @@
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>
-			<version>3.11.0-SNAPSHOT</version>
+			<version>3.10.0</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.squareup.okio/okio -->
