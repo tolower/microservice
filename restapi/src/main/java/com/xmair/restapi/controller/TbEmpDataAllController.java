@@ -2,6 +2,7 @@ package com.xmair.restapi.controller;
 import com.xmair.core.entity.framedb.TbEmpDataAll;
 import com.xmair.core.exception.ExceptionEnum;
 import com.xmair.core.mapper.framedb.TbEmpDataAllMapper;
+import com.xmair.core.util.JsonUtil;
 import com.xmair.core.util.ResultBean;
 import org.springframework.validation.annotation.Validated;
 import io.swagger.annotations.ApiOperation;
@@ -10,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.xmair.core.util.JsonUtil;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;

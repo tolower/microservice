@@ -78,6 +78,7 @@ public class RestapiApplicationTests {
 				url, HttpMethod.GET,null , typeRef);
 		ResultBean<TbEmpData> myModelClasses = responseEntity.getBody();
 
+		//restTemplate.setMessageConverters();
 		Assert.assertEquals(myModelClasses.getData().getMfId(),"06645");
 
 

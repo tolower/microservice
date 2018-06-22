@@ -10,12 +10,10 @@ import brave.http.HttpTracing;
 import brave.propagation.B3Propagation;
 import brave.propagation.ExtraFieldPropagation;
 import brave.sampler.Sampler;
-import brave.spring.webmvc.TracingHandlerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import zipkin.TraceKeys;
 import zipkin2.Span;
 import zipkin2.codec.Encoding;
 import zipkin2.reporter.AsyncReporter;
@@ -33,20 +31,24 @@ public class ZipkinConfig {
     KafkaSender sender() {
         Map<String ,String>  pro=new HashMap<>();
         pro.put("acks","1");
-        pro.put("linger.ms","50");
+       // pro.put("linger.ms","50");
 
         pro.put("retries","1");
-        pro.put("compression.type","gzip");
-        pro.put("producer.type","async");
+       // pro.put("compression.type","gzip");
+       // pro.put("producer.type","async");
         return KafkaSender.newBuilder().overrides(pro)
                 .bootstrapServers(zipkinProperties.getKafkaHosts())
-                .topic(zipkinProperties.getTopic()).encoding(Encoding.JSON).build();
+                .topic(zipkinProperties.getTopic())
+                //.encoding(Encoding.PROTO3)
+                .build();
     }
 
     @Bean AsyncReporter<Span> spanReporter() {
         return AsyncReporter.builder(sender())
 
-                .queuedMaxSpans(100).build();
+                .messageMaxBytes(200000)
+                .queuedMaxSpans(500)
+                .build();
     }
 
     @Bean
@@ -58,6 +60,7 @@ public class ZipkinConfig {
                 .currentTraceContext(MDCCurrentTraceContext.create()) // puts trace IDs into logs
                 .spanReporter(spanReporter()).build();
     }
+
 
     @Bean
     HttpTracing httpTracing(Tracing tracing) {
@@ -73,8 +76,8 @@ public class ZipkinConfig {
             public <Req> void request(HttpAdapter<Req, ?> adapter, Req req, SpanCustomizer customizer) {
                 customizer.name(spanName(adapter, req)); // default span name
 
-                customizer.tag(TraceKeys.HTTP_URL, adapter.url(req)); // the whole url, not just the path
-
+                customizer.tag("url", adapter.url(req)); // the whole url, not just the path
+                super.request(adapter,req,customizer);
             }
 
                 })
@@ -86,7 +89,7 @@ public class ZipkinConfig {
                     @Override
                     public <Req> void request(HttpAdapter<Req, ?> adapter, Req req, SpanCustomizer customizer) {
                         customizer.name(spanName(adapter, req)); // default span name
-                        customizer.tag(TraceKeys.HTTP_URL, adapter.url(req)); // the whole url, not just the path
+                        customizer.tag("url", adapter.url(req)); // the whole url, not just the path
                         super.request(adapter,req,customizer);
                     }
                 })

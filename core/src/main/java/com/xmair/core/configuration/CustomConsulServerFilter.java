@@ -1,4 +1,4 @@
-package com.xmair.restapi.config;
+package com.xmair.core.configuration;
 
 import com.ecwid.consul.v1.health.model.Check;
 import com.netflix.loadbalancer.Server;

@@ -61,11 +61,11 @@ public class RestapiApplication {
 
 	public static void main(String[] args) {
 
-		try {
+		/*try {
 			MDC.put("ip", InetAddress.getLocalHost().getHostAddress());
 		}catch (UnknownHostException e){
 			e.printStackTrace();
-		}
+		}*/
 		SpringApplication.run(RestapiApplication.class, args);
 
 

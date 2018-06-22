@@ -7,6 +7,7 @@ import brave.propagation.ExtraFieldPropagation;
 import brave.spring.webmvc.TracingHandlerInterceptor;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xmair.core.configuration.ProtostuffHttpMessageConverter;
 import com.xmair.core.util.DateConverter;
 import com.xmair.restapi.apiversion.VersionHandlerMapping;
 
@@ -25,6 +26,8 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
+import org.springframework.http.converter.xml.Jaxb2CollectionHttpMessageConverter;
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
 import org.springframework.web.client.RestTemplate;
@@ -48,6 +51,9 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
 
 
+
+    @Autowired
+    private  ObjectMapper objectMapper;
 
 
     @Autowired
@@ -100,12 +106,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
     public MappingJackson2HttpMessageConverter getCustomJacksonConverter(){
         MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-        //设置日期格式
-        ObjectMapper objectMapper = new ObjectMapper();
-        SimpleDateFormat smt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        objectMapper.setDateFormat(smt);
-        objectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
         mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
         //设置中文编码格式
         List<MediaType> list = new ArrayList<MediaType>();
@@ -120,9 +121,20 @@ public class WebConfig extends WebMvcConfigurationSupport {
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
         stringConverter.setDefaultCharset(Charset.forName("utf-8"));
-        converters.add(0,stringConverter);
-        converters.add(0,getCustomJacksonConverter());
+        List<MediaType> list = new ArrayList<MediaType>();
+        list.add(MediaType.TEXT_PLAIN);
+        stringConverter.setSupportedMediaTypes(list);
+        MappingJackson2XmlHttpMessageConverter xmlConverter=new MappingJackson2XmlHttpMessageConverter();
 
+
+        xmlConverter.setDefaultCharset(Charset.forName("utf-8"));
+        List<MediaType> list2 = new ArrayList<MediaType>();
+        list2.add(MediaType.APPLICATION_XML);
+        xmlConverter.setSupportedMediaTypes(list2);
+        converters.add(0,stringConverter);
+        converters.add(0,xmlConverter);
+        converters.add(0,getCustomJacksonConverter());
+        converters.add(0,new ProtostuffHttpMessageConverter());
        // converters.add(1,new ProtobufHttpMessageConverter());
     }
 
@@ -169,16 +181,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
         registry.addRedirectViewController("/","/swagger-ui.html");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
         super.addViewControllers(registry);
-    }
-
-    /**
-     * 配置servlet处理
-     */
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer)
-    {
-
-        configurer.enable();
     }
 
 

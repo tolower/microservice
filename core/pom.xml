@@ -58,6 +58,12 @@
 		<groupId>io.zipkin.brave</groupId>
 		<artifactId>brave-context-slf4j</artifactId>
 		<version>4.9.1</version>
+		<exclusions>
+			<exclusion>
+				<artifactId>zipkin</artifactId>
+				<groupId>io.zipkin.java</groupId>
+			</exclusion>
+		</exclusions>
 	</dependency>
 	<dependency>
 		<groupId>io.zipkin.reporter2</groupId>
@@ -76,13 +82,44 @@
 		<version>4.9.1</version>
 	</dependency>
 
+	<dependency>
+		<groupId>com.fasterxml.jackson.datatype</groupId>
+		<artifactId>jackson-datatype-jsr310</artifactId>
+	</dependency>
 
 	<dependency>
 		<groupId>org.apache.velocity</groupId>
 		<artifactId>velocity</artifactId>
 		<version>1.7</version>
 	</dependency>
+
+
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-consul-discovery</artifactId>
+		<exclusions>
+			<exclusion>
+				<artifactId>spring-security-rsa</artifactId>
+				<groupId>org.springframework.security</groupId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+
+
 </dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Edgware.SR3</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<build>
 
 <!--

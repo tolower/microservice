@@ -13,11 +13,10 @@ import java.text.SimpleDateFormat;
 
 public  class JsonUtil {
 
-        private static ObjectMapper mapper = new ObjectMapper();
+        private static ObjectMapper mapper;
 
         static {
-            SimpleDateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mapper.setDateFormat(myDateFormat);
+           mapper=SpringBeanTools.getBean(ObjectMapper.class);
         }
         public static String bean2Json(Object obj) {
             try {

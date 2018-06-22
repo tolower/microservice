@@ -8,6 +8,14 @@
 * 简单易用
 * 可运维监控
 
+
+## 2018-6-22 更新日志
+1、确定api开发规范、异常处理，返回resultbean，统一返回200状态码。未完
+2、优化结构
+3、protostuff 实现protobuf消息格式处理，目前支持application/json、application/xml、application/x-protobuf。及其他
+4、undertow本身是nio框架。主线程处理IO请求，selevet线程池对应于controller，不要再使用jdk的异步callable referredresult等，反而不如undertow自身管理的性能高。
+在实际业务场景下，undertow性能、并发都优于tomcat
+
 ## 2018-6-19 更新日志
 1、brave组件替换spring  cloud zipkin组件
 2、完善过滤器

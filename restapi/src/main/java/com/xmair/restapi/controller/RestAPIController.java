@@ -78,7 +78,7 @@ public class RestAPIController {
     @RequestMapping(value = "/testhttp2",method = RequestMethod.GET)
     public  String testhttp2(){
 
-        return simgleRestTemplate.getForObject("http://11.4.74.45:888/restapi/ordertest",String.class);
+        return simgleRestTemplate.getForObject("http://11.4.74.47:999/test/testinsurance",String.class);
     }
     @RequestMapping(value = "/ordertest",method = RequestMethod.GET)
     public  String testTrace(){

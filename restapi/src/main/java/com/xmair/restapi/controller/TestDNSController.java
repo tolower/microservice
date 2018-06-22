@@ -71,6 +71,12 @@ public class TestDNSController {
     public String index2() throws Business500Exception {
 
 
+        /*try{
+            Thread.sleep(20);
+        }catch (Exception e){
+
+        }*/
+
         logger.info("调用了保险服务");
         return "ttttttttttttttt";
     }

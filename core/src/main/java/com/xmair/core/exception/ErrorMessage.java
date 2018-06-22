@@ -8,10 +8,11 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 
-public class ErrorMessage {
+public class ErrorMessage implements Serializable{
 
     /*
 国际化资源文件工具类，new 出来的对象无法直接使用autowired，使用springtool工具

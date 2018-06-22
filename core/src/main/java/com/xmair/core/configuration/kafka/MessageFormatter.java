@@ -2,18 +2,14 @@ package com.xmair.core.configuration.kafka;
 
 import ch.qos.logback.classic.spi.*;
 import ch.qos.logback.core.CoreConstants;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xmair.core.configuration.zipkin.ZipkinProperties;
 import com.xmair.core.util.JsonUtil;
 import com.xmair.core.util.SpringBeanTools;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.stream.Stream;
 public class MessageFormatter implements Formatter {
@@ -21,12 +17,43 @@ public class MessageFormatter implements Formatter {
     static  {
         try{
              ip= InetAddress.getLocalHost().getHostAddress();
-            appname=SpringBeanTools.getBean(ZipkinProperties.class).getServiceName();
+
         }catch (Exception e){//不处理，取不到
             ip="0:0:0:0";
         }
     }
-    public  static String ip;
+    private   static String ip;
+
+    public static ObjectMapper getObjectMapper() {
+        if(objectMapper==null){
+            objectMapper=SpringBeanTools.getBean(ObjectMapper.class);
+        }
+        return objectMapper;
+    }
+
+    public static void setObjectMapper(ObjectMapper objectMapper) {
+        MessageFormatter.objectMapper = objectMapper;
+    }
+
+    private   static ObjectMapper objectMapper;
+    public static String getIp() {
+        return ip;
+    }
+
+    public static void setIp(String ip) {
+        MessageFormatter.ip = ip;
+    }
+
+    public static String getAppname() {
+        if(appname==null){
+            appname=SpringBeanTools.getBean(ZipkinProperties.class).getServiceName();
+        }
+        return appname;
+    }
+
+    public static void setAppname(String appname) {
+        MessageFormatter.appname = appname;
+    }
 
     private  static  String appname;
     @Override
@@ -36,10 +63,10 @@ public class MessageFormatter implements Formatter {
         logEntity.setTraceId(MDC.get("traceId"));
         logEntity.setSpanId(MDC.get("spanId"));
         logEntity.setIP(ip);
-        logEntity.setAppName(appname);
+        logEntity.setAppName(getAppname());
         logEntity.setLevel(event.getLevel().levelStr);
         logEntity.setLogger(event.getLoggerName());
-        logEntity.setTimestamp(event.getTimeStamp());
+        logEntity.setTimestamp(LocalDateTime.now());
         logEntity.setMessage(event.getFormattedMessage());
         if(event.getThrowableProxy()!=null){//error日志要记录堆栈信息
             StringBuilder stringBuilder=new StringBuilder();

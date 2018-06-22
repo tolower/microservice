@@ -1,4 +1,4 @@
-package com.xmair.restapi.config;
+package com.xmair.core.configuration;
 
 import brave.http.HttpTracing;
 import brave.okhttp3.TracingInterceptor;
@@ -19,6 +19,7 @@ import org.springframework.cloud.netflix.ribbon.okhttp.RetryableOkHttpLoadBalanc
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.AsyncClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.Netty4ClientHttpRequestFactory;
@@ -27,11 +28,13 @@ import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 import scala.util.Try;
 
 import javax.net.ssl.SSLException;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,7 +45,7 @@ import java.util.concurrent.TimeUnit;
  * resttemplate使用okhttp连接池
  * */
 @Configuration
-public class RestClientConfig {
+public class HttpClientConfig {
 
     @Autowired
     HttpTracing  httpTracing;
@@ -53,7 +56,7 @@ public class RestClientConfig {
     public OkHttpClient okHttpClient() {
         //注意：只有明确知道服务端支持H2C协议的时候才能使用。添加H2C支持，
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-       // .protocols(Collections.singletonList(Protocol.H2_PRIOR_KNOWLEDGE));
+      // .protocols(Collections.singletonList(Protocol.H2_PRIOR_KNOWLEDGE));
 
 
         Dispatcher dispatcher=new Dispatcher(
@@ -67,7 +70,7 @@ public class RestClientConfig {
 
 
 
-        builder.connectTimeout(550, TimeUnit.MILLISECONDS)
+        builder.connectTimeout(250, TimeUnit.MILLISECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .connectionPool(pool)
@@ -109,15 +112,24 @@ public class RestClientConfig {
 
         RestTemplate restTemplate= new RestTemplate(OkHttp3Factory());
        // RestTemplate restTemplate= new RestTemplate(nettyFactory());
-        SimpleDateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        objectMapper.setDateFormat(myDateFormat);
 
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
         messageConverters.add(new FormHttpMessageConverter());
         messageConverters.add(new StringHttpMessageConverter());
         MappingJackson2HttpMessageConverter jsonMessageConverter = new MappingJackson2HttpMessageConverter();
         jsonMessageConverter.setObjectMapper(objectMapper);
-        messageConverters.add(jsonMessageConverter);
+
+
+
+        MappingJackson2XmlHttpMessageConverter xmlConverter=new MappingJackson2XmlHttpMessageConverter();
+        xmlConverter.setDefaultCharset(Charset.forName("utf-8"));
+        List<MediaType> list = new ArrayList<MediaType>();
+        list.add(MediaType.APPLICATION_XML);
+        xmlConverter.setSupportedMediaTypes(list);
+        messageConverters.add(0,xmlConverter);
+        messageConverters.add(0,jsonMessageConverter);
+        messageConverters.add(0,new ProtostuffHttpMessageConverter());
+
         restTemplate.setMessageConverters(messageConverters);
         return  restTemplate;
     }
@@ -125,15 +137,22 @@ public class RestClientConfig {
     @Bean(name = "signleTemplate")
     public RestTemplate restTemplate() {
         RestTemplate restTemplate= new RestTemplate(OkHttp3Factory());
-        SimpleDateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        objectMapper.setDateFormat(myDateFormat);
-
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
         messageConverters.add(new FormHttpMessageConverter());
         messageConverters.add(new StringHttpMessageConverter());
         MappingJackson2HttpMessageConverter jsonMessageConverter = new MappingJackson2HttpMessageConverter();
         jsonMessageConverter.setObjectMapper(objectMapper);
-        messageConverters.add(jsonMessageConverter);
+
+
+        MappingJackson2XmlHttpMessageConverter xmlConverter=new MappingJackson2XmlHttpMessageConverter();
+        xmlConverter.setDefaultCharset(Charset.forName("utf-8"));
+        List<MediaType> list = new ArrayList<MediaType>();
+        list.add(MediaType.APPLICATION_XML);
+        xmlConverter.setSupportedMediaTypes(list);
+        messageConverters.add(0,xmlConverter);
+        messageConverters.add(0,jsonMessageConverter);
+        messageConverters.add(0,new ProtostuffHttpMessageConverter());
+
         restTemplate.setMessageConverters(messageConverters);
 
         return restTemplate;
