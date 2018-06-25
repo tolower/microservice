@@ -49,6 +49,9 @@ public class HttpClientConfig {
 
     @Autowired
     HttpTracing  httpTracing;
+    @Autowired
+    public MappingJackson2HttpMessageConverter jsonConverter;
+
     /**
      * 注入okhttp客户端工具类，全局唯一，共享连接池，线程安全
      */
@@ -116,8 +119,7 @@ public class HttpClientConfig {
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
         messageConverters.add(new FormHttpMessageConverter());
         messageConverters.add(new StringHttpMessageConverter());
-        MappingJackson2HttpMessageConverter jsonMessageConverter = new MappingJackson2HttpMessageConverter();
-        jsonMessageConverter.setObjectMapper(objectMapper);
+
 
 
 
@@ -126,10 +128,10 @@ public class HttpClientConfig {
         List<MediaType> list = new ArrayList<MediaType>();
         list.add(MediaType.APPLICATION_XML);
         xmlConverter.setSupportedMediaTypes(list);
-        messageConverters.add(0,xmlConverter);
-        messageConverters.add(0,jsonMessageConverter);
-        messageConverters.add(0,new ProtostuffHttpMessageConverter());
 
+        messageConverters.add(0,xmlConverter);
+        messageConverters.add(0,new ProtostuffHttpMessageConverter());
+        messageConverters.add(0,jsonConverter);
         restTemplate.setMessageConverters(messageConverters);
         return  restTemplate;
     }
@@ -140,8 +142,6 @@ public class HttpClientConfig {
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
         messageConverters.add(new FormHttpMessageConverter());
         messageConverters.add(new StringHttpMessageConverter());
-        MappingJackson2HttpMessageConverter jsonMessageConverter = new MappingJackson2HttpMessageConverter();
-        jsonMessageConverter.setObjectMapper(objectMapper);
 
 
         MappingJackson2XmlHttpMessageConverter xmlConverter=new MappingJackson2XmlHttpMessageConverter();
@@ -149,9 +149,10 @@ public class HttpClientConfig {
         List<MediaType> list = new ArrayList<MediaType>();
         list.add(MediaType.APPLICATION_XML);
         xmlConverter.setSupportedMediaTypes(list);
+
         messageConverters.add(0,xmlConverter);
-        messageConverters.add(0,jsonMessageConverter);
         messageConverters.add(0,new ProtostuffHttpMessageConverter());
+        messageConverters.add(0,jsonConverter);
 
         restTemplate.setMessageConverters(messageConverters);
 

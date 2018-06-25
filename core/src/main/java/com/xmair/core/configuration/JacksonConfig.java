@@ -11,6 +11,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -47,4 +48,8 @@ public class JacksonConfig {
         objectMapper.registerModule(javaTimeModule);
         return  objectMapper;
     }
+
+     /*自定义jackson 消息序列化*/
+
+
 }

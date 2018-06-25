@@ -66,6 +66,7 @@ public class MessageFormatter implements Formatter {
         logEntity.setAppName(getAppname());
         logEntity.setLevel(event.getLevel().levelStr);
         logEntity.setLogger(event.getLoggerName());
+        logEntity.setLocation(event.getCallerData()[0].toString());
         logEntity.setTimestamp(LocalDateTime.now());
         logEntity.setMessage(event.getFormattedMessage());
         if(event.getThrowableProxy()!=null){//error日志要记录堆栈信息

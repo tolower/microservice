@@ -18,6 +18,7 @@ import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServle
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.http.MediaType;
@@ -55,11 +56,30 @@ public class WebConfig extends WebMvcConfigurationSupport {
     @Autowired
     private  ObjectMapper objectMapper;
 
+    @Autowired
+    private RequestMappingHandlerAdapter handlerAdapter;
+
+    @Autowired
+    public MappingJackson2HttpMessageConverter jsonConverter;
+
 
     @Autowired
     private TracingHandlerInterceptor serverZipkinInterceptor;
 
+    @Primary
+    @Bean
+    public MappingJackson2HttpMessageConverter getCustomJacksonConverter(ObjectMapper objectMapper){
+        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
 
+        mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
+        //设置中文编码格式
+        List<MediaType> list = new ArrayList<MediaType>();
+        list.add(MediaType.APPLICATION_JSON_UTF8);
+        list.add(MediaType.APPLICATION_JSON);
+
+        mappingJackson2HttpMessageConverter.setSupportedMediaTypes(list);
+        return mappingJackson2HttpMessageConverter;
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -72,8 +92,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
     }
 
 
-    @Autowired
-    private RequestMappingHandlerAdapter handlerAdapter;
 
 
 
@@ -102,19 +120,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
        // super.addCorsMappings(registry);
     }
 
-    /*自定义jackson 消息序列化*/
 
-    public MappingJackson2HttpMessageConverter getCustomJacksonConverter(){
-        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-
-        mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
-        //设置中文编码格式
-        List<MediaType> list = new ArrayList<MediaType>();
-        list.add(MediaType.APPLICATION_JSON_UTF8);
-        list.add(MediaType.APPLICATION_JSON);
-        mappingJackson2HttpMessageConverter.setSupportedMediaTypes(list);
-        return mappingJackson2HttpMessageConverter;
-    }
 
     //添加protobuf支持，需要client指定accept-type：application/x-protobuf
     @Override
@@ -133,8 +139,10 @@ public class WebConfig extends WebMvcConfigurationSupport {
         xmlConverter.setSupportedMediaTypes(list2);
         converters.add(0,stringConverter);
         converters.add(0,xmlConverter);
-        converters.add(0,getCustomJacksonConverter());
+
+
         converters.add(0,new ProtostuffHttpMessageConverter());
+        converters.add(0,getCustomJacksonConverter(objectMapper));
        // converters.add(1,new ProtobufHttpMessageConverter());
     }
 

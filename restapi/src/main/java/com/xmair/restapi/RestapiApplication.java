@@ -48,7 +48,7 @@ import java.net.UnknownHostException;
         EmbeddedLdapAutoConfiguration.class,
 		HibernateJpaAutoConfiguration.class
 })
-@ComponentScan(basePackages = {"com.xmair.restapi","com.xmair.core.configuration","com.xmair.core.util"})
+@ComponentScan(basePackages = {"com.xmair.core.configuration","com.xmair.core.util","com.xmair.restapi"})
 @MapperScan("com.xmair.core.mapper")
 @EnableDiscoveryClient
 @EnablePrometheusEndpoint
