@@ -20,7 +20,7 @@ public class HttpErrorController implements ErrorController {
     @ResponseBody
     public ResultBean<String> handleError(){
         ResultBean<String> result=new ResultBean<String>();
-        result.setCode(ExceptionEnum.RESOURCE_NOT_FOUND.toString());
+        result.setCode(ExceptionEnum.RESOURCE_NOT_FOUND.getCode());
         result.setMessage("找不到该网页");
         return result;
     }

@@ -48,7 +48,7 @@ public class OrganController {
         if(item!=null){
             return new ResultBean<A1001>(item);
         }else {
-            return new ResultBean<A1001>(ExceptionEnum.RESOURCE_NOT_FOUND.toString(),"找不到该记录",null);
+            return new ResultBean<A1001>(ExceptionEnum.RESOURCE_NOT_FOUND,null,"找不到该记录",null);
         }
     }
 

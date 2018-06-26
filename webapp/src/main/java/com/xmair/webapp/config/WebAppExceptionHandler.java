@@ -35,7 +35,7 @@ public class WebAppExceptionHandler {
         logger.warn("参数校验失败,{}", JsonUtil.bean2Json(e.getTarget()));
         List<FieldError> fieldErrors=e.getBindingResult().getFieldErrors();
 
-        return  new ResultBean<>(ExceptionEnum.ARGUMENTS_INVALID.toString(),"arguments invalid",fieldErrors);
+        return  new ResultBean<>(ExceptionEnum.ARGUMENTS_INVALID,null,"arguments invalid",fieldErrors);
 
     }
 
@@ -47,7 +47,8 @@ public class WebAppExceptionHandler {
     public ResultBean<String> validExceptionHandler(BusinessException e) {
         logger.warn("业务异常：【{}】", e.getMessage(),e);
         ResultBean<String> result=new ResultBean<String>();
-        result.setCode(e.getErrCode());
+        result.setCode(ExceptionEnum.BUSINESS_ERROR.getCode());
+        result.setErrStr(e.getErrCode());
         result.setMessage(e.getMessage());
         result.setData(JsonUtil.bean2Json(e.getData()));
         return result;
@@ -63,7 +64,7 @@ public class WebAppExceptionHandler {
     public ResultBean<String> runtimeExceptionHandler(Exception e) {
         logger.error("运行时异常：【{}】", e.getMessage(),e);
         ResultBean<String> result=new ResultBean<String>();
-        result.setCode(ExceptionEnum.SERVER_ERROR.toString());
+        result.setCode(ExceptionEnum.SERVER_ERROR.getCode());
         result.setMessage(e.getMessage());
         return result;
     }

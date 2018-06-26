@@ -47,15 +47,16 @@ public class TbEmpDataController {
     /*
     慎用cacheable，本质上是用hashmap  key为user，只会打到一台master，无法打散到多个master上，无法提升大并发能力
     * */
-   // @Cacheable( cacheNames = "user")
+    //@Cacheable( cacheNames = "user")
     @ApiOperation(value="获取单条记录", notes="根据url的id来获取详细信息")
     @RequestMapping(value = "/get",method = RequestMethod.GET)
+
     public ResultBean<TbEmpData> get(String id){
         TbEmpData item=  mapper.selectByPrimaryKey(id);
         if(item!=null){
             return new ResultBean<TbEmpData>(item);
         }else {
-            return new ResultBean<TbEmpData>(ExceptionEnum.RESOURCE_NOT_FOUND.toString(),"找不到该记录",null);
+            return new ResultBean<TbEmpData>(ExceptionEnum.RESOURCE_NOT_FOUND,null,"找不到该记录",null);
         }
     }
 

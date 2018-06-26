@@ -45,7 +45,7 @@ private ${beanName}Mapper mapper;
             return new ResultBean<${beanName}>(item);
         }
         else {
-            return new ResultBean<${beanName}>(ExceptionEnum.RESOURCE_NOT_FOUND.toString(),"找不到该记录",null);
+            return new ResultBean<${beanName}>(ExceptionEnum.RESOURCE_NOT_FOUND,null,"找不到该记录",null);
         }
     }
 

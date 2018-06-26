@@ -8,12 +8,18 @@ import java.io.Serializable;
 * 定义统一标准的接口规范
 * */
 public class  ResultBean<T> implements Serializable{
+
+    private int code=ExceptionEnum.SUCCESS.getCode();
     /**
      * 编号
      */
-    private String code= ExceptionEnum.SUCCESS.toString();
+    private String errStr= ExceptionEnum.SUCCESS.toString();
+
+
+
     /**
      * 消息内容
+
      */
     private String message="success";
 
@@ -29,13 +35,7 @@ public class  ResultBean<T> implements Serializable{
         this.message = message;
     }
 
-    public String getCode() {
-        return code;
-    }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public T getData() {
         return data;
@@ -45,22 +45,42 @@ public class  ResultBean<T> implements Serializable{
         this.data = data;
     }
 
+    public int getCode() {
+        return code;
+    }
 
+    public void setCode(int code) {
+        this.code = code;
+    }
 
-    public ResultBean(String code, String message, T data) {
+    public String getErrStr() {
+        return errStr;
+    }
 
-        this.code=code;
+    public void setErrStr(String errStr) {
+
+        this.errStr = errStr;
+    }
+
+    public ResultBean(ExceptionEnum exceptionEnum, String errStr, String message, T data) {
+
+        this.code=exceptionEnum.getCode();
+        this.errStr=errStr;
         this.message=message;
         this.data=data;
     }
 
+
+
     public  ResultBean(){}
     public  ResultBean(T data){
         super();
+
         this.data=data;
     }
     public ResultBean(Throwable e){
-        this.code= ExceptionEnum.SERVER_ERROR.toString();
+        this.code= ExceptionEnum.SERVER_ERROR.getCode();
+
         this.message=e.getMessage();
     }
 }

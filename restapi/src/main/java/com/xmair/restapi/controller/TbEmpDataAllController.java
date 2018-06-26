@@ -46,7 +46,7 @@ public class TbEmpDataAllController {
         if(item!=null){
             return new ResultBean<TbEmpDataAll>(item);
         }else {
-            return new ResultBean<TbEmpDataAll>(ExceptionEnum.RESOURCE_NOT_FOUND.toString(),"找不到该记录",null);
+            return new ResultBean<TbEmpDataAll>(ExceptionEnum.RESOURCE_NOT_FOUND,null,"找不到该记录",null);
         }
     }
 

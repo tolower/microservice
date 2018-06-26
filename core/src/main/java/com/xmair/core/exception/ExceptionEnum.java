@@ -7,12 +7,19 @@ package com.xmair.core.exception;
 * */
 public enum ExceptionEnum {
 
-    SUCCESS,
-    RESOURCE_NOT_FOUND,
-    ARGUMENTS_INVALID,
-    AUTHORIZATION_INVALID,
-    AUTH_FORBIDDEN,
-    BUSINESS_ERROR,
-    SERVER_ERROR
+    SUCCESS(200),
+    RESOURCE_NOT_FOUND(404),
+    ARGUMENTS_INVALID(401),
+    BUSINESS_ERROR(400),
+    SERVER_ERROR(500);
 
+
+    private ExceptionEnum(int code){
+        this.code=code;
+    }
+    // 成员变量
+    private int code;
+    public   int getCode(){
+        return  this.code;
+    }
 }
