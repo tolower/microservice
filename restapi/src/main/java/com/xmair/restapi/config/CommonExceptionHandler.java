@@ -7,6 +7,7 @@ import com.xmair.core.util.ResultBean;
 import kafka.utils.Json;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -67,7 +68,7 @@ public class CommonExceptionHandler {
         logger.error("运行时异常：【{}】", e.getMessage(),e);
         ResultBean<String> result=new ResultBean<String>();
         result.setCode(ExceptionEnum.SERVER_ERROR.getCode());
-        result.setMessage(e.getMessage());
+        result.setMessage(e.getMessage()+"-- traceid:"+ MDC.get("traceId"));
         return result;
     }
 
