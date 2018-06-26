@@ -46,7 +46,7 @@ public class ${beanName}Controller {
         if(item!=null){
             return new ResultBean<${beanName}>(item);
         }else {
-            return new ResultBean<${beanName}>(ResultCodeEnum.RESOURCE_NOT_FOUND,"找不到该记录",null);
+            return new ResultBean<${beanName}>(ExceptionEnum.RESOURCE_NOT_FOUND.toString(),"找不到该记录",null);
         }
     }
 

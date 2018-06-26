@@ -7,10 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Configuration
@@ -21,52 +18,20 @@ public class BusinessThreadPoolConfig {
     @Value("${threadpool.maxpoolsize}")
     int maxPoolSize;
 
-    @Primary
     @Bean
-    public ExecutorService customExecutorService() {
-        return Executors.newFixedThreadPool(maxPoolSize, new ThreadFactory() {
-            private final AtomicInteger threadNumber = new AtomicInteger(1);
+    public Executor myTaskAsyncPool() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(corePoolSize);
+        executor.setMaxPoolSize(maxPoolSize);
+        executor.setQueueCapacity(300);
+        executor.setKeepAliveSeconds(600);
+        executor.setThreadNamePrefix("custome-service-");
 
-            @Override
-            public Thread newThread(Runnable r) {
-                return new Thread(r, "biz-service-" + threadNumber.getAndIncrement());
-            }
-        });
-
+        // rejection-policy：当pool已经达到max size的时候，如何处理新任务
+        // CALLER_RUNS：不在新线程中执行任务，而是由调用者所在的线程来执行
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        executor.initialize();
+        return executor;
     }
 
-    @Bean
-    public Lifecycle customExecutorServiceLifeCycle() {
-
-        final ExecutorService executorService = customExecutorService();
-        return new Lifecycle() {
-
-            @Override
-            public void start() {
-
-            }
-
-            @Override
-            public void stop() {
-
-                executorService.shutdown();
-                boolean successfulTerminated = false;
-                try {
-                    successfulTerminated = executorService.awaitTermination(5, TimeUnit.SECONDS);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if (!successfulTerminated) {
-                    executorService.shutdownNow();
-                }
-
-            }
-
-            @Override
-            public boolean isRunning() {
-                return !executorService.isTerminated();
-            }
-
-        };
-    }
 }

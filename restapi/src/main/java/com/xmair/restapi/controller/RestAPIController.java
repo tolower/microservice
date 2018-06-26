@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -118,6 +119,7 @@ public class RestAPIController {
    // DynamicServerListLoadBalancer
     @RequestMapping(value = "/consulregisterrefresh")
     public String consulrefresh(String  id){
+
       /*  List<HealthService> response = consulClient.getHealthServices(id, false, null).getValue();
         for(HealthService service : response) {
             // 创建一个用来剔除无效实例的ConsulClient，连接到无效实例注册的agent

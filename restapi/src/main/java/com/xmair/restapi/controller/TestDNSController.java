@@ -1,22 +1,23 @@
 package com.xmair.restapi.controller;
 
 import com.xmair.core.entity.framedb.TbEmpData;
-import com.xmair.core.exception.Business500Exception;
-import com.xmair.core.exception.BusinessExceptionEnum;
+import com.xmair.core.exception.BusinessException;
+import com.xmair.core.exception.MsgFactory;
 import okhttp3.OkHttpClient;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.concurrent.Executor;
 
 @RestController
 @RequestMapping(value = "/test")
@@ -33,6 +34,32 @@ public class TestDNSController {
     @Autowired
     private RestTemplate restTemplate;
 
+
+    @RequestMapping(value = "/sync", method = RequestMethod.GET)
+    public String sync() throws InterruptedException {
+        Thread.sleep(1000);
+        return "sync";
+    }
+
+
+
+    @Autowired
+    private Executor executorService;
+    @RequestMapping(value = "/testasync",method = RequestMethod.GET)
+    public DeferredResult<String> test11(){
+        DeferredResult<String> deferredResult = new DeferredResult<>();
+        executorService.execute(() -> {
+            try {
+                Thread.sleep(20);
+                deferredResult.setResult("休眠20毫秒");
+            } catch (Exception e) {
+                deferredResult.setErrorResult(e);
+            }
+
+        });
+        return deferredResult;
+    }
+
     @RequestMapping(value = "/getip",method = RequestMethod.GET)
     public  String GetIP()
     {
@@ -46,14 +73,14 @@ public class TestDNSController {
     }
 
     @RequestMapping(value = "/testException",method = RequestMethod.GET)
-    public String index() throws Business500Exception {
+    public String index() throws BusinessException {
      //   System.out.println(messageSource);
         /**
          * 模拟用户不存在
          * 抛出业务逻辑异常
          */
         if (true) {
-            throw new Business500Exception(BusinessExceptionEnum.DBerror);
+            throw new BusinessException(MsgFactory.BusinessErr.couponAcceptPlatformErr);
         }
         return "ttttttttttttttt";
     }
@@ -61,21 +88,25 @@ public class TestDNSController {
 
 
     @RequestMapping(value = "/testQPS",method = RequestMethod.GET)
-    public String index1() throws Business500Exception {
+    public String index1() throws BusinessException {
 
-
-        logger.info("test");
-        return "ttttttttttttttt";
-    }
-    @RequestMapping(value = "/testinsurance",method = RequestMethod.GET)
-    public String index2() throws Business500Exception {
-
-
-        /*try{
+        try{
             Thread.sleep(20);
         }catch (Exception e){
 
-        }*/
+        }
+
+        return "休眠20毫秒";
+    }
+    @RequestMapping(value = "/testinsurance",method = RequestMethod.GET)
+    public String index2() throws BusinessException {
+
+
+        try{
+            Thread.sleep(20);
+        }catch (Exception e){
+
+        }
 
         logger.info("调用了保险服务");
         return "ttttttttttttttt";

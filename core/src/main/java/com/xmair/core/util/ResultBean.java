@@ -11,7 +11,7 @@ public class  ResultBean<T> implements Serializable{
     /**
      * 编号
      */
-    private ExceptionEnum code= ExceptionEnum.SUCCESS;
+    private String code= ExceptionEnum.SUCCESS.toString();
     /**
      * 消息内容
      */
@@ -29,11 +29,11 @@ public class  ResultBean<T> implements Serializable{
         this.message = message;
     }
 
-    public ExceptionEnum getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(ExceptionEnum code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -47,7 +47,7 @@ public class  ResultBean<T> implements Serializable{
 
 
 
-    public ResultBean(ExceptionEnum code, String message, T data) {
+    public ResultBean(String code, String message, T data) {
 
         this.code=code;
         this.message=message;
@@ -60,7 +60,7 @@ public class  ResultBean<T> implements Serializable{
         this.data=data;
     }
     public ResultBean(Throwable e){
-        this.code= ExceptionEnum.SERVER_ERROR;
+        this.code= ExceptionEnum.SERVER_ERROR.toString();
         this.message=e.getMessage();
     }
 }

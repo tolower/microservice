@@ -2,9 +2,9 @@ package com.xmair.restapi;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xmair.core.entity.framedb.A1001;
 import com.xmair.core.entity.framedb.TbEmpData;
 import com.xmair.core.util.ResultBean;
-import com.xmair.core.exception.ErrorMessage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,10 +19,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -63,49 +63,31 @@ public class RestapiApplicationTests {
 
 	}
 
+
 	@Test
-	public  void testRestTemplate()  throws Exception {
-		String url = "http://11.4.74.51:567/v1/tbempdata/get?id=06645";
+	public  void testSimpleService()  throws Exception {
+		String url = "http://localhost:8080/v1/tbempdata/get?id=06645";
 		ParameterizedTypeReference<ResultBean<TbEmpData>> typeRef = new ParameterizedTypeReference<ResultBean<TbEmpData>>() {};
-		//  封装参数，千万不要替换为Map与HashMap，否则参数无法传递
-		MultiValueMap<String, String> params= new LinkedMultiValueMap<String, String>();
-		params.add("id", "06645");
-		HttpHeaders headers = new HttpHeaders();
-//  请勿轻易改变此提交方式，大部分的情况下，提交方式都是表单提交
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+
 		ResponseEntity<ResultBean<TbEmpData>> responseEntity = restTemplate.exchange(
 				url, HttpMethod.GET,null , typeRef);
 		ResultBean<TbEmpData> myModelClasses = responseEntity.getBody();
 
-		//restTemplate.setMessageConverters();
 		Assert.assertEquals(myModelClasses.getData().getMfId(),"06645");
-
 
 	}
 
 
 	@Test
-	public  void testResponseEntity()  throws Exception {
-		String url = "http://localhost:8080/v1/tbempdata/user?id=06645";
+	public  void testListService()  throws Exception {
+		String url = "http://localhost:8080/v1/organ/getlist?organCode=10.230";
+		ParameterizedTypeReference<ResultBean<List<A1001>>> typeRef = new ParameterizedTypeReference<ResultBean<List<A1001>>>() {};
 
-		ResponseEntity<String> responseEntity=null;
-		try{
-			responseEntity=restTemplate.getForEntity(url,String.class);
-		}catch (Exception e){
-			System.out.println(e.getStackTrace());
-			return;
-		}
-		if(responseEntity.getStatusCode()==HttpStatus.OK){
-			TbEmpData emp=objectMapper.readValue(responseEntity.getBody(),TbEmpData.class);
+		ResponseEntity<ResultBean<List<A1001>>> responseEntity = restTemplate.exchange(
+				url, HttpMethod.GET,null , typeRef);
+		ResultBean<List<A1001>> myModelClasses = responseEntity.getBody();
 
-			System.out.println(emp.getMfId());
-		}
-		else {
-			ErrorMessage errorMessage=objectMapper.readValue(responseEntity.getBody(),ErrorMessage.class);
-		}
-
-
+		Assert.assertEquals(myModelClasses.getData().get(0).getOrganCode(),"10.230");
 
 	}
 }

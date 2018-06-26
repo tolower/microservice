@@ -24,12 +24,11 @@ import java.util.List;
 * @date ${dateTime}
 * @version
 */
-
-@RestController
+@Controller
 @RequestMapping(value = "/${lowerBeanName}")
-@ApiVersion(1)
 public class ${beanName}Controller {
 
+Logger logger = LoggerFactory.getLogger(this.getClass());
 @Autowired
 private HttpServletRequest request;
 @Autowired
@@ -38,45 +37,60 @@ private HttpServletResponse response;
 private ${beanName}Mapper mapper;
 
 
-@RequestMapping(value = "/get",method = RequestMethod.GET)
-public ${beanName} get(String id){
-beanName user=  mapper.selectByPrimaryKey(id);
-if(user==null){
-return  new ${beanName}();
-}
-return  user;
-}
+    @RequestMapping(value = "/get",method = RequestMethod.GET)
+    @ResponseBody
+    public ResultBean<${beanName}> get(String id){
+        ${beanName} item=  mapper.selectByPrimaryKey(id);
+        if(item!=null){
+            return new ResultBean<${beanName}>(item);
+        }
+        else {
+            return new ResultBean<${beanName}>(ExceptionEnum.RESOURCE_NOT_FOUND.toString(),"找不到该记录",null);
+        }
+    }
 
 
-@RequestMapping(value = "/getlist",method = RequestMethod.GET)
-public List<${beanName}> getList(){
-List<${beanName}> list=  mapper.selectAll();
-return  list;
-}
+    @RequestMapping(value = "/getlist",method = RequestMethod.GET)
+    @ResponseBody
+    public ResultBean<List<${beanName}>> getList(){
+        List<${beanName}> list=  mapper.selectAll();
+        ResultBean<List<${beanName}>> resultBean=new ResultBean<List<${beanName}>>(list);
+        return  resultBean;
+    }
 
-@RequestMapping(value = "/create",method = RequestMethod.POST)
-public ResponseEntity create(${beanName} item){
-int  result= mapper.insert(item);
-return new ResponseEntity(ErrorCodeEnum.SUCCESS.toString(),"新增成功");
-}
+    @RequestMapping(value = "/create",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultBean<String> create(@Validated ${beanName} item){
+        int  result= mapper.insert(item);
+        logger.info("create ${beanName} success,record,{}"+ JsonUtil.bean2Json(item));
+        ResultBean<String> resultBean=new ResultBean<String>("");
+        return  resultBean;
+    }
 
-@RequestMapping(value = "/update",method = RequestMethod.POST)
-public ResponseEntity update(${beanName} item){
-int  result=  mapper.updateByPrimaryKey(item);
-return new ResponseEntity(ErrorCodeEnum.SUCCESS.toString(),"修改成功");
-}
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultBean<String> update(@Validated ${beanName} item){
+        int  result=  mapper.updateByPrimaryKey(item);
+        logger.info("update ${beanName} success,record,{}"+ JsonUtil.bean2Json(item));
+        ResultBean<String> resultBean=new ResultBean<String>("");
+        return  resultBean;
+    }
 
+    @RequestMapping(value = "/deleteByID",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultBean<Integer> delete(String id){
+         int  result=  mapper.deleteByPrimaryKey(id);
+         logger.info("delete ${beanName} success,record id,{}"+ id);
+         ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
+         return  resultBean;
+     }
 
-@RequestMapping(value = "/deleteByID",method = RequestMethod.POST)
-public ResponseEntity delete(String id){
-int  result=  mapper.deleteByPrimaryKey(id);
-return new ResponseEntity(ErrorCodeEnum.SUCCESS.toString(),"删除成功");
-}
+     @RequestMapping(value = "/delete",method = RequestMethod.POST)
+     @ResponseBody
+     public ResultBean<Integer> delete(${beanName} item){
+          int  result=  mapper.updateByPrimaryKey(item);
+          ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
+          return  resultBean;
+      }
 
-@RequestMapping(value = "/delete",method = RequestMethod.POST)
-public ResponseEntity delete(${beanName} item){
-int  result=  mapper.updateByPrimaryKey(item);
-return new ResponseEntity(ErrorCodeEnum.SUCCESS.toString(),"删除成功");
-}
-
-}
+  }

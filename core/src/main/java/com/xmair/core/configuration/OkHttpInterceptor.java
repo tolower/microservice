@@ -1,4 +1,4 @@
-package com.xmair.restapi.config;
+package com.xmair.core.configuration;
 
 import okhttp3.Interceptor;
 import okhttp3.Protocol;
@@ -25,8 +25,8 @@ public class OkHttpInterceptor implements Interceptor {
 
         // get new request, add request header
         Request updateRequest = originalRequest.newBuilder()
-                .header("token", "test")
-                //.header("Accept","application/x-protobuf")
+                //.header("token", "test")
+                .header("Accept","application/x-protobuf")
                 .build();
         return chain.proceed(updateRequest);
     }

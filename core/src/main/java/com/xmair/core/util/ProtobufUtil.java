@@ -9,94 +9,75 @@ import io.protostuff.runtime.RuntimeSchema;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ProtobufUtil{
-    static final byte[] EMPTY_ARRAY = new byte[0];
+    // 缓存schema对象的map
+    private static Map<Class<?>, RuntimeSchema<?>> cachedSchema = new ConcurrentHashMap<Class<?>, RuntimeSchema<?>>();
 
     /**
-     * 序列化对象
+     * 根据获取相应类型的schema方法
+     *
+     * @param clazz
+     * @return
+     */
+    @SuppressWarnings({ "unchecked", "unused" })
+    public static  <T> RuntimeSchema<T> getSchema(Class<T> clazz) {
+        // 先尝试从缓存schema map中获取相应类型的schema
+        RuntimeSchema<T> schema = (RuntimeSchema<T>) cachedSchema.get(clazz);
+        // 如果没有获取到对应的schema，则创建一个该类型的schema
+        // 同时将其添加到schema map中
+        if (schema == null) {
+            schema = RuntimeSchema.createFrom(clazz);
+            if (schema != null) {
+                cachedSchema.put(clazz, schema);
+            }
+        }
+        // 返回schema对象
+        return schema;
+    }
+
+    /**
+     * 序列化方法，将对象序列化为字节数组（对象 ---> 字节数组）
      *
      * @param obj
      * @return
      */
+    @SuppressWarnings("unchecked")
     public static <T> byte[] serialize(T obj) {
-        if (obj == null) {
-            return EMPTY_ARRAY;
-        }
-        @SuppressWarnings("unchecked")
-        Schema<T> schema = (Schema<T>) RuntimeSchema.getSchema(obj.getClass());
-        return ProtobufIOUtil.toByteArray(obj, schema, LinkedBuffer.allocate());
+        // 获取泛型对象的类型
+        Class<T> clazz = (Class<T>) obj.getClass();
+        // 创建泛型对象的schema对象
+        RuntimeSchema<T> schema = getSchema(clazz);
+        // 创建LinkedBuffer对象
+        LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
+        // 序列化
+        byte[] array = ProtostuffIOUtil.toByteArray(obj, schema, buffer);
+        // 返回序列化对象
+        return array;
     }
 
     /**
-     * 反序列化
+     * 反序列化方法，将字节数组反序列化为对象（字节数组 ---> 对象）
      *
-     * @param bytes
-     * @param targetClz
+     * @param data
+     * @param clazz
      * @return
      */
-    public static <T> T deserialize(byte[] bytes, Class<T> targetClz) {
-        if (isEmpty(bytes)) {
-            return null;
-        }
-        Schema<T> schema = RuntimeSchema.getSchema(targetClz);
+    public static <T> T deserialize(byte[] data, Class<T> clazz) {
+        // 创建泛型对象的schema对象
+        RuntimeSchema<T> schema =getSchema(clazz);
+        // 根据schema实例化对象
         T message = schema.newMessage();
-        ProtobufIOUtil.mergeFrom(bytes, message, schema);
+        // 将字节数组中的数据反序列化到message对象
+        ProtostuffIOUtil.mergeFrom(data, message, schema);
+        // 返回反序列化对象
         return message;
     }
 
-    /**
-     * 序列化列表
-     *
-     * @param list
-     * @return
-     */
-    public static <T> byte[] serializeList(List<T> list) {
-
-        Schema<T> schema = (Schema<T>) RuntimeSchema.getSchema(list.get(0).getClass());
-        byte[] protostuff = null;
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        try {
-            ProtostuffIOUtil.writeListTo(bos, list, schema, LinkedBuffer.allocate());
-            protostuff = bos.toByteArray();
-        } catch (Exception e) {
-            throw new RuntimeException("序列化对象列表(" + list + ")发生异常!", e);
-        } finally {
-            try {
-                if (bos != null) {
-                    bos.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return protostuff;
-    }
-
-    /**
-     * 反序列化列表
-     *
-     * @param byteArr
-     * @param targetClass
-     * @return
-     * @throws IOException
-     */
-    public static <T> List<T> deserializeList(byte[] byteArr, Class<T> targetClass) {
-
-        Schema<T> schema = RuntimeSchema.getSchema(targetClass);
-        List<T> result = null;
-        try {
-            result = ProtostuffIOUtil.parseListFrom(new ByteArrayInputStream(byteArr), schema);
-        } catch (IOException e) {
-            throw new RuntimeException("反序列化{" + targetClass + "}列表发生异常!");
-        }
-        return result;
-    }
-
-    private static boolean isEmpty(byte[] data) {
-        return (data == null || data.length == 0);
-    }
 
 
 }

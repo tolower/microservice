@@ -1,14 +1,10 @@
 package com.xmair.restapi.controller;
 import com.xmair.core.entity.framedb.TbEmpData;
-import com.xmair.core.exception.Business500Exception;
-import com.xmair.core.exception.BusinessExceptionEnum;
 import com.xmair.core.exception.ExceptionEnum;
-import com.xmair.core.exception.Resource404Exception;
 import com.xmair.core.mapper.framedb.TbEmpDataMapper;
 import com.xmair.core.util.JsonUtil;
 import com.xmair.core.util.ResultBean;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.annotation.Validated;
 import io.swagger.annotations.ApiOperation;
 import com.xmair.restapi.apiversion.ApiVersion;
@@ -25,7 +21,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.context.request.async.DeferredResult;
 
 /**
 * <p>
@@ -54,14 +49,13 @@ public class TbEmpDataController {
     * */
    // @Cacheable( cacheNames = "user")
     @ApiOperation(value="获取单条记录", notes="根据url的id来获取详细信息")
-    @ResponseBody
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     public ResultBean<TbEmpData> get(String id){
         TbEmpData item=  mapper.selectByPrimaryKey(id);
         if(item!=null){
             return new ResultBean<TbEmpData>(item);
         }else {
-            return new ResultBean<TbEmpData>(ExceptionEnum.RESOURCE_NOT_FOUND,"找不到该记录",null);
+            return new ResultBean<TbEmpData>(ExceptionEnum.RESOURCE_NOT_FOUND.toString(),"找不到该记录",null);
         }
     }
 

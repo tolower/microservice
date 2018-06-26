@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,12 +42,13 @@ public class OrganController {
 
     @ApiOperation(value="获取单条记录", notes="根据url的id来获取详细信息")
     @RequestMapping(value = "/get",method = RequestMethod.GET)
+
     public ResultBean<A1001> get(String id){
         A1001 item=  mapper.selectByPrimaryKey(id);
         if(item!=null){
             return new ResultBean<A1001>(item);
         }else {
-            return new ResultBean<A1001>(ExceptionEnum.RESOURCE_NOT_FOUND,"找不到该记录",null);
+            return new ResultBean<A1001>(ExceptionEnum.RESOURCE_NOT_FOUND.toString(),"找不到该记录",null);
         }
     }
 

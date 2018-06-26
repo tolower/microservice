@@ -2,27 +2,18 @@ package com.xmair.core.configuration;
 
 import brave.http.HttpTracing;
 import brave.okhttp3.TracingInterceptor;
-import brave.servlet.TracingFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.netflix.ribbon.ClientOptions;
-import io.netty.handler.ssl.SslContextBuilder;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
-import okhttp3.Protocol;
-import okhttp3.internal.connection.RealConnection;
-import okhttp3.internal.http2.Settings;
-import org.apache.http.ssl.SSLContextBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.netflix.ribbon.okhttp.RetryableOkHttpLoadBalancingClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.AsyncClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.Netty4ClientHttpRequestFactory;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -31,11 +22,8 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
-import scala.util.Try;
 
-import javax.net.ssl.SSLException;
 import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -79,8 +67,9 @@ public class HttpClientConfig {
                 .connectionPool(pool)
 
                 .dispatcher(dispatcher)
-
+               //链路监控埋点
                 .addNetworkInterceptor(TracingInterceptor.create(httpTracing))
+                //.addInterceptor(new OkHttpInterceptor())
                 .retryOnConnectionFailure(false);
         return builder.build();
     }
@@ -108,6 +97,9 @@ public class HttpClientConfig {
     @Autowired
     private ObjectMapper objectMapper;
 
+    /*
+    * 服务内部交互默认用protobuf格式，通过拦截器添加accept header字段
+    * */
     @Primary
     @LoadBalanced
     @Bean
@@ -120,9 +112,6 @@ public class HttpClientConfig {
         messageConverters.add(new FormHttpMessageConverter());
         messageConverters.add(new StringHttpMessageConverter());
 
-
-
-
         MappingJackson2XmlHttpMessageConverter xmlConverter=new MappingJackson2XmlHttpMessageConverter();
         xmlConverter.setDefaultCharset(Charset.forName("utf-8"));
         List<MediaType> list = new ArrayList<MediaType>();
@@ -133,17 +122,25 @@ public class HttpClientConfig {
         messageConverters.add(0,new ProtostuffHttpMessageConverter());
         messageConverters.add(0,jsonConverter);
         restTemplate.setMessageConverters(messageConverters);
+        // 把自定义的ClientHttpRequestInterceptor添加到RestTemplate，可添加多个
+        restTemplate.setInterceptors(Collections.singletonList(new ProtobufHeaderInterceptor()));
+
         return  restTemplate;
     }
 
+    /*
+   * 不通过ribbon调的服务，默认使用json，通过拦截器添加accept header字段
+   * */
     @Bean(name = "signleTemplate")
     public RestTemplate restTemplate() {
+
         RestTemplate restTemplate= new RestTemplate(OkHttp3Factory());
+
+        
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
         messageConverters.add(new FormHttpMessageConverter());
         messageConverters.add(new StringHttpMessageConverter());
 
-
         MappingJackson2XmlHttpMessageConverter xmlConverter=new MappingJackson2XmlHttpMessageConverter();
         xmlConverter.setDefaultCharset(Charset.forName("utf-8"));
         List<MediaType> list = new ArrayList<MediaType>();
@@ -155,6 +152,9 @@ public class HttpClientConfig {
         messageConverters.add(0,jsonConverter);
 
         restTemplate.setMessageConverters(messageConverters);
+// 把自定义的ClientHttpRequestInterceptor添加到RestTemplate，可添加多个
+        restTemplate.setInterceptors(Collections.singletonList(new JsonHeaderInterceptor()));
+
 
         return restTemplate;
     }

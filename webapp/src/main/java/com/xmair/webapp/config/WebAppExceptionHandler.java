@@ -1,7 +1,6 @@
 package com.xmair.webapp.config;
 
-import com.xmair.core.exception.Business500Exception;
-import com.xmair.core.exception.ErrorMessage;
+import com.xmair.core.exception.BusinessException;
 import com.xmair.core.exception.ExceptionEnum;
 import com.xmair.core.util.JsonUtil;
 import com.xmair.core.util.ResultBean;
@@ -20,9 +19,7 @@ import java.util.List;
 @ControllerAdvice
 @ResponseBody
 public class WebAppExceptionHandler {
-    /**
-     * logback new instance
-     */
+
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
@@ -38,10 +35,23 @@ public class WebAppExceptionHandler {
         logger.warn("参数校验失败,{}", JsonUtil.bean2Json(e.getTarget()));
         List<FieldError> fieldErrors=e.getBindingResult().getFieldErrors();
 
-        return  new ResultBean<>(ExceptionEnum.ARGUMENTS_INVALID,"arguments invalid",fieldErrors);
+        return  new ResultBean<>(ExceptionEnum.ARGUMENTS_INVALID.toString(),"arguments invalid",fieldErrors);
 
     }
 
+
+    /**
+     * 统一拦截处理业务异常
+     */
+    @ExceptionHandler(BusinessException.class)
+    public ResultBean<String> validExceptionHandler(BusinessException e) {
+        logger.warn("业务异常：【{}】", e.getMessage(),e);
+        ResultBean<String> result=new ResultBean<String>();
+        result.setCode(e.getErrCode());
+        result.setMessage(e.getMessage());
+        result.setData(JsonUtil.bean2Json(e.getData()));
+        return result;
+    }
 
     /**
      * 默认统一异常处理方法
@@ -51,26 +61,11 @@ public class WebAppExceptionHandler {
     @ExceptionHandler
     @ResponseStatus
     public ResultBean<String> runtimeExceptionHandler(Exception e) {
-        logger.error("运行时异常：【{}】", e.getMessage());
+        logger.error("运行时异常：【{}】", e.getMessage(),e);
         ResultBean<String> result=new ResultBean<String>();
-        result.setCode(ExceptionEnum.SERVER_ERROR);
+        result.setCode(ExceptionEnum.SERVER_ERROR.toString());
         result.setMessage(e.getMessage());
         return result;
     }
-
-    /**
-     * 处理业务逻辑异常
-     *
-     * @param e 业务逻辑异常对象实例
-     * @return 逻辑异常消息内容
-     */
-      /*业务处理异常或者服务器异常*/
-    @ExceptionHandler(Business500Exception.class)
-    public ResponseEntity<ErrorMessage> BusinessException(Business500Exception e){
-
-        logger.error(e.getMessage(),e);
-        return new ResponseEntity<ErrorMessage>(e.getErrorMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
 
 }

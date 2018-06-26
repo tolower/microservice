@@ -1,45 +1,39 @@
 package com.xmair.core.configuration;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.xmair.core.util.ProtobufUtil;
+import com.xmair.core.util.SpringBeanTools;
 import io.protostuff.LinkedBuffer;
 import io.protostuff.ProtobufIOUtil;
 import io.protostuff.Schema;
 import io.protostuff.runtime.RuntimeSchema;
+import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
+import org.springframework.core.ResolvableType;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.AbstractHttpMessageConverter;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.http.converter.*;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 
 /**
- * <p>
- * An {@code HttpMessageConverter} that can read and write
- * <a href="https://developers.google.com/protocol-buffers/">Google
- * Protocol Buffer (Protobuf)</a> messages using the open-source
- * <a href="http://http://www.protostuff.io">Protostuff library</a>.
- * Its advantage over native Protobuf serialization and deserialization
- * is that it can work with normal {@code POJO}s, as compared to the
- * native implementation that requires the objects to implement
- * the {@code Message} interface from the Protobuf Java library.  This
- * allows applications to use Protobuf with existing classes instead
- * of having to re-generate them using the Protobuf compiler.
- * </p>
- * <p>
- * Supports the {@code application/x-protobuf} media type. Regular
- * Spring MVC application clients can use this as the media type
- * for the {@code Accept} and {@code Content-Type} HTTP headers
- * for exchanging information as Protobuf messages.
+ * 在httpheader中指定
+ * accept conten-type :application/x-protobuf
  * </p>
  */
-public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter<Object>
+public class ProtostuffHttpMessageConverter extends AbstractGenericHttpMessageConverter<Object>
 {
     public static final Charset   DEFAULT_CHARSET = Charset.forName("UTF-8");
     public static final MediaType MEDIA_TYPE      = new MediaType("application", "x-protobuf", DEFAULT_CHARSET);
+
 
     /**
      * Construct a new instance.
@@ -49,16 +43,82 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
         super(MEDIA_TYPE);
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected Object readInternal(final Class<?> clazz, final HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException
-    {
+    public Object read(Type type, Class<?> aClass, HttpInputMessage httpInputMessage) throws IOException, HttpMessageNotReadableException {
+
+        JavaType javaType=getJavaType(type,aClass);
+
+        return  this.readInternal(javaType.getRawClass(),httpInputMessage);
+    }
+    private ResolvableType resolveVariable(TypeVariable<?> typeVariable, ResolvableType contextType) {
+        ResolvableType resolvedType;
+        if (contextType.hasGenerics()) {
+            resolvedType = ResolvableType.forType(typeVariable, contextType);
+            if (resolvedType.resolve() != null) {
+                return resolvedType;
+            }
+        }
+
+        ResolvableType superType = contextType.getSuperType();
+        if (superType != ResolvableType.NONE) {
+            resolvedType = this.resolveVariable(typeVariable, superType);
+            if (resolvedType.resolve() != null) {
+                return resolvedType;
+            }
+        }
+
+        ResolvableType[] var5 = contextType.getInterfaces();
+        int var6 = var5.length;
+
+        for(int var7 = 0; var7 < var6; ++var7) {
+            ResolvableType ifc = var5[var7];
+            resolvedType = this.resolveVariable(typeVariable, ifc);
+            if (resolvedType.resolve() != null) {
+                return resolvedType;
+            }
+        }
+
+        return ResolvableType.NONE;
+    }
+    protected JavaType getJavaType(Type type, Class<?> contextClass) {
+        TypeFactory typeFactory = SpringBeanTools.getBean(ObjectMapper.class).getTypeFactory();
+        if (contextClass != null) {
+            ResolvableType resolvedType = ResolvableType.forType(type);
+            if (type instanceof TypeVariable) {
+                ResolvableType resolvedTypeVariable = this.resolveVariable((TypeVariable)type, ResolvableType.forClass(contextClass));
+                if (resolvedTypeVariable != ResolvableType.NONE) {
+                    return typeFactory.constructType(resolvedTypeVariable.resolve());
+                }
+            } else if (type instanceof ParameterizedType && resolvedType.hasUnresolvableGenerics()) {
+                ParameterizedType parameterizedType = (ParameterizedType)type;
+                Class<?>[] generics = new Class[parameterizedType.getActualTypeArguments().length];
+                Type[] typeArguments = parameterizedType.getActualTypeArguments();
+
+                for(int i = 0; i < typeArguments.length; ++i) {
+                    Type typeArgument = typeArguments[i];
+                    if (typeArgument instanceof TypeVariable) {
+                        ResolvableType resolvedTypeArgument = this.resolveVariable((TypeVariable)typeArgument, ResolvableType.forClass(contextClass));
+                        if (resolvedTypeArgument != ResolvableType.NONE) {
+                            generics[i] = resolvedTypeArgument.resolve();
+                        } else {
+                            generics[i] = ResolvableType.forType(typeArgument).resolve();
+                        }
+                    } else {
+                        generics[i] = ResolvableType.forType(typeArgument).resolve();
+                    }
+                }
+
+                return typeFactory.constructType(ResolvableType.forClassWithGenerics(resolvedType.getRawClass(), generics).getType());
+            }
+        }
+
+        return typeFactory.constructType(type);
+    }
+    @Override
+    protected Object readInternal(Class<?> aClass, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
         if (MEDIA_TYPE.isCompatibleWith(inputMessage.getHeaders().getContentType()))
         {
-            final Schema<?> schema = RuntimeSchema.getSchema(clazz);
+            final Schema<?> schema =ProtobufUtil.getSchema(aClass);
 
             final Object value = schema.newMessage();
 
@@ -73,6 +133,9 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
         throw new HttpMessageNotReadableException("Unrecognized HTTP media type " + inputMessage.getHeaders().getContentType().getType() + ".");
     }
 
+
+
+
     /**
      * {@inheritDoc}
      */
@@ -82,19 +145,15 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
         return  true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected void writeInternal(final Object o, final HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException
-    {
+    protected void writeInternal(Object o, Type type, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
         if (MEDIA_TYPE.isCompatibleWith(outputMessage.getHeaders().getContentType()))
         {
             try (final OutputStream stream = outputMessage.getBody())
             {
                 ProtobufIOUtil.writeTo(stream
                         , o
-                        , RuntimeSchema.getSchema((Class<Object>) o.getClass())
+                        , ProtobufUtil.getSchema((Class<Object>) o.getClass())
                         , LinkedBuffer.allocate());
             }
         }
@@ -103,4 +162,6 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
             throw new HttpMessageNotWritableException("Unrecognized HTTP media type " + outputMessage.getHeaders().getContentType().getType() + ".");
         }
     }
+
+
 }

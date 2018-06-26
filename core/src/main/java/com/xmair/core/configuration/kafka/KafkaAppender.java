@@ -12,6 +12,7 @@ import java.util.Properties;
 
 public class KafkaAppender extends AppenderBase<ILoggingEvent> {
 
+
     private String topic;
     private String zookeeperHost;
     private Producer<String, String> producer;
