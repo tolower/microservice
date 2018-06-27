@@ -52,7 +52,7 @@ import java.net.UnknownHostException;
 		,"com.xmair.core.util"
 		,"com.xmair.restapi"
         ,"com.xmair.core.service"})
-@MapperScan("com.xmair.core.mapper")
+//@MapperScan("com.xmair.core.mapper")
 @EnableDiscoveryClient
 @EnablePrometheusEndpoint
 @EnableSpringBootMetricsCollector
