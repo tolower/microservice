@@ -15,10 +15,7 @@ import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.http.MediaType;
@@ -48,6 +45,10 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 @Import({TracingHandlerInterceptor.class})
 @Configuration
+@ComponentScan(basePackages = {"com.xmair.core.configuration"
+        ,"com.xmair.core.util"
+        ,"com.xmair.restapi"
+        ,"com.xmair.core.service"})
 public class WebConfig extends WebMvcConfigurationSupport {
 
 
