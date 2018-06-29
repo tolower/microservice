@@ -80,7 +80,7 @@ public class RedLockTest {
     }
     @Test
     public  void  testClusterInfo(){
-        //CRC16.crc16()
+
         client.getClusterNodesGroup().getNodes(NodeType.MASTER).forEach(
                 (node)-> System.out.println(node.info()));
 

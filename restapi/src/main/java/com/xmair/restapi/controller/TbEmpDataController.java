@@ -1,33 +1,28 @@
 package com.xmair.restapi.controller;
 import com.xmair.core.entity.framedb.TbEmpData;
-import com.xmair.core.exception.ExceptionEnum;
 import com.xmair.core.mapper.framedb.TbEmpDataMapper;
-import com.xmair.core.util.JsonUtil;
 import com.xmair.core.util.ResultBean;
-import org.springframework.cache.annotation.CacheEvict;
+import com.xmair.core.exception.ExceptionEnum;
 import org.springframework.validation.annotation.Validated;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import com.xmair.restapi.apiversion.ApiVersion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.xmair.core.util.JsonUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 /**
 * <p>
     * </p>
 *
 * @author wuzuquan
-* @date 2018-05-07 08:20:55
+* @date 2018-06-28 09:09:00
 * @version
 */
 @RestController
@@ -44,13 +39,8 @@ public class TbEmpDataController {
     private TbEmpDataMapper mapper;
 
 
-    /*
-    慎用cacheable，本质上是用hashmap  key为user，只会打到一台master，无法打散到多个master上，无法提升大并发能力
-    * */
-    //@Cacheable( cacheNames = "user")
     @ApiOperation(value="获取单条记录", notes="根据url的id来获取详细信息")
     @RequestMapping(value = "/get",method = RequestMethod.GET)
-
     public ResultBean<TbEmpData> get(String id){
         TbEmpData item=  mapper.selectByPrimaryKey(id);
         if(item!=null){
@@ -61,20 +51,13 @@ public class TbEmpDataController {
     }
 
 
-
     @RequestMapping(value = "/getlist",method = RequestMethod.GET)
-    @ResponseBody
-    public ResultBean<List<TbEmpData>> getList() throws IOException{
+    public ResultBean<List<TbEmpData>> getList(){
         List<TbEmpData> list=  mapper.selectAll();
         ResultBean<List<TbEmpData>> resultBean=new ResultBean<List<TbEmpData>>(list);
-        //ObjectMapper mapper = new ObjectMapper();
-      //  ResultBean<List<TbEmpData>> response = mapper.readValue("", new TypeReference<ResultBean<List<TbEmpData>>>(){});
-
         return  resultBean;
     }
 
-    //删除 type为hashmap，key为user下的所有值
-    @CacheEvict( cacheNames = "user",allEntries = true)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public ResultBean<String> create(@Validated TbEmpData item){
         int  result= mapper.insert(item);
@@ -107,3 +90,4 @@ public class TbEmpDataController {
     }
 
 }
+

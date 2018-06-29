@@ -50,7 +50,7 @@ public class OracleGenerator {
 
 		Generator generator = new Generator(config);
 
-		String tableNamePattern = "TB_EMP_DATA%";
+		String tableNamePattern = "TB_EMP_DATA";
 		Connection connection=getConnection();
 		DataProcessor t = new DataProcessor(connection);
 

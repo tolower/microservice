@@ -6,7 +6,7 @@
     <!--kafka日志输出类-->
     <appender name="KAFKA" class="com.xmair.core.configuration.kafka.KafkaAppender">
         <topic>log-application</topic>
-        <brokerList>11.4.74.49:9092</brokerList>
+        <brokerList>11.4.74.45:9092,11.4.74.47:9092,11.4.74.50:9092</brokerList>
         <formatter class="com.xmair.core.configuration.kafka.MessageFormatter">
 
         </formatter>

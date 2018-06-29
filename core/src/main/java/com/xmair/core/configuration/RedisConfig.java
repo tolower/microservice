@@ -92,7 +92,7 @@ public class RedisConfig extends CachingConfigurerSupport
             serversConfig.setPassword(password);
         }
         serversConfig.setReadMode(ReadMode.MASTER_SLAVE);
-
+        
         serversConfig.setMasterConnectionMinimumIdleSize(masterConnectionMinimumIdleSize);
         serversConfig.setSlaveConnectionMinimumIdleSize(slaveConnectionMinimumIdleSize);
         serversConfig.setSubscriptionConnectionMinimumIdleSize(5);

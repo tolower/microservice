@@ -71,10 +71,7 @@ public class RedisTest {
         hashmap.put("test11","1113");
 
         RMap<String ,String> map=client.getMap("pnr_test");
-
-
         map.expire(20,TimeUnit.MINUTES);
-
         map.putAll(hashmap);
 
         for(Map.Entry<String,String> entry: map.entrySet()){

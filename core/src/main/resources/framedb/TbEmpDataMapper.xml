@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="framedb.TbEmpDataMapper" >
+<mapper namespace="com.xmair.core.mapper.framedb.TbEmpDataMapper" >
   <resultMap id="BaseResultMap" type="com.xmair.core.entity.framedb.TbEmpData" >	
     <id column="MF_ID" property="mfId" jdbcType="VARCHAR" />
 

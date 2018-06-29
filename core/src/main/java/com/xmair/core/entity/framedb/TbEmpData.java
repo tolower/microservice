@@ -16,7 +16,7 @@ import java.math.BigDecimal;
  * </p>
  * 
  * @author wuzuquan
- * @date 2018-05-07 08:20:55
+ * @date 2018-06-28 09:09:00
  * @version
  */
 @Table(name = "TB_EMP_DATA")
