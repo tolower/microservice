@@ -42,7 +42,9 @@ public class PrometheusMetricsInterceptor extends HandlerInterceptorAdapter {
         int status = response.getStatus();
         // 计数器+1
         inprogressRequests.labels(requestURI, method, String.valueOf(status)).inc();
+        //Java为了最小化减少内存泄露的可能性和影响，在ThreadLocal的get,set的时候都会清除线程Map里所有key为null的value
         threadLocal.set(requestLatency.labels(requestURI, method, String.valueOf(status)).startTimer());
+        
 
         return super.preHandle(request, response, handler);
     }
@@ -56,6 +58,7 @@ public class PrometheusMetricsInterceptor extends HandlerInterceptorAdapter {
         inprogressRequests.labels(requestURI, method, String.valueOf(status)).dec();
         requestCounter.labels(requestURI, method, String.valueOf(status)).inc();
         threadLocal.get().observeDuration();
+
         super.afterCompletion(request, response, handler, ex);
     }
 }

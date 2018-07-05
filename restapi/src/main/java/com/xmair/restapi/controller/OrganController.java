@@ -2,10 +2,12 @@ package com.xmair.restapi.controller;
 
 import com.xmair.core.entity.framedb.A1001;
 import com.xmair.core.mapper.framedb.A1001Mapper;
+import com.xmair.core.util.JsonUtil;
 import com.xmair.core.util.ResultBean;
 import com.xmair.core.exception.ExceptionEnum;
 import com.xmair.restapi.apiversion.ApiVersion;
 import io.swagger.annotations.ApiOperation;
+import net.sf.jsqlparser.expression.AnyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +59,13 @@ public class OrganController {
     public ResultBean<List<A1001>> getList(String organCode){
         List<A1001> list=  mapper.queryForList(organCode);
         ResultBean<List<A1001>> resultBean=new ResultBean<List<A1001>>(list);
+
         return  resultBean;
     }
 
 
 }
+
+
+
 

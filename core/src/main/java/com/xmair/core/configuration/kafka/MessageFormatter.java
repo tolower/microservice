@@ -7,6 +7,7 @@ import com.xmair.core.configuration.zipkin.ZipkinProperties;
 import com.xmair.core.util.JsonUtil;
 import com.xmair.core.util.SpringBeanTools;
 import org.slf4j.MDC;
+import org.springframework.context.annotation.Import;
 
 import java.net.InetAddress;
 import java.time.LocalDateTime;
@@ -47,6 +48,7 @@ public class MessageFormatter implements Formatter {
     public static String getAppname() {
         if(appname==null){
             appname=SpringBeanTools.getBean(ZipkinProperties.class).getServiceName();
+            //appname="dd";
         }
         return appname;
     }

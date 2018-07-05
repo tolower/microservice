@@ -3,9 +3,10 @@ package com.xmair.core.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MemCacheUtil {
-    private final static Map<String, Object> map = new HashMap<String,Object>();
+    private final static ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<String,Object>();
 
 
     //静态初始化块

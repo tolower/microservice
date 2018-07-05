@@ -12,6 +12,7 @@ import java.util.Properties;
 
 public class KafkaAppender extends AppenderBase<ILoggingEvent> {
 
+    public   static  int applicationStatus=0;
 
     private String topic;
     private String zookeeperHost;
@@ -78,6 +79,9 @@ public class KafkaAppender extends AppenderBase<ILoggingEvent> {
     }
     @Override
     protected void append(ILoggingEvent event) {
+        if(applicationStatus==0){
+            return;
+        }
         String payload = this.formatter.format(event);
         KeyedMessage<String, String> data = new KeyedMessage<String, String>(this.topic, payload);
         this.producer.send(data);

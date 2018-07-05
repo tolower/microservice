@@ -1,6 +1,6 @@
-FROM docker.io/openjdk:8-jre-alpine
+FROM docker.io/openjdk:8-jdk
 MAINTAINER wuzuzuquan 
 
-ADD webapi-1.0.0.jar server.jar
-ENTRYPOINT ["java","-jar","-Xms512m","-Xmx800m","-Xss256k","Xmn200m","/server.jar"]
+ADD restapi-1.0.0.jar server.jar
+ENTRYPOINT ["java","-jar","-Xms4G","-Xmx4G","-Xss256k","-Xmn1500m -XX:-UseGCOverheadLimit -XX:+HeapDumpOnOutOfMemoryError","/server.jar"]
 EXPOSE 8080

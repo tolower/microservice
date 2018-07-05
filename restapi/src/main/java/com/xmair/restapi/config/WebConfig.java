@@ -12,6 +12,7 @@ import com.xmair.core.util.DateConverter;
 import com.xmair.restapi.apiversion.VersionHandlerMapping;
 
 import okhttp3.OkHttpClient;
+import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
@@ -27,6 +28,7 @@ import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 import org.springframework.http.converter.xml.Jaxb2CollectionHttpMessageConverter;
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.*;
@@ -132,8 +134,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
         list.add(MediaType.TEXT_PLAIN);
         stringConverter.setSupportedMediaTypes(list);
         MappingJackson2XmlHttpMessageConverter xmlConverter=new MappingJackson2XmlHttpMessageConverter();
-
-
         xmlConverter.setDefaultCharset(Charset.forName("utf-8"));
         List<MediaType> list2 = new ArrayList<MediaType>();
         list2.add(MediaType.APPLICATION_XML);

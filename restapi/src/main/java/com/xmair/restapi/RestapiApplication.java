@@ -1,5 +1,6 @@
 package com.xmair.restapi;
 
+import com.xmair.core.configuration.kafka.KafkaAppender;
 import io.prometheus.client.spring.boot.EnablePrometheusEndpoint;
 import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector;
 import org.mybatis.spring.annotation.MapperScan;
@@ -56,7 +57,9 @@ import java.net.UnknownHostException;
 @EnableRetry
 @EnableAspectJAutoProxy
 @EnableAsync
+
 public class RestapiApplication {
+
 
 
 	public static void main(String[] args) {
@@ -69,6 +72,7 @@ public class RestapiApplication {
 		SpringApplication.run(RestapiApplication.class, args);
 
 
+		KafkaAppender.applicationStatus=1;
 	}
 
 	
