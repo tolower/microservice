@@ -45,7 +45,8 @@ public class RocketMQConfig
         producer.setSendMsgTimeout(sendMsgTimeout);
         //设置到broker的心跳
         producer.setHeartbeatBrokerInterval(5000);
-
+        //从namesrv获取topic路由
+        producer.setPollNameServerInterval(3000);
         try {
             producer.start();
         }catch (MQClientException e)
@@ -66,7 +67,8 @@ public class RocketMQConfig
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(pushConsumerGroup);
         consumer.setNamesrvAddr(nameServer);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-
+        //从namesrv获取topic路由
+        consumer.setPollNameServerInterval(3000);
         consumer.setHeartbeatBrokerInterval(5000);
         consumer.setConsumeMessageBatchMaxSize(10);
 
