@@ -43,7 +43,8 @@ public class RocketMQConfig
         producer.setRetryTimesWhenSendAsyncFailed(retryTimesWhenSendAsyncFailed);
         producer.setRetryTimesWhenSendFailed(retryTimesWhenSendFailed);
         producer.setSendMsgTimeout(sendMsgTimeout);
-
+        //设置到broker的心跳
+        producer.setHeartbeatBrokerInterval(5000);
 
         try {
             producer.start();
@@ -66,6 +67,7 @@ public class RocketMQConfig
         consumer.setNamesrvAddr(nameServer);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
 
+        consumer.setHeartbeatBrokerInterval(5000);
         consumer.setConsumeMessageBatchMaxSize(10);
 
         return  consumer;
