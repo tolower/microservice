@@ -65,6 +65,7 @@ public class RocketMQConfig
         consumer.setNamesrvAddr(nameServer);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
 
+        consumer.setConsumeMessageBatchMaxSize(10);
 
         return  consumer;
     }

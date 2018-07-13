@@ -13,7 +13,8 @@ public class  ResultBean<T> implements Serializable{
     /**
      * 编号
      */
-    private String errStr= ExceptionEnum.SUCCESS.toString();
+    private String errStr;
+    //= ExceptionEnum.SUCCESS.toString();
 
 
 

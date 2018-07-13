@@ -43,10 +43,10 @@ public class RocketMQTest {
 
     @Test
     public  void  testOneway() throws  Exception{
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             //Create a message instance, specifying topic, tag and message body.
-            Message msg = new Message("TopicTest" /* Topic */,
-                    "TagA" /* Tag */,
+            Message msg = new Message("testtopic1" /* Topic */,
+                    "TagA" /* Tag */,"test"+i,
                     ("Hello RocketMQ " +
                             i).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
             );
@@ -58,7 +58,7 @@ public class RocketMQTest {
     @Test
     public void testProduct() throws  Exception{
 
-     /*   List<Message> messageList=new ArrayList<Message>();
+        List<Message> messageList=new ArrayList<Message>();
         for(int i=0;i<1000;i++){
             Message msg = new Message("testtopic1",// topic
                     "TagA",// tag
@@ -68,13 +68,15 @@ public class RocketMQTest {
         }
 
 
-        SendResult  sendResult=   producer.send(messageList);*/
+        SendResult  sendResult=   producer.send(messageList);
+
+
         Message msg = new Message("testtopic1",// topic
                 "TagA",// tag
                 "OrderID001",// key
                 ("Hello MetaQ").getBytes());// body
         int orderid=12312;
-        SendResult sendResult = producer.send(msg, new MessageQueueSelector() {
+         sendResult = producer.send(msg, new MessageQueueSelector() {
             //发送顺序消息，确保queue都是一样的
             @Override
             public MessageQueue select(List<MessageQueue> list, Message message, Object o) {

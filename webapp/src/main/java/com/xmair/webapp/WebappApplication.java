@@ -11,7 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.xmair.webapp")
-@MapperScan("com.xmair.core.mapper")
 public class WebappApplication {
 
 	public static void main(String[] args) {
