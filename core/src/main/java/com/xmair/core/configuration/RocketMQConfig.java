@@ -42,11 +42,13 @@ public class RocketMQConfig
         producer.setRetryAnotherBrokerWhenNotStoreOK(retryAnotherBrokerWhenNotStoreOk);
         producer.setRetryTimesWhenSendAsyncFailed(retryTimesWhenSendAsyncFailed);
         producer.setRetryTimesWhenSendFailed(retryTimesWhenSendFailed);
+
         producer.setSendMsgTimeout(sendMsgTimeout);
         //设置到broker的心跳
         producer.setHeartbeatBrokerInterval(5000);
         //从namesrv获取topic路由
         producer.setPollNameServerInterval(3000);
+
         try {
             producer.start();
         }catch (MQClientException e)
