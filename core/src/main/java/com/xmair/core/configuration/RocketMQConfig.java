@@ -44,6 +44,7 @@ public class RocketMQConfig
         producer.setRetryTimesWhenSendFailed(retryTimesWhenSendFailed);
         producer.setSendMsgTimeout(sendMsgTimeout);
 
+
         try {
             producer.start();
         }catch (MQClientException e)
