@@ -48,8 +48,6 @@ public class HttpClientConfig {
         //注意：只有明确知道服务端支持H2C协议的时候才能使用。添加H2C支持，
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
       // .protocols(Collections.singletonList(Protocol.H2_PRIOR_KNOWLEDGE));
-
-
         Dispatcher dispatcher=new Dispatcher(
                 httpTracing.tracing().currentTraceContext()
                         .executorService(new Dispatcher().executorService())
@@ -58,7 +56,6 @@ public class HttpClientConfig {
         dispatcher.setMaxRequests(1000);
         dispatcher.setMaxRequestsPerHost(200);
        ConnectionPool pool = new ConnectionPool(20, 30, TimeUnit.MINUTES);
-
 
 
         builder.connectTimeout(250, TimeUnit.MILLISECONDS)

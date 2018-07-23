@@ -140,11 +140,8 @@ public class WebConfig extends WebMvcConfigurationSupport {
         xmlConverter.setSupportedMediaTypes(list2);
         converters.add(0,stringConverter);
         converters.add(0,xmlConverter);
-
-
         converters.add(0,new ProtostuffHttpMessageConverter());
         converters.add(0,getCustomJacksonConverter(objectMapper));
-       // converters.add(1,new ProtobufHttpMessageConverter());
     }
 
     @Override

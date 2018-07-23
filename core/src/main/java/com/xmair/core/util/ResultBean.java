@@ -16,11 +16,8 @@ public class  ResultBean<T> implements Serializable{
     private String errStr;
     //= ExceptionEnum.SUCCESS.toString();
 
-
-
     /**
      * 消息内容
-
      */
     private String message="success";
 

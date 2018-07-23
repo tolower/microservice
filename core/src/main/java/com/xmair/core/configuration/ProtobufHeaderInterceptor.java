@@ -15,12 +15,9 @@ public class ProtobufHeaderInterceptor implements ClientHttpRequestInterceptor {
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
             throws IOException {
         HttpHeaders headers = request.getHeaders();
-
         // 加入自定义字段
         headers.clear();
         headers.add("Accept","application/x-protobuf");
-
-
         // 保证请求继续被执行
         return execution.execute(request, body);
     }
