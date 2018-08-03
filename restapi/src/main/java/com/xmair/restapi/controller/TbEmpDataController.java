@@ -3,11 +3,14 @@ import com.xmair.core.entity.framedb.TbEmpData;
 import com.xmair.core.mapper.framedb.TbEmpDataMapper;
 import com.xmair.core.util.ResultBean;
 import com.xmair.core.exception.ExceptionEnum;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiParam;
 import org.springframework.validation.annotation.Validated;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import com.xmair.restapi.apiversion.ApiVersion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,15 +62,18 @@ public class TbEmpDataController {
     }
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public ResultBean<String> create(@Validated TbEmpData item){
+      public ResultBean<String> create(@ApiParam(name="item",value="产品临时对象",required = true)
+                                           @RequestBody  @Validated  TbEmpData item){
         int  result= mapper.insert(item);
         logger.info("create TbEmpData success,record,{}"+ JsonUtil.bean2Json(item));
         ResultBean<String> resultBean=new ResultBean<String>("");
         return  resultBean;
     }
 
+
+
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public ResultBean<String> update(@Validated TbEmpData item){
+    public ResultBean<String> update(@RequestBody @Validated TbEmpData item){
         int  result=  mapper.updateByPrimaryKey(item);
         logger.info("update TbEmpData success,record,{}"+ JsonUtil.bean2Json(item));
         ResultBean<String> resultBean=new ResultBean<String>("");
@@ -83,7 +89,7 @@ public class TbEmpDataController {
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public ResultBean<Integer> delete(TbEmpData item){
+    public ResultBean<Integer> delete(@RequestBody @Validated TbEmpData item){
         int  result=  mapper.updateByPrimaryKey(item);
         ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
         return  resultBean;

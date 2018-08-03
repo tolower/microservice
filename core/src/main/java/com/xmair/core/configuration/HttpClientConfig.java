@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -46,8 +47,8 @@ public class HttpClientConfig {
     @Bean
     public OkHttpClient okHttpClient() {
         //注意：只有明确知道服务端支持H2C协议的时候才能使用。添加H2C支持，
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-      // .protocols(Collections.singletonList(Protocol.H2_PRIOR_KNOWLEDGE));
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .protocols(Collections.singletonList(Protocol.H2_PRIOR_KNOWLEDGE));
         Dispatcher dispatcher=new Dispatcher(
                 httpTracing.tracing().currentTraceContext()
                         .executorService(new Dispatcher().executorService())
@@ -133,10 +134,15 @@ public class HttpClientConfig {
 
         RestTemplate restTemplate= new RestTemplate(OkHttp3Factory());
 
-        
+        StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
+        stringConverter.setDefaultCharset(Charset.forName("utf-8"));
+        List<MediaType> list1 = new ArrayList<MediaType>();
+        list1.add(MediaType.TEXT_PLAIN);
+        stringConverter.setSupportedMediaTypes(list1);
+
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
         messageConverters.add(new FormHttpMessageConverter());
-        messageConverters.add(new StringHttpMessageConverter());
+        messageConverters.add(stringConverter);
 
         MappingJackson2XmlHttpMessageConverter xmlConverter=new MappingJackson2XmlHttpMessageConverter();
         xmlConverter.setDefaultCharset(Charset.forName("utf-8"));

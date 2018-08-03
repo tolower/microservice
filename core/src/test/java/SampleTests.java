@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class SampleTests {
 
-    private static final String URL = "http://11.4.74.47:888/v1/tbempdata/get?id=06645";
+   /* private static final String URL = "http://11.4.74.47:888/v1/tbempdata/get?id=06645";
     private static final int DEFAULT_SLEEP_MILLIS = 20;
     private static final int DEFAULT_TIMEOUT = 10000;
 
@@ -44,7 +44,7 @@ public class SampleTests {
             Thread.sleep(DEFAULT_SLEEP_MILLIS);
         }
         System.out.println("the end");
-    }
+    }*/
 
 
 }

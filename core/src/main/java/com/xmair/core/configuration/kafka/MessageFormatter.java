@@ -73,11 +73,15 @@ public class MessageFormatter implements Formatter {
         logEntity.setMessage(event.getFormattedMessage());
         if(event.getThrowableProxy()!=null){//error日志要记录堆栈信息
             StringBuilder stringBuilder=new StringBuilder();
+            stringBuilder.append(((ThrowableProxy)event.getThrowableProxy()).getThrowable().toString())
+                    .append(CoreConstants.LINE_SEPARATOR);
             appendStackTrace(stringBuilder,event.getThrowableProxy());
 
             logEntity.setStackInfo(stringBuilder.toString());
         }
-        return JsonUtil.bean2Json(logEntity);
+        String result= JsonUtil.bean2Json(logEntity);
+
+        return  result;
     }
 
     private void appendStackTrace(StringBuilder log, IThrowableProxy proxy) {

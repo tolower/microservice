@@ -118,7 +118,7 @@ public class RedLockTest {
             Thread thread=new Thread(this::ReduceProductCountWithLock);
             thread.start();
         }
-        Thread.sleep(20000);
+        Thread.sleep(30000);
         System.out.println("最终："+productLockCount);
         Assert.assertEquals(9000,productLockCount);
 

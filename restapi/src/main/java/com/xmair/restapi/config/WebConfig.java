@@ -5,6 +5,7 @@ import brave.http.HttpTracing;
 import brave.propagation.B3Propagation;
 import brave.propagation.ExtraFieldPropagation;
 import brave.spring.webmvc.TracingHandlerInterceptor;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xmair.core.configuration.ProtostuffHttpMessageConverter;
@@ -31,6 +32,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -79,7 +81,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
         List<MediaType> list = new ArrayList<MediaType>();
         list.add(MediaType.APPLICATION_JSON_UTF8);
         list.add(MediaType.APPLICATION_JSON);
-
         mappingJackson2HttpMessageConverter.setSupportedMediaTypes(list);
         return mappingJackson2HttpMessageConverter;
     }
@@ -92,6 +93,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
         registry.addInterceptor(new PrometheusMetricsInterceptor()).addPathPatterns("/**");
 
+       
     }
 
 

@@ -31,6 +31,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
 @SpringBootApplication(exclude = {
 		WebServicesAutoConfiguration.class,
@@ -72,6 +73,7 @@ public class RestapiApplication {
 		SpringApplication.run(RestapiApplication.class, args);
 
 
+		//程序启动后，启用kafka日志写入功能
 		KafkaAppender.applicationStatus=1;
 	}
 

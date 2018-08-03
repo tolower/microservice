@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
@@ -35,13 +36,21 @@ public class CommonExceptionHandler {
     @ExceptionHandler(BindException.class)
     public ResultBean<List<FieldError>> validExceptionHandler(BindException e, WebRequest request, HttpServletResponse response) {
 
-        logger.warn("参数校验失败,{}", JsonUtil.bean2Json(e.getTarget()));
-        List<FieldError> fieldErrors=e.getBindingResult().getFieldErrors();
+         List<FieldError> fieldErrors=e.getBindingResult().getFieldErrors();
+        logger.warn("参数绑定失败,{}", JsonUtil.bean2Json(fieldErrors));
 
         return  new ResultBean<>(ExceptionEnum.ARGUMENTS_INVALID,null,"arguments invalid",fieldErrors);
 
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResultBean<List<FieldError>> validExceptionHandler(MethodArgumentNotValidException e) {
+
+        List<FieldError> fieldErrors=e.getBindingResult().getFieldErrors();
+        logger.warn("参数校验失败,{}", JsonUtil.bean2Json(fieldErrors));
+        return  new ResultBean<>(ExceptionEnum.ARGUMENTS_INVALID,null,"arguments invalid",fieldErrors);
+
+    }
 
     /**
      * 统一拦截处理业务异常

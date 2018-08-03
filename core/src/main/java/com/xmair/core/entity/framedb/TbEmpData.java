@@ -2,6 +2,8 @@ package com.xmair.core.entity.framedb;
 import javax.persistence.*;
 import java.io.Serializable;
 import javax.validation.constraints.NotNull;
+
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 
@@ -24,6 +26,8 @@ public class TbEmpData implements Serializable {
 
 
 
+
+	@ApiModelProperty(required = true,value = "长度不能超过10")
     @Length(max=10,message="PLAN_RPT_FLT_NO 长度不能超过10")
     @Column(name = "PLAN_RPT_FLT_NO")
 	private String planRptFltNo;

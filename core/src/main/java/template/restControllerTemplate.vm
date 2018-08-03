@@ -59,7 +59,7 @@ public class ${beanName}Controller {
     }
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public ResultBean<String> create(@Validated ${beanName} item){
+    public ResultBean<String> create(@RequestBody @Validated ${beanName} item){
         int  result= mapper.insert(item);
         logger.info("create ${beanName} success,record,{}"+ JsonUtil.bean2Json(item));
         ResultBean<String> resultBean=new ResultBean<String>("");
@@ -67,7 +67,7 @@ public class ${beanName}Controller {
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public ResultBean<String> update(@Validated ${beanName} item){
+    public ResultBean<String> update(@RequestBody @Validated ${beanName} item){
         int  result=  mapper.updateByPrimaryKey(item);
         logger.info("update ${beanName} success,record,{}"+ JsonUtil.bean2Json(item));
         ResultBean<String> resultBean=new ResultBean<String>("");
@@ -83,7 +83,7 @@ public class ${beanName}Controller {
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public ResultBean<Integer> delete(${beanName} item){
+    public ResultBean<Integer> delete(@RequestBody @Validated ${beanName} item){
         int  result=  mapper.updateByPrimaryKey(item);
         ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
         return  resultBean;
