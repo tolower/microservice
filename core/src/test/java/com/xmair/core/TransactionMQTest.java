@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.concurrent.*;
 
 public class TransactionMQTest {
     @Autowired
@@ -18,34 +19,41 @@ public class TransactionMQTest {
 
     @Test
     public void testProduct() throws  Exception{
-        TransactionCheckListener transactionCheckListener = new TransactionCheckListenerImpl();
-        TransactionMQProducer producer = new TransactionMQProducer("my-group");
-        producer.setCheckThreadPoolMinSize(2);
-        producer.setCheckThreadPoolMaxSize(2);
-        producer.setCheckRequestHoldMax(2000);
-        producer.setNamesrvAddr("11.4.74.44:9876;11.4.74.48:9876");
-        producer.setTransactionCheckListener(transactionCheckListener);
+        TransactionListener transactionListener = new TransactionListenerImpl();
+        TransactionMQProducer producer = new TransactionMQProducer("transactiontest");
+        producer.setNamesrvAddr("11.4.74.45:9876;11.4.74.48:9876");
+        ExecutorService executorService = new ThreadPoolExecutor(2, 5, 100, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(2000), new ThreadFactory() {
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread thread = new Thread(r);
+                thread.setName("client-transaction-msg-check-thread");
+                return thread;
+            }
+        });
+
+        producer.setExecutorService(executorService);
+        producer.setTransactionListener(transactionListener);
         producer.start();
 
         String[] tags = new String[] {"TagA", "TagB", "TagC", "TagD", "TagE"};
-        TransactionExecuterImpl tranExecuter = new TransactionExecuterImpl();
-
+        for (int i = 0; i < 10; i++) {
             try {
                 Message msg =
-                        new Message("testtopic",tags[0], "KEY1",
-                                ("tranc").getBytes(RemotingHelper.DEFAULT_CHARSET));
-                SendResult sendResult = producer.sendMessageInTransaction(msg, tranExecuter, null);
+                        new Message("testtopic1", tags[i % tags.length], "KEY" + i,
+                                ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
+                SendResult sendResult = producer.sendMessageInTransaction(msg, null);
                 System.out.printf("%s%n", sendResult);
 
                 Thread.sleep(10);
             } catch (MQClientException | UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
+        }
 
-
-
-            Thread.sleep(30000);
-
+        for (int i = 0; i < 20; i++) {
+            Thread.sleep(1000);
+        }
         producer.shutdown();
     }
+
 }
