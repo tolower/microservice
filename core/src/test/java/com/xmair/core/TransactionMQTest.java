@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -20,8 +21,10 @@ public class TransactionMQTest {
     @Test
     public void testProduct() throws  Exception{
         TransactionListener transactionListener = new TransactionListenerImpl();
+        //一般情况下，produergroup都是没什么卵用的，但是事务消息就有卵用，因为要回查
         TransactionMQProducer producer = new TransactionMQProducer("transactiontest");
         producer.setNamesrvAddr("11.4.74.45:9876;11.4.74.48:9876");
+        producer.setSendLatencyFaultEnable(true);
         ExecutorService executorService = new ThreadPoolExecutor(2, 5, 100, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(2000), new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
@@ -31,9 +34,13 @@ public class TransactionMQTest {
             }
         });
 
+
+
+        producer.setInstanceName(InetAddress.getLocalHost().getHostAddress());
         producer.setExecutorService(executorService);
         producer.setTransactionListener(transactionListener);
         producer.start();
+
 
         String[] tags = new String[] {"TagA", "TagB", "TagC", "TagD", "TagE"};
         for (int i = 0; i < 10; i++) {
@@ -50,7 +57,7 @@ public class TransactionMQTest {
             }
         }
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 200 ; i++) {
             Thread.sleep(1000);
         }
         producer.shutdown();

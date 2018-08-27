@@ -31,6 +31,7 @@ import javax.print.DocFlavor;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
@@ -59,24 +60,27 @@ public class RocketMQTest {
     public void testProduct() throws  Exception{
 
         List<Message> messageList=new ArrayList<Message>();
-        for(int i=0;i<1000;i++){
-            Message msg = new Message("testtopic1",// topic
+        for(int i=0;i<5000;i++){
+            Message msg = new Message("TopicTest",// topic
                     "TagA",// tag
-                    "OrderID001",// key
+                    "OrderID001"+i,// key
                     ("Hello MetaQ").getBytes());// body
+            SendResult  sendResult= producer.send(msg);
+            System.out.println("i:"+i+",sendResult:"+sendResult);
             messageList.add(msg);
+           // Thread.sleep(200);
         }
 
 
-        SendResult  sendResult=   producer.send(messageList);
+        // producer.send(messageList);
 
 
-        Message msg = new Message("testtopic1",// topic
+        Message msg = new Message("TopicTest",// topic
                 "TagA",// tag
                 "OrderID001",// key
                 ("Hello MetaQ").getBytes());// body
         int orderid=12312;
-         sendResult = producer.send(msg, new MessageQueueSelector() {
+        SendResult  sendResult = producer.send(msg, new MessageQueueSelector() {
             //发送顺序消息，确保queue都是一样的
             @Override
             public MessageQueue select(List<MessageQueue> list, Message message, Object o) {
@@ -93,10 +97,15 @@ public class RocketMQTest {
     @Test
     public  void testConsumer() throws  Exception{
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("push-consumer-group1");
-        consumer.setNamesrvAddr("11.4.74.49:9876;11.4.74.48:9876");
+        consumer.setNamesrvAddr("11.4.74.45:9876;11.4.74.48:9876");
+
+        consumer.setInstanceName("0664511");
+
+        consumer.setHeartbeatBrokerInterval(2000);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
-        consumer.setConsumeMessageBatchMaxSize(10);
-        consumer.subscribe("testtopic1","TagA");
+        consumer.setConsumeMessageBatchMaxSize(1);
+
+        consumer.subscribe("TopicTest","*");
         consumer.setMessageModel(MessageModel.CLUSTERING);
 
         consumer.registerMessageListener(new MessageListenerConcurrently() {
@@ -120,7 +129,46 @@ public class RocketMQTest {
         });
         consumer.start();
 
-Thread.sleep(13303);
+Thread.sleep(1203303);
+    }
+
+
+    @Test
+    public  void testPullConsumer() throws  Exception{
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("push-consumer-group1");
+        consumer.setNamesrvAddr("11.4.74.45:9876;11.4.74.48:9876");
+
+        consumer.setInstanceName("0664511");
+
+        consumer.setHeartbeatBrokerInterval(2000);
+        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
+        consumer.setConsumeMessageBatchMaxSize(1);
+
+        consumer.subscribe("TopicTest","*");
+        consumer.setMessageModel(MessageModel.CLUSTERING);
+
+        consumer.registerMessageListener(new MessageListenerConcurrently() {
+            @Override
+            public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+
+
+
+                for(MessageExt ext : list){
+                    try{
+                        System.out.println(new String(ext.getBody(),"UTF-8"));
+                        System.out.println(ext.getStoreHost().toString());
+                        System.out.println(ext.toString());
+
+                    }catch (UnsupportedEncodingException e){
+                        e.printStackTrace();
+                    }
+                }
+                return  ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+            }
+        });
+        consumer.start();
+
+        Thread.sleep(1203303);
     }
 
 }

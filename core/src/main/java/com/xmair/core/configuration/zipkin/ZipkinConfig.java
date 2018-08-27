@@ -16,36 +16,41 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import zipkin2.Span;
 import zipkin2.codec.Encoding;
+import zipkin2.codec.SpanBytesEncoder;
 import zipkin2.reporter.AsyncReporter;
 import zipkin2.reporter.kafka11.KafkaSender;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class ZipkinConfig {
 
     @Autowired
-    private  ZipkinProperties zipkinProperties;
+    private ZipkinProperties zipkinProperties;
+
     @Bean
     KafkaSender sender() {
-        Map<String ,String>  pro=new HashMap<>();
-        pro.put("acks","1");
-       // pro.put("linger.ms","50");
+        Map<String, String> pro = new HashMap<>();
+        pro.put("acks", "1");
+        // pro.put("linger.ms","50");
 
-        pro.put("retries","1");
-       // pro.put("compression.type","gzip");
-       // pro.put("producer.type","async");
+        pro.put("retries", "1");
+        // pro.put("compression.type","gzip");
+        // pro.put("producer.type","async");
         return KafkaSender.newBuilder().overrides(pro)
                 .bootstrapServers(zipkinProperties.getKafkaHosts())
                 .topic(zipkinProperties.getTopic())
-                //.encoding(Encoding.PROTO3)
+
+               // .encoding(Encoding.JSON)
                 .build();
     }
 
-    @Bean AsyncReporter<Span> spanReporter() {
+    @Bean
+    AsyncReporter<Span> spanReporter() {
         return AsyncReporter.builder(sender())
-
+                .closeTimeout(500, TimeUnit.MILLISECONDS)
                 .messageMaxBytes(200000)
                 .queuedMaxSpans(500)
                 .build();
@@ -73,24 +78,25 @@ public class ZipkinConfig {
                     }
 
                     @Override
-            public <Req> void request(HttpAdapter<Req, ?> adapter, Req req, SpanCustomizer customizer) {
-                customizer.name(spanName(adapter, req)); // default span name
+                    public <Req> void request(HttpAdapter<Req, ?> adapter, Req req, SpanCustomizer customizer) {
+                        customizer.name(spanName(adapter, req)); // default span name
 
-                customizer.tag("url", adapter.url(req)); // the whole url, not just the path
-                super.request(adapter,req,customizer);
-            }
+                        customizer.tag("url", adapter.url(req)); // the whole url, not just the path
+                        super.request(adapter, req, customizer);
+                    }
 
                 })
-                .serverParser(new HttpServerParser(){
+                .serverParser(new HttpServerParser() {
                     @Override
                     protected <Req> String spanName(HttpAdapter<Req, ?> adapter, Req req) {
                         return adapter.url(req).toString();
                     }
+
                     @Override
                     public <Req> void request(HttpAdapter<Req, ?> adapter, Req req, SpanCustomizer customizer) {
                         customizer.name(spanName(adapter, req)); // default span name
                         customizer.tag("url", adapter.url(req)); // the whole url, not just the path
-                        super.request(adapter,req,customizer);
+                        super.request(adapter, req, customizer);
                     }
                 })
                 .build();

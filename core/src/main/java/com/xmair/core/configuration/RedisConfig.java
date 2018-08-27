@@ -1,10 +1,12 @@
 package com.xmair.core.configuration;
 
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.redisson.Redisson;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.redisson.client.RedisConnectionException;
+import org.redisson.codec.JsonJacksonCodec;
 import org.redisson.config.ClusterServersConfig;
 import org.redisson.config.Config;
 import org.redisson.config.ReadMode;
@@ -86,6 +88,10 @@ public class RedisConfig extends CachingConfigurerSupport
     public RedissonClient initRedissonClient () {
         Config config = new Config();
         config.setLockWatchdogTimeout(20000);
+
+        JsonJacksonCodec codec=JsonJacksonCodec.INSTANCE;
+        codec.getObjectMapper().registerModule(new JavaTimeModule());
+        config.setCodec(codec);
 
         ClusterServersConfig serversConfig=config.useClusterServers();
         if(!(getPassword()==null || getPassword().equals(""))) {

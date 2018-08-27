@@ -46,7 +46,7 @@ public class HttpClientConfig {
      */
     @Bean
     public OkHttpClient okHttpClient() {
-        //注意：只有明确知道服务端支持H2C协议的时候才能使用。添加H2C支持，
+            //注意：使用http2.0协议，只有明确知道服务端支持H2C协议的时候才能使用。添加H2C支持，
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .protocols(Collections.singletonList(Protocol.H2_PRIOR_KNOWLEDGE));
         Dispatcher dispatcher=new Dispatcher(
@@ -104,7 +104,7 @@ public class HttpClientConfig {
     public RestTemplate restTemplateLB() {
 
         RestTemplate restTemplate= new RestTemplate(OkHttp3Factory());
-       // RestTemplate restTemplate= new RestTemplate(nettyFactory());
+        // RestTemplate restTemplate= new RestTemplate(nettyFactory());
 
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
         messageConverters.add(new FormHttpMessageConverter());

@@ -42,10 +42,11 @@ public class RocketMQConfig
         producer.setRetryAnotherBrokerWhenNotStoreOK(retryAnotherBrokerWhenNotStoreOk);
         producer.setRetryTimesWhenSendAsyncFailed(retryTimesWhenSendAsyncFailed);
         producer.setRetryTimesWhenSendFailed(retryTimesWhenSendFailed);
-
+       // 使用故障延迟机制，会对获取的MQ进行可用性验证
+        producer.setSendLatencyFaultEnable(true);
         producer.setSendMsgTimeout(sendMsgTimeout);
         //设置到broker的心跳
-        producer.setHeartbeatBrokerInterval(5000);
+        producer.setHeartbeatBrokerInterval(3000);
         //从namesrv获取topic路由
         producer.setPollNameServerInterval(3000);
 
@@ -70,9 +71,10 @@ public class RocketMQConfig
         consumer.setNamesrvAddr(nameServer);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         //从namesrv获取topic路由
-        consumer.setPollNameServerInterval(3000);
-        consumer.setHeartbeatBrokerInterval(5000);
+        consumer.setPollNameServerInterval(2000);
+        consumer.setHeartbeatBrokerInterval(2000);
         consumer.setConsumeMessageBatchMaxSize(10);
+
 
         return  consumer;
     }

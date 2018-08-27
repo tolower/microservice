@@ -5,6 +5,7 @@ import com.xmair.core.util.ResultBean;
 import com.xmair.core.exception.ExceptionEnum;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiParam;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.annotation.Validated;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -45,6 +46,7 @@ public class TbEmpDataController {
     @ApiOperation(value="获取单条记录", notes="根据url的id来获取详细信息")
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     public ResultBean<TbEmpData> get(String id){
+        
         TbEmpData item=  mapper.selectByPrimaryKey(id);
         if(item!=null){
             return new ResultBean<TbEmpData>(item);
@@ -54,8 +56,10 @@ public class TbEmpDataController {
     }
 
 
+
     @RequestMapping(value = "/getlist",method = RequestMethod.GET)
     public ResultBean<List<TbEmpData>> getList(){
+
         List<TbEmpData> list=  mapper.selectAll();
         ResultBean<List<TbEmpData>> resultBean=new ResultBean<List<TbEmpData>>(list);
         return  resultBean;
@@ -87,6 +91,7 @@ public class TbEmpDataController {
         ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
         return  resultBean;
     }
+
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public ResultBean<Integer> delete(@RequestBody @Validated TbEmpData item){

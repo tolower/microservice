@@ -114,7 +114,10 @@ public class WebConfig extends WebMvcConfigurationSupport {
         }
     }
 
-    /*增加ajax跨域访问支持*/
+    /*
+    *增加ajax跨域访问支持
+    *
+    */
     @Override
     protected void addCorsMappings(CorsRegistry registry) {
 
