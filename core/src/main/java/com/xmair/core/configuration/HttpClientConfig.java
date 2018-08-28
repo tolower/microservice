@@ -54,21 +54,22 @@ public class HttpClientConfig {
                         .executorService(new Dispatcher().executorService())
         );
         //设置连接池大小
-        dispatcher.setMaxRequests(1000);
-        dispatcher.setMaxRequestsPerHost(200);
+        dispatcher.setMaxRequests(500);
+        dispatcher.setMaxRequestsPerHost(100);
        ConnectionPool pool = new ConnectionPool(20, 30, TimeUnit.MINUTES);
 
 
-        builder.connectTimeout(250, TimeUnit.MILLISECONDS)
+        builder.connectTimeout(2000, TimeUnit.MILLISECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .connectionPool(pool)
 
                 .dispatcher(dispatcher)
-               //链路监控埋点
-                .addNetworkInterceptor(TracingInterceptor.create(httpTracing))
+                .retryOnConnectionFailure(true)
+               //链路监控埋
+                .addNetworkInterceptor(TracingInterceptor.create(httpTracing));
                 //.addInterceptor(new OkHttpInterceptor())
-                .retryOnConnectionFailure(false);
+
         return builder.build();
     }
 

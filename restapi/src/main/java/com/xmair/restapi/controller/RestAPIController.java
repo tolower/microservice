@@ -83,8 +83,8 @@ public class RestAPIController {
     }
     @RequestMapping(value = "/ordertest",method = RequestMethod.GET)
     public  String testTrace(){
-        String s=    restTemplate.getForObject("http://insurance-service/test/testinsurance",String.class);
-        return restTemplate.getForObject("http://ticket-service/redis/test",String.class);
+        String s=    restTemplate.getForObject("http://wzq-service/test/testinsurance",String.class);
+        return restTemplate.getForObject("http://hehe-service/test/testinsurance",String.class);
     }
 
     @RequestMapping(value = "/ListenableFuture",method = RequestMethod.GET)

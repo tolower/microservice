@@ -137,6 +137,8 @@ public class WebConfig extends WebMvcConfigurationSupport {
         stringConverter.setDefaultCharset(Charset.forName("utf-8"));
         List<MediaType> list = new ArrayList<MediaType>();
         list.add(MediaType.TEXT_PLAIN);
+        list.add(MediaType.TEXT_HTML);
+        list.add(MediaType.TEXT_MARKDOWN);
         stringConverter.setSupportedMediaTypes(list);
         MappingJackson2XmlHttpMessageConverter xmlConverter=new MappingJackson2XmlHttpMessageConverter();
         xmlConverter.setDefaultCharset(Charset.forName("utf-8"));
