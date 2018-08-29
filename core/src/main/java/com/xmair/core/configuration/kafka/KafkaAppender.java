@@ -63,7 +63,7 @@ public class KafkaAppender extends AppenderBase<ILoggingEvent> {
         props.put("producer.type","async");
         props.put("linger.ms","50");
         props.put("max.block.ms","0");
-        props.put("acks", "all");
+        props.put("acks", "1");
         props.put("retries", 1);
         props.put("batch.size", 400);
         props.put("buffer.memory", 33554432);
