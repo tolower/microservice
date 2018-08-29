@@ -2,10 +2,10 @@ package com.xmair.core.configuration.kafka;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
-import kafka.javaapi.producer.Producer;
-import kafka.producer.KeyedMessage;
-import kafka.producer.ProducerConfig;
-
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
 
 
 import java.util.Properties;
@@ -59,15 +59,18 @@ public class KafkaAppender extends AppenderBase<ILoggingEvent> {
         }
         super.start();
         Properties props = new Properties();
-        props.put("serializer.class", "kafka.serializer.StringEncoder");
-        props.put("metadata.broker.list", this.brokerList);
-        props.setProperty("producer.type","async");
-        props.setProperty("linger.ms","50");
-        //props.setProperty()
-        ProducerConfig config = new ProducerConfig(props);
+        props.put("bootstrap.servers", this.brokerList);
+        props.put("producer.type","async");
+        props.put("linger.ms","50");
+        props.put("max.block.ms","0");
+        props.put("acks", "all");
+        props.put("retries", 1);
+        props.put("batch.size", 400);
+        props.put("buffer.memory", 33554432);
+        props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
-
-        this.producer = new Producer<String, String>(config);
+        this.producer = new KafkaProducer<String, String>(props);
 
 
     }
@@ -83,7 +86,7 @@ public class KafkaAppender extends AppenderBase<ILoggingEvent> {
             return;
         }
         String payload = this.formatter.format(event);
-        KeyedMessage<String, String> data = new KeyedMessage<String, String>(this.topic, payload);
+        ProducerRecord<String, String> data = new ProducerRecord<String, String>(this.topic, payload);
         this.producer.send(data);
     }
 }
