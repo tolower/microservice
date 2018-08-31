@@ -63,7 +63,7 @@ public class HttpClientConfig {
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .connectionPool(pool)
-
+                
                 .dispatcher(dispatcher)
                 .retryOnConnectionFailure(true)
                //链路监控埋

@@ -61,7 +61,7 @@ private ${beanName}Mapper mapper;
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     @ResponseBody
     public ResultBean<String> create(@Validated ${beanName} item){
-        int  result= mapper.insert(item);
+        int  result= mapper.insertSelective(item);
         logger.info("create ${beanName} success,record,{}"+ JsonUtil.bean2Json(item));
         ResultBean<String> resultBean=new ResultBean<String>("");
         return  resultBean;
@@ -70,7 +70,7 @@ private ${beanName}Mapper mapper;
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     @ResponseBody
     public ResultBean<String> update(@Validated ${beanName} item){
-        int  result=  mapper.updateByPrimaryKey(item);
+        int  result=  mapper.updateByPrimaryKeySelective(item);
         logger.info("update ${beanName} success,record,{}"+ JsonUtil.bean2Json(item));
         ResultBean<String> resultBean=new ResultBean<String>("");
         return  resultBean;
@@ -88,7 +88,7 @@ private ${beanName}Mapper mapper;
      @RequestMapping(value = "/delete",method = RequestMethod.POST)
      @ResponseBody
      public ResultBean<Integer> delete(${beanName} item){
-          int  result=  mapper.updateByPrimaryKey(item);
+          int  result=  mapper.delete(item);
           ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
           return  resultBean;
       }

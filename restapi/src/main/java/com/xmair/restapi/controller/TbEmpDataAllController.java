@@ -60,7 +60,7 @@ public class TbEmpDataAllController {
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public ResultBean<String> create(@Validated TbEmpDataAll item){
-        int  result= mapper.insert(item);
+        int  result= mapper.insertSelective(item);
         logger.info("create TbEmpDataAll success,record,{}"+ JsonUtil.bean2Json(item));
         ResultBean<String> resultBean=new ResultBean<String>("");
         return  resultBean;
@@ -68,7 +68,7 @@ public class TbEmpDataAllController {
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public ResultBean<String> update(@Validated TbEmpDataAll item){
-        int  result=  mapper.updateByPrimaryKey(item);
+        int  result=  mapper.updateByPrimaryKeySelective(item);
         logger.info("update TbEmpDataAll success,record,{}"+ JsonUtil.bean2Json(item));
         ResultBean<String> resultBean=new ResultBean<String>("");
         return  resultBean;
@@ -84,7 +84,7 @@ public class TbEmpDataAllController {
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public ResultBean<Integer> delete(TbEmpDataAll item){
-        int  result=  mapper.updateByPrimaryKey(item);
+        int  result=  mapper.delete(item);
         ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
         return  resultBean;
     }

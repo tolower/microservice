@@ -68,7 +68,7 @@ public class TbEmpDataController {
     @RequestMapping(value = "/create",method = RequestMethod.POST)
       public ResultBean<String> create(@ApiParam(name="item",value="产品临时对象",required = true)
                                            @RequestBody  @Validated  TbEmpData item){
-        int  result= mapper.insert(item);
+        int  result= mapper.insertSelective(item);
         logger.info("create TbEmpData success,record,{}"+ JsonUtil.bean2Json(item));
         ResultBean<String> resultBean=new ResultBean<String>("");
         return  resultBean;
@@ -78,7 +78,7 @@ public class TbEmpDataController {
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public ResultBean<String> update(@RequestBody @Validated TbEmpData item){
-        int  result=  mapper.updateByPrimaryKey(item);
+        int  result=  mapper.updateByPrimaryKeySelective(item);
         logger.info("update TbEmpData success,record,{}"+ JsonUtil.bean2Json(item));
         ResultBean<String> resultBean=new ResultBean<String>("");
         return  resultBean;
@@ -95,7 +95,7 @@ public class TbEmpDataController {
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public ResultBean<Integer> delete(@RequestBody @Validated TbEmpData item){
-        int  result=  mapper.updateByPrimaryKey(item);
+        int  result=  mapper.delete(item);
         ResultBean<Integer> resultBean=new ResultBean<Integer>(result);
         return  resultBean;
     }

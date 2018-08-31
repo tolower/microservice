@@ -60,12 +60,16 @@ public class KafkaAppender extends AppenderBase<ILoggingEvent> {
         super.start();
         Properties props = new Properties();
         props.put("bootstrap.servers", this.brokerList);
-        props.put("producer.type","async");
+        //New producers are always async.call future.get() to make it sync
+        //props.put("producer.type","async");
+        //满足linger.ms batch.size之一即发送
         props.put("linger.ms","50");
+        props.put("batch.size", 400);
         props.put("max.block.ms","0");
         props.put("acks", "1");
         props.put("retries", 1);
-        props.put("batch.size", 400);
+
+        //buffer.memory内存池上限，防止oom，32M
         props.put("buffer.memory", 33554432);
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
