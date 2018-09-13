@@ -20,6 +20,7 @@ public class RestClientConfig {
      */
     @Bean
     public OkHttpClient okHttpClient() {
+
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)

@@ -3,8 +3,6 @@ package com.xmair.restapi;
 import com.xmair.core.configuration.kafka.KafkaAppender;
 import io.prometheus.client.spring.boot.EnablePrometheusEndpoint;
 import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector;
-import org.mybatis.spring.annotation.MapperScan;
-import org.slf4j.MDC;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
@@ -23,15 +21,9 @@ import org.springframework.boot.autoconfigure.web.MultipartAutoConfiguration;
 import org.springframework.boot.autoconfigure.webservices.WebServicesAutoConfiguration;
 import org.springframework.boot.autoconfigure.websocket.WebSocketAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.scheduling.annotation.EnableAsync;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Arrays;
 
 @SpringBootApplication(exclude = {
 		WebServicesAutoConfiguration.class,
